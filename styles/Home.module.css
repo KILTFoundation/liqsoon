@@ -118,7 +118,7 @@ css
 .card:hover,
 .card:focus,
 .card:active {
-  background-color: #272c34;
+  background-color: #DAF525;
   opacity: 80%;
 }
 
