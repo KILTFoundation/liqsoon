@@ -8,7 +8,28 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
 
-  const { contract: oldKiltContract, isLoading: contractLoading, error: contractError } = useContract("0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b", "token");
+  // oldKILT token contract (update address if incorrect)
+  const { contract: oldKiltContract, isLoading: contractLoading, error: contractError } = useContract(
+    "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
+    [
+      {
+        constant: true,
+        inputs: [{ name: "owner", type: "address" }],
+        name: "balanceOf",
+        outputs: [{ name: "", type: "uint256" }],
+        type: "function",
+      },
+      {
+        inputs: [
+          { name: "spender", type: "address" },
+          { name: "amount", type: "uint256" },
+        ],
+        name: "approve",
+        outputs: [{ name: "", type: "bool" }],
+        type: "function",
+      },
+    ]
+  );
   const migrationContractAddress = "0x322422335ea70370557d475e94d85cfd0ec15637";
 
   // Auto-switch to Base Sepolia
