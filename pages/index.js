@@ -149,7 +149,7 @@ export default function Home() {
             ) : (
               <p>Connect your wallet to view balance.</p>
             )}
-
+<p>
             <div className={styles.grid} style={{ justifyContent: "center" }}>
               <input
                 type="number"
@@ -159,7 +159,7 @@ export default function Home() {
                 className={styles.code}
                 style={{ margin: "10px", padding: "8px", width: "200px" }}
               />
-<p></p>
+</p>
               <button
                 onClick={handleApprove}
                 disabled={!amount || !address}
