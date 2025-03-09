@@ -110,70 +110,69 @@ export default function Home() {
   };
 
   return (
-    <main style={{ backgroundColor: "#161B3B", minHeight: "100vh", fontFamily: "Manrope, sans-serif" }}>
+    <div style={{ backgroundColor: "#f5f5f5", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#333", color: "#fff" }}>
         <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1>
       </header>
 
-      <div className={styles.container}>
-        <div style={{ textAlign: "center", margin: "20px 0" }}>
-  <div style={{ textAlign: "center", margin: "20px 0" }}>
-  <img src="/KILT-horizontal-white.png" alt="KILT Logo" style={{ maxWidth: "200px" }} />
-          <p>Migrate KILT from</p>
-          <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
-          <p>to</p>
-          <p><code>0x3079844be6416b6a24a24505fa465eafc3b2b4f9</code></p>
-          <p>Migration ratio 1:1.75</p>
-        </div>
-
-        <div className={styles.header} style={{ textAlign: "center" }}>
-          <div className={styles.connect}>
-            <ConnectWallet />
+      <main>
+        <div className={styles.container}>
+          <div style={{ textAlign: "center", margin: "20px 0" }}>
+            <p>Migrate KILT from</p>
+            <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
+            <p>to</p>
+            <p><code>0x3079844be6416b6a24a24505fa465eafc3b2b4f9</code></p>
+            <p>Migration ratio 1:1.75</p>
           </div>
 
-          {address ? (
-            <div>
-              <p>Wallet: {address}</p>
-              <p>
-                Migrateable KILT Balance:{" "}
-                {contractLoading
-                  ? "Contract loading..."
-                  : balance === null
-                  ? "Loading..."
-                  : balance === "Error"
-                  ? "Failed to load (check console)"
-                  : `${balance} KILT`}
-              </p>
-              {contractError && <p>Contract error: {contractError.message}</p>}
+          <div className={styles.header} style={{ textAlign: "center" }}>
+            <div className={styles.connect}>
+              <ConnectWallet />
             </div>
-          ) : (
-            <p>Connect your wallet to view balance.</p>
-          )}
 
-          <div className={styles.grid} style={{ justifyContent: "center" }}>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="Enter KILT amount"
-              className={styles.code}
-              style={{ margin: "10px", padding: "8px", width: "200px" }}
-            />
-            <button
-              onClick={handleApprove}
-              disabled={!amount || !address}
-              className={styles.card}
-              style={{ margin: "10px", padding: "10px 20px" }}
-            >
-              Approve Migration
-            </button>
-            <button
-              onClick={handleMigrate}
-              disabled={!amount || !address}
-              className={styles.card}
-              style={{ margin: "10px", padding: "10px 20px" }}
-            >
-               Migrate Tokens
+            {address ? (
+              <div>
+                <p>Wallet: {address}</p>
+                <p>
+                  oldKILT Balance:{" "}
+                  {contractLoading
+                    ? "Contract loading..."
+                    : balance === null
+                    ? "Loading..."
+                    : balance === "Error"
+                    ? "Failed to load (check console)"
+                    : `${balance} KILT`}
+                </p>
+                {contractError && <p>Contract error: {contractError.message}</p>}
+              </div>
+            ) : (
+              <p>Connect your wallet to view balance.</p>
+            )}
+
+            <div className={styles.grid} style={{ justifyContent: "center" }}>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="Enter KILT amount"
+                className={styles.code}
+                style={{ margin: "10px", padding: "8px", width: "200px" }}
+              />
+              <button
+                onClick={handleApprove}
+                disabled={!amount || !address}
+                className={styles.card}
+                style={{ margin: "10px", padding: "10px 20px" }}
+              >
+                Approve Migration
+              </button>
+              <button
+                onClick={handleMigrate}
+                disabled={!amount || !address}
+                className={styles.card}
+                style={{ margin: "10px", padding: "10px 20px" }}
+              >
+                Migrate Tokens
               </button>
             </div>
           </div>
