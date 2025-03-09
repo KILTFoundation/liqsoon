@@ -8,7 +8,7 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
 
-  // oldKILT token contract (update address if incorrect)
+  // oldKILT token contract with explicit ABI
   const { contract: oldKiltContract, isLoading: contractLoading, error: contractError } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
     [
@@ -17,6 +17,7 @@ export default function Home() {
         inputs: [{ name: "owner", type: "address" }],
         name: "balanceOf",
         outputs: [{ name: "", type: "uint256" }],
+        stateMutability: "view",
         type: "function",
       },
       {
@@ -26,6 +27,7 @@ export default function Home() {
         ],
         name: "approve",
         outputs: [{ name: "", type: "bool" }],
+        stateMutability: "nonpayable",
         type: "function",
       },
     ]
