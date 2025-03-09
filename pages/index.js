@@ -118,7 +118,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-<img src="/KILT-Horizontal-white.png" alt="KILT Logo"  />
+<img src="https://github.com/jdkp25/next-javascript-starterKF/blob/main/KILT-Horizontal-white.png" alt="KILT Logo"  />
             <p>Migrate KILT from</p>
             <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
