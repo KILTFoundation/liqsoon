@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
 import styles from "../styles/Home.module.css";
 
-// ABI for oldKILT token (ERC-20 subset)
 const OLD_KILT_ABI = [
   {
     constant: true,
@@ -24,7 +23,6 @@ const OLD_KILT_ABI = [
   }
 ];
 
-// ABI for migration contract (assumed)
 const MIGRATION_ABI = [/* ... */];
 
 export default function Home() {
@@ -59,16 +57,14 @@ export default function Home() {
     const fetchBalance = async () => {
       try {
         const bal = await oldKiltContract.call("balanceOf", [address]);
-        console.log("Raw balance:", bal);
         const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
         const normalized = Number(balanceValue) / 10 ** 18;
-        console.log("Normalized balance:", normalized);
         setBalance(normalized);
         setBalanceError(null);
       } catch (err) {
         console.error("Balance fetch error:", err.message);
         setBalance("Error");
-        setBalanceError(err.message); // Store specific error
+        setBalanceError(err.message);
       }
     };
 
@@ -81,18 +77,18 @@ export default function Home() {
   return (
     <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#333", color: "#fff" }}>
-       // <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1>
- <img
-              src="/KILT-Horizontal-white.png"
-              alt="KILT Logo"
-              style={{ width: "200px", height: "auto" }}
-            />
+        {/* <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1> */}
+        <img
+          src="/KILT-Horizontal-white.png"
+          alt="KILT Logo"
+          style={{ width: "200px", height: "auto" }}
+        />
       </header>
 
       <main className={styles.main}>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-                       <p>Migrate KILT from</p>
+            <p>Migrate KILT from</p>
             <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
             <p><code>0x3079844be6416b6a24a24505fa465eafc3b2b4f9</code></p>
@@ -138,7 +134,7 @@ export default function Home() {
                   onClick={handleApprove}
                   disabled={!amount || !address}
                   className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px" }}
+                  style={{ margin: "10px", padding: "10px 20px", backgroundColor: "#4CAF50", color: "white" }}
                 >
                   Approve Migration
                 </button>
@@ -146,7 +142,7 @@ export default function Home() {
                   onClick={handleMigrate}
                   disabled={!amount || !address}
                   className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px" }}
+                  style={{ margin: "10px", padding: "10px 20px", backgroundColor: "#4CAF50", color: "white" }}
                 >
                   Migrate Tokens
                 </button>
@@ -157,7 +153,7 @@ export default function Home() {
       </main>
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
-        <p>Secure migration portal | migrate.kilt.io</p>
+        <p>Audit and Security Report | migrate.kilt.io</p>
       </footer>
     </div>
   );
