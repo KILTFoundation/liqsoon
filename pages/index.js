@@ -23,7 +23,15 @@ const OLD_KILT_ABI = [
   }
 ];
 
-const MIGRATION_ABI = [/* ... */];
+const MIGRATION_ABI = [
+  {
+    inputs: [{ name: "amount", type: "uint256" }],
+    name: "migrate",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  }
+];
 
 export default function Home() {
   const [{ data: network }, switchNetwork] = useNetwork();
@@ -71,8 +79,36 @@ export default function Home() {
     fetchBalance();
   }, [address, oldKiltContract]);
 
-  const handleApprove = async () => { /* ... */ };
-  const handleMigrate = async () => { /* ... */ };
+  // Restored working approve function
+  const handleApprove = async () => {
+    if (!oldKiltContract || !amount || !address) return;
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    try {
+      const tx = await oldKiltContract.call("approve", [
+        "0x322422335ea70370557d475e94d85cfd0ec15637", // Migration contract address
+        weiAmount
+      ]);
+      console.log("Approval tx:", tx);
+      alert("Approval successful!");
+    } catch (err) {
+      console.error("Approval error:", err.message);
+      alert("Approval failed. Check console.");
+    }
+  };
+
+  // Restored working migrate function
+  const handleMigrate = async () => {
+    if (!migrationContract || !amount || !address) return;
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    try {
+      const tx = await migrationContract.call("migrate", [weiAmount]);
+      console.log("Migration tx:", tx);
+      alert("Migration successful!");
+    } catch (err) {
+      console.error("Migration error:", err.message);
+      alert("Migration failed. Check console.");
+    }
+  };
 
   return (
     <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
@@ -153,7 +189,7 @@ export default function Home() {
       </main>
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
-        <p>Audit and Security Report | migrate.kilt.io</p>
+        <p>Secure migration portal | migrate.kilt.io</p>
       </footer>
     </div>
   );
