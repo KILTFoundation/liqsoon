@@ -2,8 +2,29 @@ import { useState, useEffect } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
 import styles from "../styles/Home.module.css";
 
-// ABI definitions remain unchanged
-const OLD_KILT_ABI = [/* ... */];
+// ABI for oldKILT token (ERC-20 subset)
+const OLD_KILT_ABI = [
+  {
+    constant: true,
+    inputs: [{ name: "owner", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    inputs: [
+      { name: "spender", type: "address" },
+      { name: "amount", type: "uint256" }
+    ],
+    name: "approve",
+    outputs: [{ name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function"
+  }
+];
+
+// ABI for migration contract (assumed)
 const MIGRATION_ABI = [/* ... */];
 
 export default function Home() {
@@ -11,6 +32,7 @@ export default function Home() {
   const address = useAddress();
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
+  const [balanceError, setBalanceError] = useState(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading, error: contractError } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -21,27 +43,32 @@ export default function Home() {
     MIGRATION_ABI
   );
 
-  useEffect(() => { /* network switching logic */ }, [network, switchNetwork]);
+  useEffect(() => {
+    if (network?.chain?.id !== 84532 && switchNetwork) {
+      switchNetwork(84532);
+    }
+  }, [network, switchNetwork]);
 
-  // Fixed balance fetching with debugging
   useEffect(() => {
     if (!address || !oldKiltContract) {
       setBalance(null);
+      setBalanceError(null);
       return;
     }
 
     const fetchBalance = async () => {
       try {
         const bal = await oldKiltContract.call("balanceOf", [address]);
-        console.log("Raw balance:", bal); // Debug: Check raw output
-        // Handle possible BigNumber or string response
+        console.log("Raw balance:", bal);
         const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
         const normalized = Number(balanceValue) / 10 ** 18;
-        console.log("Normalized balance:", normalized); // Debug: Check normalized value
+        console.log("Normalized balance:", normalized);
         setBalance(normalized);
+        setBalanceError(null);
       } catch (err) {
         console.error("Balance fetch error:", err.message);
         setBalance("Error");
+        setBalanceError(err.message); // Store specific error
       }
     };
 
@@ -63,7 +90,7 @@ export default function Home() {
             <img
               src="/KILT-Horizontal-white.png"
               alt="KILT Logo"
-              style={{ width: "200px", height: "auto" }} // Fixed 200px width, proportional height
+              style={{ width: "200px", height: "auto" }}
             />
             <p>Migrate KILT from</p>
             <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
@@ -87,9 +114,10 @@ export default function Home() {
                     : balance === null
                     ? "Loading..."
                     : balance === "Error"
-                    ? "Failed to load (check console)"
+                    ? "Failed to load"
                     : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT`}
                 </p>
+                {balanceError && <p style={{ color: "red" }}>Error: {balanceError}</p>}
                 {contractError && <p>Contract error: {contractError.message}</p>}
               </div>
             ) : (
