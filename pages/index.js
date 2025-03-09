@@ -110,9 +110,13 @@ export default function Home() {
   };
 
   return (
-    <main className={styles.main}>
+    <main style={{ backgroundColor: "#f5f5f5", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
+      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#333", color: "#fff" }}>
+        <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1>
+      </header>
+
       <div className={styles.container}>
-        <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <div style={{ textAlign: "center", margin: "20px 0" }}>
           <p>Migrate KILT from</p>
           <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
           <p>to</p>
@@ -151,13 +155,13 @@ export default function Home() {
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Enter KILT amount"
               className={styles.code}
-              style={{ margin: "10px" }}
+              style={{ margin: "10px", padding: "8px", width: "200px" }}
             />
             <button
               onClick={handleApprove}
               disabled={!amount || !address}
               className={styles.card}
-              style={{ margin: "10px" }}
+              style={{ margin: "10px", padding: "10px 20px" }}
             >
               Approve Migration
             </button>
@@ -165,13 +169,17 @@ export default function Home() {
               onClick={handleMigrate}
               disabled={!amount || !address}
               className={styles.card}
-              style={{ margin: "10px" }}
+              style={{ margin: "10px", padding: "10px 20px" }}
             >
               Migrate Tokens
             </button>
           </div>
         </div>
       </div>
+
+      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+        <p>Secure migration portal | migrate.kilt.io</p>
+      </footer>
     </main>
   );
 }
