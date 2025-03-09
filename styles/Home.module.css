@@ -1,3 +1,19 @@
+css
+
+.main {
+  background-color: #161B3B;
+}
+.headerBar {
+  background-color: #13061f;
+  color: #fff;
+  padding: 20px;
+}
+.footer {
+  padding: 10px;
+  color: #13061f;
+  font-size: 14px;
+}
+
 .container {
   width: 100%;
   max-width: 1440px;
