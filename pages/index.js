@@ -111,11 +111,11 @@ export default function Home() {
 
   return (
     <div style={{ backgroundColor: "#f5f5f5", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#333", color: "#fff" }}>
+     <header className={styles.headerBar}>
         <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1>
       </header>
 
-      <main>
+      <main className={styles.main}>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p>Migrate KILT from</p>
