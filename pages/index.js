@@ -134,7 +134,7 @@ export default function Home() {
               <div>
                 <p>Wallet: {address}</p>
                 <p>
-                  oldKILT Balance:{" "}
+                  Migrateable KILT Balance:{" "}
                   {contractLoading
                     ? "Contract loading..."
                     : balance === null
@@ -158,6 +158,7 @@ export default function Home() {
                 className={styles.code}
                 style={{ margin: "10px", padding: "8px", width: "200px" }}
               />
+<p></p>
               <button
                 onClick={handleApprove}
                 disabled={!amount || !address}
