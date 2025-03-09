@@ -178,10 +178,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-
+</main>
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <p>Secure migration portal | migrate.kilt.io</p>
       </footer>
-    </main>
+    
   );
 }
