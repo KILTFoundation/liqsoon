@@ -117,6 +117,8 @@ export default function Home() {
 
       <div className={styles.container}>
         <div style={{ textAlign: "center", margin: "20px 0" }}>
+  <div style={{ textAlign: "center", margin: "20px 0" }}>
+  <img src="/KILT-horizontal-white.png" alt="KILT Logo" style={{ maxWidth: "200px" }} />
           <p>Migrate KILT from</p>
           <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
           <p>to</p>
@@ -133,7 +135,7 @@ export default function Home() {
             <div>
               <p>Wallet: {address}</p>
               <p>
-                oldKILT Balance:{" "}
+                Migrateable KILT Balance:{" "}
                 {contractLoading
                   ? "Contract loading..."
                   : balance === null
