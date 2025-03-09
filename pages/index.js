@@ -110,7 +110,7 @@ export default function Home() {
   };
 
   return (
-    <main style={{ backgroundColor: "#f5f5f5", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
+    <main style={{ backgroundColor: "#161B3B", minHeight: "100vh", fontFamily: "Manrope, sans-serif" }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#333", color: "#fff" }}>
         <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1>
       </header>
