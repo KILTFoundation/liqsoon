@@ -8,7 +8,7 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
 
-  // oldKILT token contract with explicit ABI
+  // oldKILT token contract
   const { contract: oldKiltContract, isLoading: contractLoading, error: contractError } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
     [
@@ -32,7 +32,20 @@ export default function Home() {
       },
     ]
   );
-  const migrationContractAddress = "0x322422335ea70370557d475e94d85cfd0ec15637";
+
+  // Migration contract
+  const { contract: migrationContract } = useContract(
+    "0x322422335ea70370557d475e94d85cfd0ec15637",
+    [
+      {
+        inputs: [{ name: "amount", type: "uint256" }],
+        name: "migrate",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ]
+  );
 
   // Auto-switch to Base Sepolia
   useEffect(() => {
@@ -66,12 +79,28 @@ export default function Home() {
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
     try {
-      const tx = await oldKiltContract.call("approve", [migrationContractAddress, amount]);
+      const tx = await oldKiltContract.call("approve", [
+        "0x322422335ea70370557d475e94d85cfd0ec15637",
+        amount,
+      ]);
       console.log("Approval tx:", tx);
       alert("Approval successful!");
     } catch (err) {
       console.error("Approval error:", err.message);
       alert("Approval failed. Check console.");
+    }
+  };
+
+  // Migrate function
+  const handleMigrate = async () => {
+    if (!migrationContract || !amount || !address) return;
+    try {
+      const tx = await migrationContract.call("migrate", [amount]);
+      console.log("Migration tx:", tx);
+      alert("Migration successful!");
+    } catch (err) {
+      console.error("Migration error:", err.message);
+      alert("Migration failed. Check console.");
     }
   };
 
@@ -111,9 +140,13 @@ export default function Home() {
             >
               Approve Migration
             </button>
+            <button
+              onClick={handleMigrate}
+              disabled={!amount || !address}
+              className={styles.card}
+            >
+              Migrate Tokens
+            </button>
           </div>
         </div>
       </div>
-    </main>
-  );
-}
