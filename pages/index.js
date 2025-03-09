@@ -1,11 +1,19 @@
-import { ConnectWallet, useNetwork } from "@thirdweb-dev/react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
 import styles from "../styles/Home.module.css";
-import Image from "next/image";
 
 export default function Home() {
   const [{ data: network }, switchNetwork] = useNetwork();
+  const address = useAddress(); // Wallet address
+  const [amount, setAmount] = useState(""); // Amount to approve
+  const [balance, setBalance] = useState(null); // oldKILT balance
 
+  // oldKILT token contract
+  const { contract: oldKiltContract } = useContract("0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b", "token");
+  // Migration contract (to approve spending)
+  const migrationContractAddress = "0x322422335ea70370557d475e94d85cfd0ec15637";
+
+  // Auto-switch to Base Sepolia
   useEffect(() => {
     if (network?.chain?.id !== 84532) {
       if (switchNetwork) {
@@ -13,77 +21,69 @@ export default function Home() {
       } else {
         window.ethereum.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x14a34" }], // Base Sepolia (84532 in hex)
+          params: [{ chainId: "0x14a34" }], // Base Sepolia
         });
       }
     }
   }, [network, switchNetwork]);
 
+  // Fetch oldKILT balance
+  useEffect(() => {
+    if (address && oldKiltContract) {
+      oldKiltContract.call("balanceOf", [address]).then((bal) => {
+        setBalance(bal.toString()); // Raw balance (wei-like units)
+      }).catch((err) => console.error("Balance fetch failed:", err));
+    }
+  }, [address, oldKiltContract]);
+
+  // Approve function
+  const handleApprove = async () => {
+    if (!oldKiltContract || !amount || !address) return;
+    try {
+      const tx = await oldKiltContract.call("approve", [migrationContractAddress, amount]);
+      console.log("Approval successful:", tx);
+      alert("Approval successful!");
+    } catch (err) {
+      console.error("Approval failed:", err);
+      alert("Approval failed. Check console.");
+    }
+  };
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1 className={styles.title}>
-            Welcome to{" "}
-            <span className={styles.gradientText0}>
-              <a
-                href="https://thirdweb.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                thirdweb
-              </a>
-            </span>
-          </h1>
-
-          <p className={styles.description}>
-            Get started by configuring your desired network in{" "}
-            <code className={styles.code}>pages/_app.js</code>, then modify the
-            contents of <code className={styles.code}>pages/index.js</code>!
-          </p>
-
           <div className={styles.connect}>
             <ConnectWallet />
           </div>
-        </div>
 
-        <div className={styles.grid}>
-          <a
-            href="https://portal.thirdweb.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h2>Portal</h2>
-            <p>Guides, references, and resources to build on thirdweb.</p>
-          </a>
+          {/* Display balance */}
+          {address ? (
+            <div>
+              <p>Wallet: {address}</p>
+              <p>oldKILT Balance: {balance ? balance : "Loading..."}</p>
+            </div>
+          ) : (
+            <p>Connect your wallet to view balance.</p>
+          )}
 
-          <a
-            href="https://thirdweb.com/dashboard"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h2>Dashboard</h2>
-            <p>Deploy, configure, and manage your smart contracts.</p>
-          </a>
-
-          <a
-            href="https://feedback.thirdweb.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h2>Feedback</h2>
-            <p>
-              Suggest features or improvements to the thirdweb team directly!
-            </p>
-          </a>
-
-          <a href="/mint" className={styles.card}>
-            <h2>Minting Page &rarr;</h2>
-            <p>Mint your own NFT from a deployed NFT Collection contract!</p>
-          </a>
+          {/* Amount input and approve button */}
+          <div className={styles.grid}>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Enter amount to migrate"
+              className={styles.code}
+            />
+            <button
+              onClick={handleApprove}
+              disabled={!amount || !address}
+              className={styles.card}
+            >
+              Approve Migration
+            </button>
+          </div>
         </div>
       </div>
     </main>
