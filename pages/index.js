@@ -113,7 +113,7 @@ export default function Home() {
     <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
      <header className={styles.headerBar}>
         <div style={{ textAlign: "center", margin: "20px 0" }}>
-  <img src="URL_TO_IMAGE" alt="KILT Logo" style={{ maxWidth: "200px" }} />
+  <img src="/KILT-horizontal-white.png" alt="KILT Logo" style={{ maxWidth: "200px" }} />
       </header>
 
       <main className={styles.main}>
