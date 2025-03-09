@@ -173,12 +173,13 @@ export default function Home() {
               className={styles.card}
               style={{ margin: "10px", padding: "10px 20px" }}
             >
-              Migrate Tokens
-            </button>
+               Migrate Tokens
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-</main>
+      </main>
+
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <p>Secure migration portal | migrate.kilt.io</p>
       </footer>
