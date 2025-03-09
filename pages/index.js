@@ -22,7 +22,23 @@ export default function Home() {
   );
 
   useEffect(() => { /* network switching logic */ }, [network, switchNetwork]);
-  useEffect(() => { /* balance fetching logic */ }, [address, oldKiltContract]);
+
+  // Fixed balance fetching
+  useEffect(() => {
+    if (!address || !oldKiltContract) {
+      setBalance(null);
+      return;
+    }
+    oldKiltContract.call("balanceOf", [address])
+      .then((bal) => {
+        const normalized = Number(bal) / 10**18;
+        setBalance(normalized); // Store as number directly
+      })
+      .catch((err) => {
+        console.error("Balance fetch error:", err.message);
+        setBalance("Error");
+      });
+  }, [address, oldKiltContract]);
 
   const handleApprove = async () => { /* ... */ };
   const handleMigrate = async () => { /* ... */ };
@@ -36,7 +52,11 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <img src="/KILT-Horizontal-white.png" alt="KILT Logo" />
+            <img 
+              src="/KILT-Horizontal-white.png" 
+              alt="KILT Logo" 
+              style={{ width: "50%", height: "auto" }} // Adjust size here
+            />
             <p>Migrate KILT from</p>
             <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
@@ -60,7 +80,9 @@ export default function Home() {
                     ? "Loading..."
                     : balance === "Error"
                     ? "Failed to load (check console)"
-                    : `${Number(balance).toLocaleString()} KILT`}
+                    : typeof balance === "number"
+                    ? `${balance.toLocaleString()} KILT`
+                    : "Invalid balance"}
                 </p>
                 {contractError && <p>Contract error: {contractError.message}</p>}
               </div>
