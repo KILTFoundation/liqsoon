@@ -93,7 +93,7 @@ css
 .card {
   background-color: #DAF525;
   text-align: left;
-  color: inherit;
+  color: #000000;
   text-decoration: none;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
