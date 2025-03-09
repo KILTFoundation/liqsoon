@@ -170,7 +170,7 @@ export default function Home() {
                   onClick={handleApprove}
                   disabled={!amount || !address}
                   className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px", backgroundColor: "#4CAF50", color: "white" }}
+                  style={{ margin: "10px", padding: "10px 20px"}}
                 >
                   Approve Migration
                 </button>
@@ -178,7 +178,7 @@ export default function Home() {
                   onClick={handleMigrate}
                   disabled={!amount || !address}
                   className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px", backgroundColor: "#4CAF50", color: "white" }}
+                  style={{ margin: "10px", padding: "10px 20px"}}
                 >
                   Migrate Tokens
                 </button>
