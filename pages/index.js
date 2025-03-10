@@ -165,7 +165,7 @@ export default function Home() {
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="Enter KILT amount"
                 className={styles.code}
-                style={{ margin: "10px", padding: "8px", width: "200px" }}
+                style={{ margin: "10px", padding: "8px", width: "200px", backgroundColor: "#ffffff" }}
               />
               <div className={styles.grid} style={{ justifyContent: "center" }}>
                 <button
