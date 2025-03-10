@@ -122,11 +122,11 @@ export default function Home() {
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
-            <p>Migrate KILT from</p>
-            <p>BASE: <code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
+            <p>Migrate KILT on the BASE Network from</p>
+            <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
-            <p>BASE: <code>0x3079844be6416b6a24a24505fa465eafc3b2b4f9</code></p>
-<hr style={{ border: "1px solid #D73D80", margin: "20px 0", width: "400px" }} />
+            <p><code>0x3079844be6416b6a24a24505fa465eafc3b2b4f9</code></p>
+<hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
             <p>Migration Ratio</p>
             <p>1:1.75</p>
           </div>
