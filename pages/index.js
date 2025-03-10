@@ -79,13 +79,12 @@ export default function Home() {
     fetchBalance();
   }, [address, oldKiltContract]);
 
- 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     try {
       const tx = await oldKiltContract.call("approve", [
-        "0x322422335ea70370557d475e94d85cfd0ec15637", // Migration contract address
+        "0x322422335ea70370557d475e94d85cfd0ec15637",
         weiAmount
       ]);
       console.log("Approval tx:", tx);
@@ -96,7 +95,6 @@ export default function Home() {
     }
   };
 
-  
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
@@ -113,7 +111,6 @@ export default function Home() {
   return (
     <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
-        {/* <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1> */}
         <img
           src="/KILT-Horizontal-black.png"
           alt="KILT Logo"
@@ -124,13 +121,13 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-          <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
+            <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
             <p>Migrate KILT from</p>
             <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
             <p><code>0x3079844be6416b6a24a24505fa465eafc3b2b4f9</code></p>
             <p>Migration Ratio</p>
-          <p>1:1.75</p>
+            <p>1:1.75</p>
           </div>
 
           <div className={styles.header} style={{ textAlign: "center" }}>
@@ -165,14 +162,14 @@ export default function Home() {
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0"
                 className={styles.code}
-                style={{ margin: "10px", padding: "8px", width: "200px", backgroundColor: "#ffffff" }}
+                style={{ margin: "10px", padding: "8px", width: "200px" }}
               />
               <div className={styles.grid} style={{ justifyContent: "center" }}>
                 <button
                   onClick={handleApprove}
                   disabled={!amount || !address}
                   className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px"}}
+                  style={{ margin: "10px", padding: "10px 20px" }}
                 >
                   Approve
                 </button>
@@ -180,7 +177,7 @@ export default function Home() {
                   onClick={handleMigrate}
                   disabled={!amount || !address}
                   className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px"}}
+                  style={{ margin: "10px", padding: "10px 20px" }}
                 >
                   Migrate
                 </button>
@@ -190,16 +187,23 @@ export default function Home() {
         </div>
       </main>
 
-<footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
-  <div>
-    <a href="https://www.kilt.io/imprint" style={{ color: "#666", textDecoration: "none" }}>Imprint</a>
-    {" | "}
-    <a href="https://www.kilt.io/privacy-policy" style={{ color: "#666", textDecoration: "none" }}>Privacy Policy</a>
-    {" | "}
-    <a href="https://www.kilt.io/disclaimer" style={{ color: "#666", textDecoration: "none" }}>Disclaimer</a>
-    {" | "}
-    <a href="https://www.kilt.io" style={{ color: "#666", textDecoration: "none" }}>Homepage</a>
-  </div>
-</footer>
+      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+        <div>
+          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
+          {" | "}
+          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+          {" | "}
+          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+          {" | "}
+          <a href="https://migrate.kilt.io" className={styles.footerLink}>Secure migration portal</a>
+        </div>
+      </footer>
+    </div>
   );
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
 }
