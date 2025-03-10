@@ -140,7 +140,7 @@ export default function Home() {
               <div>
                 <p>Wallet: {address}</p>
                 <p>
-                  Migrateable KILT Balance:{" "}
+                  Migrateable Balance:{" "}
                   {contractLoading
                     ? "Contract loading..."
                     : balance === null
