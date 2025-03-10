@@ -111,7 +111,7 @@ export default function Home() {
   };
 
   return (
-    <div style={{ backgroundColor: "#D73D80", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
+    <div style={{ backgroundColor: "#161B3B", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
         {/* <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1> */}
         <img
