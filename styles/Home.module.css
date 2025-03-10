@@ -155,6 +155,15 @@ css
 .footer {
   border-color: #222;
 }
+
+.footerLink {
+  color: #666;
+  text-decoration: none;
+}
+.footerLink:hover {
+  color: #D73D80; /* Matches your header color on hover */
+}
+
 .logo img {
   filter: invert(1);
 }
