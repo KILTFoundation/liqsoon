@@ -190,9 +190,16 @@ export default function Home() {
         </div>
       </main>
 
-      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
-        <p>Secure migration portal | migrate.kilt.io</p>
-      </footer>
-    </div>
+<footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+  <div>
+    <a href="https://www.kilt.io/imprint" style={{ color: "#666", textDecoration: "none" }}>Imprint</a>
+    {" | "}
+    <a href="https://www.kilt.io/privacy-policy" style={{ color: "#666", textDecoration: "none" }}>Privacy Policy</a>
+    {" | "}
+    <a href="https://www.kilt.io/disclaimer" style={{ color: "#666", textDecoration: "none" }}>Disclaimer</a>
+    {" | "}
+    <a href="https://www.kilt.io" style={{ color: "#666", textDecoration: "none" }}>Homepage</a>
+  </div>
+</footer>
   );
 }
