@@ -1,3 +1,5 @@
+css
+
 .main {
   background-color: #161B3B;
 }
@@ -78,7 +80,7 @@
   background: #555;
   border-radius: 5px;
   padding: 0.5em;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .grid {
