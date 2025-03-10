@@ -1,4 +1,4 @@
-css.main {
+.main {
   background-color: #161B3B;
 }
 .headerBar {
@@ -16,55 +16,79 @@ css.main {
   max-width: 1440px;
   padding: 0 1rem;
   margin: 0 auto;
-}.gradientText0 {
+}
+
+.gradientText0 {
   background: -webkit-linear-gradient(#bfa3da, #84309c, #c735b0);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}.gradientText1 {
+}
+
+.gradientText1 {
   background: -webkit-linear-gradient(#a79af9, #7aa8d2);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}.gradientText2 {
+}
+
+.gradientText2 {
   background: -webkit-linear-gradient(#bfa3da, #743f93);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}.gradientText3 {
+}
+
+.gradientText3 {
   background: -webkit-linear-gradient(#c35ab1, #e9a8d9);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-}.title a:hover,
+}
+
+.title a:hover,
 .title a:focus,
 .title a:active {
   text-decoration: underline;
   text-decoration-color: #84309c;
-}.title {
+}
+
+.title {
   line-height: 1.15;
   font-size: 4rem;
-}.title,
+}
+
+.title,
 .description {
   text-align: left;
-}.connect {
+}
+
+.connect {
   margin-bottom: 2rem;
-}.description {
+}
+
+.description {
   margin-top: 2rem;
   margin-bottom: 2rem;
   line-height: 1.5;
   font-size: 1.5rem;
-}.code {
+}
+
+.code {
   background: #555;
   border-radius: 5px;
   padding: 0.5em;
   font-size: 1.5rem;
-}.grid {
+}
+
+.grid {
   display: flex;
   justify-content: left;
   flex-wrap: wrap;
   gap: 20px;
-}.card {
+}
+
+.card {
   background-color: #DAF525;
   text-align: left;
   color: #000000;
@@ -74,31 +98,44 @@ css.main {
   max-width: 440px;
   overflow: none;
   border: none;
-}.cardText {
+}
+
+.cardText {
   padding: 1rem;
-}.card img {
+}
+
+.card img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 4px 4px 0 0;
   margin-bottom: 12px;
   border: none;
-}.card:hover,
+}
+
+.card:hover,
 .card:focus,
 .card:active {
   background-color: #DAF525;
   opacity: 80%;
-}.card h2 {
+}
+
+.card h2 {
   margin: 0 0 0.75rem 0;
-}.card p {
+}
+
+.card p {
   margin: 0;
   font-size: 1rem;
   line-height: 1.75;
-}.logo {
+}
+
+.logo {
   height: 1em;
   margin-left: 0.5rem;
-}@media
- (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
   .header {
     margin-left: 0;
   }
@@ -110,11 +147,12 @@ css.main {
     font-size: 3rem;
     line-height: 1.15;
   }
-}.card,
+}
+
+.card,
 .footer {
   border-color: #222;
 }
 .logo img {
   filter: invert(1);
 }
-
