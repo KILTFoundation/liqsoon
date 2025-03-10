@@ -124,7 +124,7 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
-          <p>Migration Portal</p>
+          <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
             <p>Migrate KILT from</p>
             <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
@@ -174,7 +174,7 @@ export default function Home() {
                   className={styles.card}
                   style={{ margin: "10px", padding: "10px 20px"}}
                 >
-                  Approve Migration
+                  Approve
                 </button>
                 <button
                   onClick={handleMigrate}
@@ -182,7 +182,7 @@ export default function Home() {
                   className={styles.card}
                   style={{ margin: "10px", padding: "10px 20px"}}
                 >
-                  Migrate Tokens
+                  Migrate
                 </button>
               </div>
             </div>
