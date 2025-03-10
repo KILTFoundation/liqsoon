@@ -79,7 +79,7 @@ export default function Home() {
     fetchBalance();
   }, [address, oldKiltContract]);
 
-  // Restored working approve function
+ 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
@@ -96,7 +96,7 @@ export default function Home() {
     }
   };
 
-  // Restored working migrate function
+  
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
@@ -112,7 +112,7 @@ export default function Home() {
 
   return (
     <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-      <header style={{ padding: "20px", textAlign: "center", color: "#fff" }}>
+      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
         {/* <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1> */}
         <img
           src="/KILT-Horizontal-black.png"
@@ -124,11 +124,13 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
+          <p>Migration Portal</p>
             <p>Migrate KILT from</p>
             <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
             <p><code>0x3079844be6416b6a24a24505fa465eafc3b2b4f9</code></p>
-            <p>Migration ratio 1:1.75</p>
+            <p>Migration Ratio</p>
+          <p>1:1.75</p>
           </div>
 
           <div className={styles.header} style={{ textAlign: "center" }}>
