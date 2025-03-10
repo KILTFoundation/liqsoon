@@ -163,7 +163,7 @@ export default function Home() {
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                placeholder="Enter KILT amount"
+                placeholder="0"
                 className={styles.code}
                 style={{ margin: "10px", padding: "8px", width: "200px", backgroundColor: "#ffffff" }}
               />
