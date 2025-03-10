@@ -111,11 +111,11 @@ export default function Home() {
   };
 
   return (
-    <div style={{ backgroundColor: "#161B3B", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
+    <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
+      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#333", color: "#fff" }}>
         {/* <h1 style={{ margin: 0, fontSize: "24px" }}>KILT Migration Portal</h1> */}
         <img
-          src="/KILT-Horizontal-black.png"
+          src="/KILT-Horizontal-white.png"
           alt="KILT Logo"
           style={{ width: "200px", height: "auto" }}
         />
@@ -140,7 +140,7 @@ export default function Home() {
               <div>
                 <p>Wallet: {address}</p>
                 <p>
-                  Migrateable Balance:{" "}
+                  Migrateable KILT Balance:{" "}
                   {contractLoading
                     ? "Contract loading..."
                     : balance === null
