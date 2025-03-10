@@ -1,18 +1,22 @@
-global.css:@import
- url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");html,
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+html,
 body {
   padding: 0;
   margin: 0;
   font-family: "Inter", sans-serif;
-}a {
+}
+
+a {
   color: #84309c;
   text-decoration: none;
-}{
-box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   color: #e7e8e8;
   background: #070707;
 }
-
