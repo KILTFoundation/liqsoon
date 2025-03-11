@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <div
       style={{
-        backgroundImage: "url('/tartan.jpg')", // Replace with your image path
+        backgroundImage: "url('/tartan.png')", // Replace with your image path
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
