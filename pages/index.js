@@ -126,7 +126,7 @@ export default function Home() {
             <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
             <p><code>0x3079844be6416b6a24a24505fa465eafc3b2b4f9</code></p>
-<hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
+            <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
             <p>Migration Ratio</p>
             <p>1:1.75</p>
           </div>
@@ -137,20 +137,42 @@ export default function Home() {
             </div>
 
             {address ? (
-              <div>
-                <p>Wallet: {address}</p>
-                <p>
-                  Migrateable Balance:{" "}
-                  {contractLoading
-                    ? "Contract loading..."
-                    : balance === null
-                    ? "Loading..."
-                    : balance === "Error"
-                    ? "Failed to load"
-                    : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT`}
-                </p>
-                {balanceError && <p style={{ color: "red" }}>Error: {balanceError}</p>}
-                {contractError && <p>Contract error: {contractError.message}</p>}
+              <div style={{ 
+                background: "#1a0d2b", 
+                padding: "15px", 
+                borderRadius: "8px", 
+                margin: "20px 0" 
+              }}>
+                <div style={{ marginBottom: "10px" }}>
+                  <span style={{ 
+                    fontWeight: "bold", 
+                    color: "#D73D80", 
+                    display: "inline-block", 
+                    minWidth: "180px" 
+                  }}>
+                    Wallet:
+                  </span>
+                  <span style={{ color: "#fff" }}>{address}</span>
+                </div>
+                <div>
+                  <span style={{ 
+                    fontWeight: "bold", 
+                    color: "#D73D80", 
+                    display: "inline-block", 
+                    minWidth: "180px" 
+                  }}>
+                    Migrateable Balance:
+                  </span>
+                  <span style={{ color: "#fff" }}>
+                    {contractLoading
+                      ? "Contract loading..."
+                      : balance === null
+                      ? "Loading..."
+                      : balance === "Error"
+                      ? "Failed to load"
+                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT`}
+                  </span>
+                </div>
               </div>
             ) : (
               <p>Connect your wallet to view balance.</p>
