@@ -146,11 +146,11 @@ export default function Home() {
                 textAlign: "left"
               }}>
                 <div style={{ marginBottom: "10px" }}>
-                  <span style={{ fontWeight: "bold", color: "#D73D80" }}>Wallet: </span>
+                  <span style={{ fontWeight: "bold", color: "#000" }}>Wallet: </span>
                   <span style={{ color: "#fff" }}>{address}</span>
                 </div>
                 <div>
-                  <span style={{ fontWeight: "bold", color: "#D73D80" }}>Migrateable Balance: </span>
+                  <span style={{ fontWeight: "bold", color: "#000" }}>Migrateable Balance: </span>
                   <span style={{ color: "#fff" }}>
                     {contractLoading
                       ? "Contract loading..."
