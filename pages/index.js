@@ -45,7 +45,7 @@ export default function Home() {
     OLD_KILT_ABI
   );
   const { contract: migrationContract } = useContract(
-    "0x322422335ea70370557d475e94d85cfd0ec15637",
+    "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
     MIGRATION_ABI
   );
 
@@ -84,7 +84,7 @@ export default function Home() {
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     try {
       const tx = await oldKiltContract.call("approve", [
-        "0x322422335ea70370557d475e94d85cfd0ec15637",
+        "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
         weiAmount
       ]);
       console.log("Approval tx:", tx);
