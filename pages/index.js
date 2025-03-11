@@ -138,31 +138,19 @@ export default function Home() {
 
             {address ? (
               <div style={{ 
-                background: "#1a0d2b", 
-                padding: "15px", 
-                borderRadius: "8px", 
-                margin: "20px 0" 
+                background: "#1357BB",
+                padding: "15px",
+                borderRadius: "8px",
+                margin: "20px auto",
+                width: "500px",
+                textAlign: "left"
               }}>
                 <div style={{ marginBottom: "10px" }}>
-                  <span style={{ 
-                    fontWeight: "bold", 
-                    color: "#D73D80", 
-                    display: "inline-block", 
-                    minWidth: "180px" 
-                  }}>
-                    Wallet:
-                  </span>
+                  <span style={{ fontWeight: "bold", color: "#D73D80" }}>Wallet: </span>
                   <span style={{ color: "#fff" }}>{address}</span>
                 </div>
                 <div>
-                  <span style={{ 
-                    fontWeight: "bold", 
-                    color: "#D73D80", 
-                    display: "inline-block", 
-                    minWidth: "180px" 
-                  }}>
-                    Migrateable Balance:
-                  </span>
+                  <span style={{ fontWeight: "bold", color: "#D73D80" }}>Migrateable Balance: </span>
                   <span style={{ color: "#fff" }}>
                     {contractLoading
                       ? "Contract loading..."
