@@ -146,11 +146,11 @@ export default function Home() {
                 textAlign: "left"
               }}>
                 <div style={{ marginBottom: "10px" }}>
-                  <span style={{ fontWeight: "bold", color: "#000" }}>Wallet: </span>
+                  <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
                   <span style={{ color: "#fff" }}>{address}</span>
                 </div>
                 <div>
-                  <span style={{ fontWeight: "bold", color: "#000" }}>Migrateable Balance: </span>
+                  <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
                   <span style={{ color: "#fff" }}>
                     {contractLoading
                       ? "Contract loading..."
@@ -158,7 +158,7 @@ export default function Home() {
                       ? "Loading..."
                       : balance === "Error"
                       ? "Failed to load"
-                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT`}
+                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migrateable KILT`}
                   </span>
                 </div>
               </div>
