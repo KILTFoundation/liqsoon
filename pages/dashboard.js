@@ -91,8 +91,8 @@ export default function Dashboard() {
   const [owner, setOwner] = useState(null);
   const [whitelistAddress, setWhitelistAddress] = useState("");
   const [whitelistResult, setWhitelistResult] = useState(null);
-  const [burnAddressBalance, setBurnAddressBalance] = useState(null); // New state for burn address balance
-  const [burnAddressBalanceError, setBurnAddressBalanceError] = useState(null); // Error state
+  const [burnAddressBalance, setBurnAddressBalance] = useState(null);
+  const [burnAddressBalanceError, setBurnAddressBalanceError] = useState(null);
 
   const { contract: migrationContract, isLoading: migrationLoading } = useContract(
     "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
@@ -268,7 +268,185 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* [Remaining cards remain unchanged...] */}
+          {/* EXCHANGE_RATE_NUMERATOR Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_NUMERATOR: </span>
+                <span>
+                  {exchangeRateNumerator === null
+                    ? "Loading..."
+                    : exchangeRateNumerator === "Error"
+                    ? "Failed to load"
+                    : exchangeRateNumerator}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* EXCHANGE_RATE_DENOMINATOR Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_DENOMINATOR: </span>
+                <span>
+                  {exchangeRateDenominator === null
+                    ? "Loading..."
+                    : exchangeRateDenominator === "Error"
+                    ? "Failed to load"
+                    : exchangeRateDenominator}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* isMigrationActive Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>isMigrationActive: </span>
+                <span>
+                  {isMigrationActive === null
+                    ? "Loading..."
+                    : isMigrationActive === "Error"
+                    ? "Failed to load"
+                    : isMigrationActive.toString()}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* newToken Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>newToken: </span>
+                <span>
+                  {newToken === null
+                    ? "Loading..."
+                    : newToken === "Error"
+                    ? "Failed to load"
+                    : newToken}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* oldToken Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>oldToken: </span>
+                <span>
+                  {oldToken === null
+                    ? "Loading..."
+                    : oldToken === "Error"
+                    ? "Failed to load"
+                    : oldToken}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* Owner Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>Owner: </span>
+                <span>
+                  {owner === null
+                    ? "Loading..."
+                    : owner === "Error"
+                    ? "Failed to load"
+                    : owner}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
 
           {/* Check Whitelist Card */}
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
