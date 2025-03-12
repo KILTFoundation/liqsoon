@@ -207,7 +207,7 @@ export default function Home() {
         className={styles.footerLink2}
         style={{fontSize: "28px" }}
       >
-        Dashboard
+        →Dashboard
       </Link>
     </div>
     <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
