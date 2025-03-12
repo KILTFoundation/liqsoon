@@ -40,7 +40,7 @@ export default function Home() {
   const [balance, setBalance] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
 
-  const { contract: oldKiltContract, isLoading: contractLoading, error: contractError } = useContract(
+  const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
     OLD_KILT_ABI
   );
@@ -200,6 +200,9 @@ export default function Home() {
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
+          <div style={{ marginBottom: "10px" }}>
+            <a href="/dashboard" className={styles.footerLink} style={{ fontSize: "18px" }}>Dashboard</a>
+          </div>
           <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
           {" | "}
           <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
