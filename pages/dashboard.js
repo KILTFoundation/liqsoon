@@ -157,10 +157,6 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <p style={{ fontSize: "24px", fontWeight: "bold", color: "#fff" }}>Read Contract</p>
-          </div>
-
           {contractLoading && <p style={{ textAlign: "center", color: "#fff" }}>Loading contract...</p>}
 
           {/* BURN_ADDRESS Card */}
