@@ -90,7 +90,7 @@ const MIGRATION_ABI = [
   {
     constant: true,
     inputs: [{ name: "addr", type: "address" }],
-    name: "Whitelist",
+    name: "whitelist",
     outputs: [{ name: "", type: "bool" }],
     stateMutability: "view",
     type: "function"
@@ -108,8 +108,8 @@ export default function Dashboard() {
   const [newToken, setNewToken] = useState(null);
   const [oldToken, setOldToken] = useState(null);
   const [owner, setOwner] = useState(null);
-  const [whitelistAddress, setWhitelistAddress] = useState("");
-  const [whitelistResult, setWhitelistResult] = useState(null);
+  const [whitelistAddress, setwhitelistAddress] = useState("");
+  const [whitelistResult, setwhitelistResult] = useState(null);
 
   const { contract: oldKiltContract } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -151,7 +151,7 @@ export default function Dashboard() {
       const own = await migrationContract.call("owner");
       setOwner(own);
 
-      // Whitelist only fetched on button click, not here
+      // whitelist only fetched on button click, not here
     } catch (err) {
       console.error("Data fetch error:", err.message);
       setBurnAddress("Error");
@@ -164,15 +164,15 @@ export default function Dashboard() {
     }
   };
 
-  const fetchWhitelistStatus = async () => {
+  const fetchwhitelistStatus = async () => {
     if (!migrationContract || !whitelistAddress) return;
 
     try {
-      const result = await migrationContract.call("Whitelist", [whitelistAddress]);
-      setWhitelistResult(result.toString());
+      const result = await migrationContract.call("whitelist", [whitelistAddress]);
+      setwhitelistResult(result.toString());
     } catch (err) {
-      console.error("Whitelist fetch error:", err.message);
-      setWhitelistResult("Error");
+      console.error("whitelist fetch error:", err.message);
+      setwhitelistResult("Error");
     }
   };
 
@@ -460,7 +460,7 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* Check Whitelist Card */}
+          {/* Check whitelist Card */}
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
             <div style={{
               background: "#1357BB",
@@ -471,11 +471,11 @@ export default function Dashboard() {
               color: "#fff"
             }}>
               <div>
-                <span style={{ fontWeight: "bold" }}>Check Whitelist: </span>
+                <span style={{ fontWeight: "bold" }}>Check whitelist: </span>
                 <input
                   type="text"
                   value={whitelistAddress}
-                  onChange={(e) => setWhitelistAddress(e.target.value)}
+                  onChange={(e) => setwhitelistAddress(e.target.value)}
                   placeholder="Enter address"
                   style={{ marginLeft: "10px", padding: "5px", width: "250px" }}
                 />
@@ -489,7 +489,7 @@ export default function Dashboard() {
               </div>
             </div>
             <button
-              onClick={fetchWhitelistStatus}
+              onClick={fetchwhitelistStatus}
               className={styles.card}
               style={{ marginLeft: "10px", padding: "10px 20px" }}
             >
