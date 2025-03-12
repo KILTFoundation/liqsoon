@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useContract } from "@thirdweb-dev/react";
+import Link from "next/link"; // Import Link from Next.js;
 import styles from "../styles/Home.module.css";
 
 const MIGRATION_ABI = [
