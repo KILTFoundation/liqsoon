@@ -412,22 +412,26 @@ export default function Dashboard() {
         </div>
       </main>
 
-            <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
-        <div>
-          <div style={{ marginBottom: "10px" }}>
-            <Link href="/index" className={styles.footerLink} style={{ fontSize: "28px" }}>
-              Portal
-            </Link>
-          </div>
-          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
-          {" | "}
-          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
-          {" | "}
-          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
-          {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
-        </div>
-      </footer>
+<footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+  <div>
+    <div style={{ marginBottom: "10px" }}>
+      <Link
+        href="/"
+        className={styles.footerLink}
+        style={{ color: "#1357BB", fontWeight: "bold", fontSize: "18px" }}
+      >
+        Portal
+      </Link>
+    </div>
+    <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
+    {" | "}
+    <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+    {" | "}
+    <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+    {" | "}
+    <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
+  </div>
+</footer>
     </div>
   );
 }
