@@ -38,6 +38,22 @@ const MIGRATION_ABI = [
     outputs: [{ name: "", type: "address" }],
     stateMutability: "view",
     type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "EXCHANGE_RATE_NUMERATOR",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "EXCHANGE_RATE_DENOMINATOR",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function"
   }
 ];
 
@@ -46,6 +62,8 @@ export default function Dashboard() {
   const address = useAddress();
   const [amount, setAmount] = useState("");
   const [burnAddress, setBurnAddress] = useState(null);
+  const [exchangeRateNumerator, setExchangeRateNumerator] = useState(null);
+  const [exchangeRateDenominator, setExchangeRateDenominator] = useState(null);
 
   const { contract: oldKiltContract } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -68,9 +86,17 @@ export default function Dashboard() {
     try {
       const burnAddr = await migrationContract.call("BURN_ADDRESS");
       setBurnAddress(burnAddr);
+
+      const numerator = await migrationContract.call("EXCHANGE_RATE_NUMERATOR");
+      setExchangeRateNumerator(numerator.toString());
+
+      const denominator = await migrationContract.call("EXCHANGE_RATE_DENOMINATOR");
+      setExchangeRateDenominator(denominator.toString());
     } catch (err) {
       console.error("Data fetch error:", err.message);
       setBurnAddress("Error");
+      setExchangeRateNumerator("Error");
+      setExchangeRateDenominator("Error");
     }
   };
 
@@ -145,6 +171,70 @@ export default function Dashboard() {
                       : burnAddress === "Error"
                       ? "Failed to load"
                       : burnAddress
+                    : "Contract not loaded"}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* EXCHANGE_RATE_NUMERATOR Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_NUMERATOR: </span>
+                <span>
+                  {migrationContract
+                    ? exchangeRateNumerator === null
+                      ? "Loading..."
+                      : exchangeRateNumerator === "Error"
+                      ? "Failed to load"
+                      : exchangeRateNumerator
+                    : "Contract not loaded"}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* EXCHANGE_RATE_DENOMINATOR Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_DENOMINATOR: </span>
+                <span>
+                  {migrationContract
+                    ? exchangeRateDenominator === null
+                      ? "Loading..."
+                      : exchangeRateDenominator === "Error"
+                      ? "Failed to load"
+                      : exchangeRateDenominator
                     : "Contract not loaded"}
                 </span>
               </div>
