@@ -54,6 +54,30 @@ const MIGRATION_ABI = [
     outputs: [{ name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "isMigrationActive",
+    outputs: [{ name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "newToken",
+    outputs: [{ name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "oldToken",
+    outputs: [{ name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function"
   }
 ];
 
@@ -64,6 +88,9 @@ export default function Dashboard() {
   const [burnAddress, setBurnAddress] = useState(null);
   const [exchangeRateNumerator, setExchangeRateNumerator] = useState(null);
   const [exchangeRateDenominator, setExchangeRateDenominator] = useState(null);
+  const [isMigrationActive, setIsMigrationActive] = useState(null);
+  const [newToken, setNewToken] = useState(null);
+  const [oldToken, setOldToken] = useState(null);
 
   const { contract: oldKiltContract } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -92,11 +119,23 @@ export default function Dashboard() {
 
       const denominator = await migrationContract.call("EXCHANGE_RATE_DENOMINATOR");
       setExchangeRateDenominator(denominator.toString());
+
+      const migrationActive = await migrationContract.call("isMigrationActive");
+      setIsMigrationActive(migrationActive);
+
+      const newTok = await migrationContract.call("newToken");
+      setNewToken(newTok);
+
+      const oldTok = await migrationContract.call("oldToken");
+      setOldToken(oldTok);
     } catch (err) {
       console.error("Data fetch error:", err.message);
       setBurnAddress("Error");
       setExchangeRateNumerator("Error");
       setExchangeRateDenominator("Error");
+      setIsMigrationActive("Error");
+      setNewToken("Error");
+      setOldToken("Error");
     }
   };
 
@@ -150,6 +189,10 @@ export default function Dashboard() {
             <div className={styles.connect} style={{ margin: "10px 0" }}>
               <ConnectWallet />
             </div>
+            <p style={{ color: "#fff" }}>
+              <span style={{ fontWeight: "bold" }}>Migration Contract: </span>
+              0xe9a37bde0b9daa20e226608d04aec6358928c82b
+            </p>
           </div>
 
           {/* BURN_ADDRESS Card */}
@@ -235,6 +278,102 @@ export default function Dashboard() {
                       : exchangeRateDenominator === "Error"
                       ? "Failed to load"
                       : exchangeRateDenominator
+                    : "Contract not loaded"}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* isMigrationActive Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>isMigrationActive: </span>
+                <span>
+                  {migrationContract
+                    ? isMigrationActive === null
+                      ? "Loading..."
+                      : isMigrationActive === "Error"
+                      ? "Failed to load"
+                      : isMigrationActive.toString()
+                    : "Contract not loaded"}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* newToken Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>newToken: </span>
+                <span>
+                  {migrationContract
+                    ? newToken === null
+                      ? "Loading..."
+                      : newToken === "Error"
+                      ? "Failed to load"
+                      : newToken
+                    : "Contract not loaded"}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* oldToken Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>oldToken: </span>
+                <span>
+                  {migrationContract
+                    ? oldToken === null
+                      ? "Loading..."
+                      : oldToken === "Error"
+                      ? "Failed to load"
+                      : oldToken
                     : "Contract not loaded"}
                 </span>
               </div>
