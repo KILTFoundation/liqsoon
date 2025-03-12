@@ -205,7 +205,7 @@ export default function Home() {
       <Link
         href="/dashboard"
         className={styles.footerLink2}
-        style={{, fontSize: "28px" }}
+        style={{fontSize: "28px" }}
       >
         Dashboard
       </Link>
