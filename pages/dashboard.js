@@ -78,6 +78,22 @@ const MIGRATION_ABI = [
     outputs: [{ name: "", type: "address" }],
     stateMutability: "view",
     type: "function"
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "owner",
+    outputs: [{ name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    constant: true,
+    inputs: [{ name: "addr", type: "address" }],
+    name: "Whitelist",
+    outputs: [{ name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function"
   }
 ];
 
@@ -91,6 +107,9 @@ export default function Dashboard() {
   const [isMigrationActive, setIsMigrationActive] = useState(null);
   const [newToken, setNewToken] = useState(null);
   const [oldToken, setOldToken] = useState(null);
+  const [owner, setOwner] = useState(null);
+  const [whitelistAddress, setWhitelistAddress] = useState("");
+  const [whitelistResult, setWhitelistResult] = useState(null);
 
   const { contract: oldKiltContract } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -128,6 +147,11 @@ export default function Dashboard() {
 
       const oldTok = await migrationContract.call("oldToken");
       setOldToken(oldTok);
+
+      const own = await migrationContract.call("owner");
+      setOwner(own);
+
+      // Whitelist only fetched on button click, not here
     } catch (err) {
       console.error("Data fetch error:", err.message);
       setBurnAddress("Error");
@@ -136,6 +160,19 @@ export default function Dashboard() {
       setIsMigrationActive("Error");
       setNewToken("Error");
       setOldToken("Error");
+      setOwner("Error");
+    }
+  };
+
+  const fetchWhitelistStatus = async () => {
+    if (!migrationContract || !whitelistAddress) return;
+
+    try {
+      const result = await migrationContract.call("Whitelist", [whitelistAddress]);
+      setWhitelistResult(result.toString());
+    } catch (err) {
+      console.error("Whitelist fetch error:", err.message);
+      setWhitelistResult("Error");
     }
   };
 
@@ -193,6 +230,10 @@ export default function Dashboard() {
               <span style={{ fontWeight: "bold" }}>Migration Contract: </span>
               0xe9a37bde0b9daa20e226608d04aec6358928c82b
             </p>
+          </div>
+
+          <div style={{ textAlign: "center", margin: "20px 0" }}>
+            <p style={{ fontSize: "24px", fontWeight: "bold", color: "#fff" }}>Read Contract</p>
           </div>
 
           {/* BURN_ADDRESS Card */}
@@ -380,6 +421,75 @@ export default function Dashboard() {
             </div>
             <button
               onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* Owner Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>Owner: </span>
+                <span>
+                  {migrationContract
+                    ? owner === null
+                      ? "Loading..."
+                      : owner === "Error"
+                      ? "Failed to load"
+                      : owner
+                    : "Contract not loaded"}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* Check Whitelist Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>Check Whitelist: </span>
+                <input
+                  type="text"
+                  value={whitelistAddress}
+                  onChange={(e) => setWhitelistAddress(e.target.value)}
+                  placeholder="Enter address"
+                  style={{ marginLeft: "10px", padding: "5px", width: "250px" }}
+                />
+                <span style={{ marginLeft: "10px" }}>
+                  {whitelistResult === null
+                    ? ""
+                    : whitelistResult === "Error"
+                    ? "Failed to load"
+                    : whitelistResult}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchWhitelistStatus}
               className={styles.card}
               style={{ marginLeft: "10px", padding: "10px 20px" }}
             >
