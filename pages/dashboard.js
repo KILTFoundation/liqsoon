@@ -1,7 +1,27 @@
 import { useState, useEffect } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
-import Link from "next/link"; // Import Link
 import styles from "../styles/Home.module.css";
+
+const OLD_KILT_ABI = [
+  {
+    constant: true,
+    inputs: [{ name: "owner", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    inputs: [
+      { name: "spender", type: "address" },
+      { name: "amount", type: "uint256" }
+    ],
+    name: "approve",
+    outputs: [{ name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function"
+  }
+];
 
 const MIGRATION_ABI = [
   {
@@ -80,6 +100,7 @@ const MIGRATION_ABI = [
 export default function Dashboard() {
   const [{ data: network }, switchNetwork] = useNetwork();
   const address = useAddress();
+  const [amount, setAmount] = useState("");
   const [burnAddress, setBurnAddress] = useState(null);
   const [exchangeRateNumerator, setExchangeRateNumerator] = useState(null);
   const [exchangeRateDenominator, setExchangeRateDenominator] = useState(null);
@@ -90,6 +111,10 @@ export default function Dashboard() {
   const [whitelistAddress, setWhitelistAddress] = useState("");
   const [whitelistResult, setWhitelistResult] = useState(null);
 
+  const { contract: oldKiltContract } = useContract(
+    "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
+    OLD_KILT_ABI
+  );
   const { contract: migrationContract } = useContract(
     "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
     MIGRATION_ABI
@@ -151,7 +176,36 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchContractData();
-  }, [migrationContract, fetchContractData]); // Added fetchContractData to deps
+  }, [migrationContract]);
+
+  const handleApprove = async () => {
+    if (!oldKiltContract || !amount || !address) return;
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    try {
+      const tx = await oldKiltContract.call("approve", [
+        "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
+        weiAmount
+      ]);
+      console.log("Approval tx:", tx);
+      alert("Approval successful!");
+    } catch (err) {
+      console.error("Approval error:", err.message);
+      alert("Approval failed. Check console.");
+    }
+  };
+
+  const handleMigrate = async () => {
+    if (!migrationContract || !amount || !address) return;
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    try {
+      const tx = await migrationContract.call("migrate", [weiAmount]);
+      console.log("Migration tx:", tx);
+      alert("Migration successful!");
+    } catch (err) {
+      console.error("Migration error:", err.message);
+      alert("Migration failed. Check console.");
+    }
+  };
 
   return (
     <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
@@ -440,16 +494,44 @@ export default function Dashboard() {
               Query
             </button>
           </div>
+
+          <div className={styles.header} style={{ textAlign: "center" }}>
+            {!address && <p>Connect your wallet to proceed.</p>}
+
+            <div style={{ margin: "20px 0" }}>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="0"
+                className={styles.code}
+                style={{ margin: "10px", padding: "8px", width: "200px" }}
+              />
+              <div className={styles.grid} style={{ justifyContent: "center" }}>
+                <button
+                  onClick={handleApprove}
+                  disabled={!amount || !address}
+                  className={styles.card}
+                  style={{ margin: "10px", padding: "10px 20px" }}
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={handleMigrate}
+                  disabled={!amount || !address}
+                  className={styles.card}
+                  style={{ margin: "10px", padding: "10px 20px" }}
+                >
+                  Migrate
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
-          <div style={{ marginBottom: "10px" }}>
-            <Link href="/" className={styles.footerLink} style={{ fontSize: "18px" }}>
-              Portal
-            </Link>
-          </div>
           <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
           {" | "}
           <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
