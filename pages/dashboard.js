@@ -494,39 +494,6 @@ export default function Dashboard() {
               Query
             </button>
           </div>
-
-          <div className={styles.header} style={{ textAlign: "center" }}>
-            {!address && <p>Connect your wallet to proceed.</p>}
-
-            <div style={{ margin: "20px 0" }}>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0"
-                className={styles.code}
-                style={{ margin: "10px", padding: "8px", width: "200px" }}
-              />
-              <div className={styles.grid} style={{ justifyContent: "center" }}>
-                <button
-                  onClick={handleApprove}
-                  disabled={!amount || !address}
-                  className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px" }}
-                >
-                  Approve
-                </button>
-                <button
-                  onClick={handleMigrate}
-                  disabled={!amount || !address}
-                  className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px" }}
-                >
-                  Migrate
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
 
