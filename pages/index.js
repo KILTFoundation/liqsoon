@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
+import Link from "next/link"; // Import Link
 import styles from "../styles/Home.module.css";
 
 const OLD_KILT_ABI = [
@@ -201,7 +202,9 @@ export default function Home() {
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
-            <a href="/dashboard" className={styles.footerLink} style={{ fontSize: "18px" }}>Dashboard</a>
+            <Link href="/dashboard" className={styles.footerLink} style={{ fontSize: "18px" }}>
+              Dashboard
+            </Link>
           </div>
           <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
           {" | "}
