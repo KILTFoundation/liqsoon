@@ -216,7 +216,9 @@ export default function Home() {
     {" | "}
     <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
     {" | "}
-    <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
+     <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
+    {" | "}
+    <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
   </div>
 </footer>
     </div>
