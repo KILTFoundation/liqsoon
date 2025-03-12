@@ -31,7 +31,6 @@ const MIGRATION_ABI = [
     stateMutability: "nonpayable",
     type: "function"
   },
-  // Assuming BURN_ADDRESS is a public variable; if it’s a function, adjust accordingly
   {
     constant: true,
     inputs: [],
@@ -46,11 +45,9 @@ export default function Dashboard() {
   const [{ data: network }, switchNetwork] = useNetwork();
   const address = useAddress();
   const [amount, setAmount] = useState("");
-  const [balance, setBalance] = useState(null);
   const [burnAddress, setBurnAddress] = useState(null);
-  const [balanceError, setBalanceError] = useState(null);
 
-  const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
+  const { contract: oldKiltContract } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
     OLD_KILT_ABI
   );
@@ -66,30 +63,20 @@ export default function Dashboard() {
   }, [network, switchNetwork]);
 
   const fetchContractData = async () => {
-    if (!oldKiltContract || !migrationContract || !address) return;
+    if (!migrationContract) return;
 
     try {
-      // Fetch balance
-      const bal = await oldKiltContract.call("balanceOf", [address]);
-      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-      const normalized = Number(balanceValue) / 10 ** 18;
-      setBalance(normalized);
-      setBalanceError(null);
-
-      // Fetch BURN_ADDRESS
       const burnAddr = await migrationContract.call("BURN_ADDRESS");
       setBurnAddress(burnAddr);
     } catch (err) {
       console.error("Data fetch error:", err.message);
-      setBalance("Error");
-      setBalanceError(err.message);
       setBurnAddress("Error");
     }
   };
 
   useEffect(() => {
     fetchContractData();
-  }, [address, oldKiltContract, migrationContract]);
+  }, [migrationContract]);
 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
@@ -165,42 +152,14 @@ export default function Dashboard() {
             <button
               onClick={fetchContractData}
               className={styles.card}
-              style={{ marginLeft: "10px", padding: "10px 20px", backgroundColor: "#28a745", color: "#fff" }}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
             >
               Query
             </button>
           </div>
 
           <div className={styles.header} style={{ textAlign: "center" }}>
-            {address ? (
-              <div style={{ 
-                background: "#1357BB",
-                padding: "15px",
-                borderRadius: "8px",
-                margin: "20px auto",
-                width: "500px",
-                textAlign: "left"
-              }}>
-                <div style={{ marginBottom: "10px" }}>
-                  <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
-                  <span style={{ color: "#fff" }}>{address}</span>
-                </div>
-                <div>
-                  <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
-                  <span style={{ color: "#fff" }}>
-                    {contractLoading
-                      ? "Contract loading..."
-                      : balance === null
-                      ? "Loading..."
-                      : balance === "Error"
-                      ? "Failed to load"
-                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migrateable KILT`}
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <p>Connect your wallet to view balance.</p>
-            )}
+            {!address && <p>Connect your wallet to proceed.</p>}
 
             <div style={{ margin: "20px 0" }}>
               <input
