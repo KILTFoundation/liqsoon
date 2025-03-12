@@ -96,4 +96,161 @@ export default function Dashboard() {
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     try {
       const tx = await oldKiltContract.call("approve", [
-        "0xE
+        "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
+        weiAmount
+      ]);
+      console.log("Approval tx:", tx);
+      alert("Approval successful!");
+    } catch (err) {
+      console.error("Approval error:", err.message);
+      alert("Approval failed. Check console.");
+    }
+  };
+
+  const handleMigrate = async () => {
+    if (!migrationContract || !amount || !address) return;
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    try {
+      const tx = await migrationContract.call("migrate", [weiAmount]);
+      console.log("Migration tx:", tx);
+      alert("Migration successful!");
+    } catch (err) {
+      console.error("Migration error:", err.message);
+      alert("Migration failed. Check console.");
+    }
+  };
+
+  return (
+    <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
+      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
+        <img
+          src="/KILT-Horizontal-black.png"
+          alt="KILT Logo"
+          style={{ width: "200px", height: "auto" }}
+        />
+      </header>
+
+      <main className={styles.main}>
+        <div className={styles.container}>
+          <div style={{ textAlign: "center", margin: "20px 0" }}>
+            <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Dashboard</p>
+            <div className={styles.connect} style={{ margin: "10px 0" }}>
+              <ConnectWallet />
+            </div>
+          </div>
+
+          {/* BURN_ADDRESS Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>BURN_ADDRESS: </span>
+                <span>
+                  {migrationContract
+                    ? burnAddress === null
+                      ? "Loading..."
+                      : burnAddress === "Error"
+                      ? "Failed to load"
+                      : burnAddress
+                    : "Contract not loaded"}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", backgroundColor: "#28a745", color: "#fff" }}
+            >
+              Query
+            </button>
+          </div>
+
+          <div className={styles.header} style={{ textAlign: "center" }}>
+            {address ? (
+              <div style={{ 
+                background: "#1357BB",
+                padding: "15px",
+                borderRadius: "8px",
+                margin: "20px auto",
+                width: "500px",
+                textAlign: "left"
+              }}>
+                <div style={{ marginBottom: "10px" }}>
+                  <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
+                  <span style={{ color: "#fff" }}>{address}</span>
+                </div>
+                <div>
+                  <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+                  <span style={{ color: "#fff" }}>
+                    {contractLoading
+                      ? "Contract loading..."
+                      : balance === null
+                      ? "Loading..."
+                      : balance === "Error"
+                      ? "Failed to load"
+                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migrateable KILT`}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <p>Connect your wallet to view balance.</p>
+            )}
+
+            <div style={{ margin: "20px 0" }}>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="0"
+                className={styles.code}
+                style={{ margin: "10px", padding: "8px", width: "200px" }}
+              />
+              <div className={styles.grid} style={{ justifyContent: "center" }}>
+                <button
+                  onClick={handleApprove}
+                  disabled={!amount || !address}
+                  className={styles.card}
+                  style={{ margin: "10px", padding: "10px 20px" }}
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={handleMigrate}
+                  disabled={!amount || !address}
+                  className={styles.card}
+                  style={{ margin: "10px", padding: "10px 20px" }}
+                >
+                  Migrate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+        <div>
+          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
+          {" | "}
+          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+          {" | "}
+          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+          {" | "}
+          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
+}
