@@ -94,6 +94,8 @@ export default function Dashboard() {
   const [burnAddressBalance, setBurnAddressBalance] = useState(null);
   const [burnAddressBalanceError, setBurnAddressBalanceError] = useState(null);
 
+  const TOTAL_KILT_SUPPLY = 164000000; // Hardcoded total supply of 164,000,000 KILT
+
   const { contract: migrationContract, isLoading: migrationLoading } = useContract(
     "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
     MIGRATION_ABI
@@ -151,36 +153,43 @@ export default function Dashboard() {
     }
   };
 
-  // Fetch Burn Address balance of old KILT
-  useEffect(() => {
+  const fetchBurnAddressBalance = async () => {
     if (!migrationContract || !oldKiltContract || burnAddress === null) {
       setBurnAddressBalance(null);
       setBurnAddressBalanceError(null);
       return;
     }
 
-    const fetchBurnAddressBalance = async () => {
-      try {
-        const bal = await oldKiltContract.call("balanceOf", [burnAddress]);
-        const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-        const normalized = Number(balanceValue) / 10 ** 18;
-        setBurnAddressBalance(normalized);
-        setBurnAddressBalanceError(null);
-      } catch (err) {
-        console.error("Burn address balance fetch error:", err.message);
-        setBurnAddressBalance("Error");
-        setBurnAddressBalanceError(err.message);
-      }
-    };
+    try {
+      const bal = await oldKiltContract.call("balanceOf", [burnAddress]);
+      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
+      const normalized = Number(balanceValue) / 10 ** 18;
+      setBurnAddressBalance(normalized);
+      setBurnAddressBalanceError(null);
+    } catch (err) {
+      console.error("Burn address balance fetch error:", err.message);
+      setBurnAddressBalance("Error");
+      setBurnAddressBalanceError(err.message);
+    }
+  };
 
+  useEffect(() => {
+    fetchContractData();
+  }, [migrationContract]);
+
+  // Fetch burn address balance on mount if burnAddress is available
+  useEffect(() => {
     if (burnAddress && burnAddress !== "Error") {
       fetchBurnAddressBalance();
     }
   }, [migrationContract, oldKiltContract, burnAddress]);
 
-  useEffect(() => {
-    fetchContractData();
-  }, [migrationContract]);
+  // Calculate percentage
+  const calculatePercentage = () => {
+    if (burnAddressBalance === null || burnAddressBalance === "Error") return "N/A";
+    const percentage = (burnAddressBalance / TOTAL_KILT_SUPPLY) * 100;
+    return percentage.toFixed(2); // 2 decimal places for readability
+  };
 
   return (
     <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
@@ -197,37 +206,36 @@ export default function Dashboard() {
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Dashboard</p>
 
-            {/* Burn Address Balance Display */}
-            <div style={{ 
-              background: "#1357BB",
-              padding: "15px",
-              borderRadius: "8px",
-              margin: "20px auto",
-              width: "500px",
-              textAlign: "left"
-            }}>
-              <div style={{ marginBottom: "10px" }}>
-                <span style={{ fontWeight: "bold", color: "#fff" }}>Burn Address: </span>
-                <span style={{ color: "#fff" }}>
-                  {burnAddress === null
-                    ? "Loading..."
-                    : burnAddress === "Error"
-                    ? "Failed to load"
-                    : burnAddress}
-                </span>
+            {/* Migration Progress Card with Query Button */}
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+              <div style={{
+                background: "#1357BB",
+                padding: "15px",
+                borderRadius: "8px",
+                width: "500px",
+                textAlign: "left",
+                color: "#fff"
+              }}>
+                <div>
+                  <span style={{ fontWeight: "bold" }}>Migration Progress: </span>
+                  <span>
+                    {oldKiltLoading || migrationLoading
+                      ? "Contract loading..."
+                      : burnAddressBalance === null
+                      ? "Loading..."
+                      : burnAddressBalance === "Error"
+                      ? "Failed to load"
+                      : `${burnAddressBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT / ${calculatePercentage()}%`}
+                  </span>
+                </div>
               </div>
-              <div>
-                <span style={{ fontWeight: "bold", color: "#fff" }}>Old KILT Balance: </span>
-                <span style={{ color: "#fff" }}>
-                  {oldKiltLoading || migrationLoading
-                    ? "Contract loading..."
-                    : burnAddressBalance === null
-                    ? "Loading..."
-                    : burnAddressBalance === "Error"
-                    ? "Failed to load"
-                    : `${burnAddressBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Old KILT`}
-                </span>
-              </div>
+              <button
+                onClick={fetchBurnAddressBalance}
+                className={styles.card}
+                style={{ marginLeft: "10px", padding: "10px 20px" }}
+              >
+                Query
+              </button>
             </div>
 
             <p style={{ color: "#fff" }}>
