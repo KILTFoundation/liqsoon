@@ -202,7 +202,7 @@ export default function Home() {
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
-            <Link href="/dashboard" className={styles.footerLink} style={{ fontSize: "18px" }}>
+            <Link href="/dashboard" className={styles.footerLink} style={{ fontSize: "28px" }}>
               Dashboard
             </Link>
           </div>
