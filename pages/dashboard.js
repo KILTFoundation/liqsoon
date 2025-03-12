@@ -30,6 +30,15 @@ const MIGRATION_ABI = [
     outputs: [],
     stateMutability: "nonpayable",
     type: "function"
+  },
+  // Assuming BURN_ADDRESS is a public variable; if it’s a function, adjust accordingly
+  {
+    constant: true,
+    inputs: [],
+    name: "BURN_ADDRESS",
+    outputs: [{ name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function"
   }
 ];
 
@@ -38,6 +47,7 @@ export default function Dashboard() {
   const address = useAddress();
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
+  const [burnAddress, setBurnAddress] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
@@ -55,158 +65,35 @@ export default function Dashboard() {
     }
   }, [network, switchNetwork]);
 
-  useEffect(() => {
-    if (!address || !oldKiltContract) {
-      setBalance(null);
+  const fetchContractData = async () => {
+    if (!oldKiltContract || !migrationContract || !address) return;
+
+    try {
+      // Fetch balance
+      const bal = await oldKiltContract.call("balanceOf", [address]);
+      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
+      const normalized = Number(balanceValue) / 10 ** 18;
+      setBalance(normalized);
       setBalanceError(null);
-      return;
+
+      // Fetch BURN_ADDRESS
+      const burnAddr = await migrationContract.call("BURN_ADDRESS");
+      setBurnAddress(burnAddr);
+    } catch (err) {
+      console.error("Data fetch error:", err.message);
+      setBalance("Error");
+      setBalanceError(err.message);
+      setBurnAddress("Error");
     }
+  };
 
-    const fetchBalance = async () => {
-      try {
-        const bal = await oldKiltContract.call("balanceOf", [address]);
-        const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-        const normalized = Number(balanceValue) / 10 ** 18;
-        setBalance(normalized);
-        setBalanceError(null);
-      } catch (err) {
-        console.error("Balance fetch error:", err.message);
-        setBalance("Error");
-        setBalanceError(err.message);
-      }
-    };
-
-    fetchBalance();
-  }, [address, oldKiltContract]);
+  useEffect(() => {
+    fetchContractData();
+  }, [address, oldKiltContract, migrationContract]);
 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     try {
       const tx = await oldKiltContract.call("approve", [
-        "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
-        weiAmount
-      ]);
-      console.log("Approval tx:", tx);
-      alert("Approval successful!");
-    } catch (err) {
-      console.error("Approval error:", err.message);
-      alert("Approval failed. Check console.");
-    }
-  };
-
-  const handleMigrate = async () => {
-    if (!migrationContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
-    try {
-      const tx = await migrationContract.call("migrate", [weiAmount]);
-      console.log("Migration tx:", tx);
-      alert("Migration successful!");
-    } catch (err) {
-      console.error("Migration error:", err.message);
-      alert("Migration failed. Check console.");
-    }
-  };
-
-  return (
-    <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
-        <img
-          src="/KILT-Horizontal-black.png"
-          alt="KILT Logo"
-          style={{ width: "200px", height: "auto" }}
-        />
-      </header>
-
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Dashboard</p>
-            <div className={styles.connect} style={{ margin: "10px 0" }}>
-              <ConnectWallet />
-            </div>
-          </div>
-
-          <div className={styles.header} style={{ textAlign: "center" }}>
-            {address ? (
-              <div style={{ 
-                background: "#1357BB",
-                padding: "15px",
-                borderRadius: "8px",
-                margin: "20px auto",
-                width: "500px",
-                textAlign: "left"
-              }}>
-                <div style={{ marginBottom: "10px" }}>
-                  <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
-                  <span style={{ color: "#fff" }}>{address}</span>
-                </div>
-                <div>
-                  <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
-                  <span style={{ color: "#fff" }}>
-                    {contractLoading
-                      ? "Contract loading..."
-                      : balance === null
-                      ? "Loading..."
-                      : balance === "Error"
-                      ? "Failed to load"
-                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migrateable KILT`}
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <p>Connect your wallet to view balance.</p>
-            )}
-
-            <div style={{ margin: "20px 0" }}>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0"
-                className={styles.code}
-                style={{ margin: "10px", padding: "8px", width: "200px" }}
-              />
-              <div className={styles.grid} style={{ justifyContent: "center" }}>
-                <button
-                  onClick={handleApprove}
-                  disabled={!amount || !address}
-                  className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px" }}
-                >
-                  Approve
-                </button>
-                <button
-                  onClick={handleMigrate}
-                  disabled={!amount || !address}
-                  className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px" }}
-                >
-                  Migrate
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
-        <div>
-          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
-          {" | "}
-          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
-          {" | "}
-          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
-          {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
-        </div>
-      </footer>
-    </div>
-  );
-}
-
-export async function getServerSideProps() {
-  return {
-    props: {},
-  };
-}
+        "0xE
