@@ -199,7 +199,7 @@ export default function Home() {
         </div>
       </main>
 
-footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+<footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
   <div>
     <div style={{ marginBottom: "10px" }}>
       <Link
