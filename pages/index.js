@@ -133,12 +133,13 @@ export default function Home() {
               padding: "15px",
               borderRadius: "8px",
               margin: "20px auto",
-              width: "500px",
+              width: "200px",
               textAlign: "center",
               color: "#fff"
             }}>
               <div>
                 <span style={{ fontWeight: "bold" }}>Migration Ratio</span>
+                <br />
                 <br />
                 <span>1:1.75</span>
               </div>
