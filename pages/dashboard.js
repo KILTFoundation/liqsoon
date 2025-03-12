@@ -110,10 +110,6 @@ export default function Dashboard() {
   const [whitelistAddress, setWhitelistAddress] = useState("");
   const [whitelistResult, setWhitelistResult] = useState(null);
 
-  const { contract: oldKiltContract } = useContract(
-    "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
-    OLD_KILT_ABI
-  );
   const { contract: migrationContract } = useContract(
     "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
     MIGRATION_ABI
@@ -230,7 +226,7 @@ export default function Dashboard() {
             <button
               onClick={fetchContractData}
               className={styles.card}
-              style={{ marginLeft: "10 Camillepx", padding: "10px 20px" }}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
             >
               Query
             </button>
@@ -464,15 +460,14 @@ export default function Dashboard() {
               Query
             </button>
           </div>
-
         </div>
       </main>
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
-          <a href="/" className={styles.footerLink} style={{ fontSize: "18px", display: "block", marginBottom: "10px" }}>
-            Portal
-          </a>
+          <div style={{ marginBottom: "10px" }}>
+            <a href="/" className={styles.footerLink} style={{ fontSize: "18px" }}>Portal</a>
+          </div>
           <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
           {" | "}
           <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
