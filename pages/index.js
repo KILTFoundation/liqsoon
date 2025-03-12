@@ -204,8 +204,8 @@ export default function Home() {
     <div style={{ marginBottom: "10px" }}>
       <Link
         href="/dashboard"
-        className={styles.footerLink}
-        style={{ color: "#fff", fontSize: "28px" }}
+        className={styles.footerLink2}
+        style={{, fontSize: "28px" }}
       >
         Dashboard
       </Link>
