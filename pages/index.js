@@ -128,8 +128,21 @@ export default function Home() {
             <p>to</p>
             <p><code>0x634390EE30d03f26ac8575e830724b349625b65d</code></p>
             <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
-            <p>Migration Ratio</p>
-            <p>1:1.75</p>
+            <div style={{
+              background: "#1357BB",
+              padding: "15px",
+              borderRadius: "8px",
+              margin: "20px auto",
+              width: "500px",
+              textAlign: "center",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>Migration Ratio</span>
+                <br />
+                <span>1:1.75</span>
+              </div>
+            </div>
           </div>
 
           <div className={styles.header} style={{ textAlign: "center" }}>
