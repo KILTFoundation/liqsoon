@@ -161,7 +161,7 @@ export default function Home() {
 
             {address ? (
               <div style={{ 
-                background: "rgba(19, 87, 187, 0.8)", // Slightly transparent blue
+                background: "rgba(19, 87, 187, 0.65)", // Slightly transparent blue
                 padding: "15px",
                 borderRadius: "8px",
                 margin: "20px auto",
