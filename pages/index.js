@@ -137,14 +137,13 @@ export default function Home() {
             <p><code>0x634390EE30d03f26ac8575e830724b349625b65d</code></p>
             <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
             <div style={{
-              background: "#1357BB",
+              background: "rgba(19, 87, 187, 0.8)", // Slightly transparent blue
               padding: "15px",
               borderRadius: "8px",
               margin: "20px auto",
               width: "200px",
               textAlign: "center",
-              color: "#fff",
-              border: "1px solid #D73D80" // Thin pink outline
+              color: "#fff"
             }}>
               <div>
                 <span style={{ fontWeight: "bold" }}>Migration Ratio</span>
@@ -162,13 +161,12 @@ export default function Home() {
 
             {address ? (
               <div style={{ 
-                background: "#1357BB",
+                background: "rgba(19, 87, 187, 0.8)", // Slightly transparent blue
                 padding: "15px",
                 borderRadius: "8px",
                 margin: "20px auto",
                 width: "500px",
-                textAlign: "left",
-                border: "1px solid #D73D80" // Thin pink outline
+                textAlign: "left"
               }}>
                 <div style={{ marginBottom: "10px" }}>
                   <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
