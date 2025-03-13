@@ -137,7 +137,7 @@ export default function Home() {
             <p><code>0x634390EE30d03f26ac8575e830724b349625b65d</code></p>
             <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
             <div style={{
-              background: "rgba(19, 87, 187, 0.8)", // Slightly transparent blue
+              background: "rgba(19, 87, 187, 0.65)", // Slightly transparent blue
               padding: "15px",
               borderRadius: "8px",
               margin: "20px auto",
