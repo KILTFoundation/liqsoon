@@ -70,6 +70,17 @@ const MIGRATION_ABI = [
   }
 ];
 
+const OLD_KILT_ABI = [
+  {
+    constant: true,
+    inputs: [{ name: "owner", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function"
+  }
+];
+
 export default function Dashboard() {
   const [burnAddress, setBurnAddress] = useState(null);
   const [exchangeRateNumerator, setExchangeRateNumerator] = useState(null);
@@ -80,10 +91,18 @@ export default function Dashboard() {
   const [owner, setOwner] = useState(null);
   const [whitelistAddress, setWhitelistAddress] = useState("");
   const [whitelistResult, setWhitelistResult] = useState(null);
+  const [burnAddressBalance, setBurnAddressBalance] = useState(null);
+  const [burnAddressBalanceError, setBurnAddressBalanceError] = useState(null);
 
-  const { contract: migrationContract, isLoading: contractLoading } = useContract(
+  const TOTAL_KILT_SUPPLY = 164000000; // Hardcoded total supply
+
+  const { contract: migrationContract, isLoading: migrationLoading } = useContract(
     "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
     MIGRATION_ABI
+  );
+  const { contract: oldKiltContract, isLoading: oldKiltLoading } = useContract(
+    "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
+    OLD_KILT_ABI
   );
 
   const fetchContractData = async () => {
@@ -134,20 +153,44 @@ export default function Dashboard() {
     }
   };
 
+  const fetchBurnAddressBalance = async () => {
+    if (!migrationContract || !oldKiltContract || burnAddress === null) {
+      setBurnAddressBalance(null);
+      setBurnAddressBalanceError(null);
+      return;
+    }
+
+    try {
+      const bal = await oldKiltContract.call("balanceOf", [burnAddress]);
+      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
+      const normalized = Number(balanceValue) / 10 ** 18;
+      setBurnAddressBalance(normalized);
+      setBurnAddressBalanceError(null);
+    } catch (err) {
+      console.error("Burn address balance fetch error:", err.message);
+      setBurnAddressBalance("Error");
+      setBurnAddressBalanceError(err.message);
+    }
+  };
+
   useEffect(() => {
     fetchContractData();
   }, [migrationContract]);
 
+  useEffect(() => {
+    if (burnAddress && burnAddress !== "Error") {
+      fetchBurnAddressBalance();
+    }
+  }, [migrationContract, oldKiltContract, burnAddress]);
+
+  const calculatePercentage = () => {
+    if (burnAddressBalance === null || burnAddressBalance === "Error") return "N/A";
+    const percentage = (burnAddressBalance / TOTAL_KILT_SUPPLY) * 100;
+    return percentage.toFixed(2);
+  };
+
   return (
-        <div style={{ 
-      backgroundImage: "url('/tartanbackground.png')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      backgroundAttachment: "fixed",
-      minHeight: "100vh",
-      fontFamily: "Arial, sans-serif"
-    }}>
+    <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
         <img
           src="/KILT-Horizontal-black.png"
@@ -160,17 +203,46 @@ export default function Dashboard() {
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Dashboard</p>
+
+            {/* Migration Progress Card */}
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+              <div style={{
+                background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
+                padding: "15px",
+                borderRadius: "8px",
+                width: "500px",
+                textAlign: "left",
+                color: "#fff"
+              }}>
+                <div>
+                  <span style={{ fontWeight: "bold" }}>Migration Progress: </span>
+                  <span>
+                    {oldKiltLoading || migrationLoading
+                      ? "Contract loading..."
+                      : burnAddressBalance === null
+                      ? "Loading..."
+                      : burnAddressBalance === "Error"
+                      ? "Failed to load"
+                      : `${burnAddressBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT / ${calculatePercentage()}%`}
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={fetchBurnAddressBalance}
+                className={styles.card}
+                style={{ marginLeft: "10px", padding: "10px 20px" }}
+              >
+                Query
+              </button>
+            </div>
+
             <p style={{ color: "#fff" }}>
               <span style={{ fontWeight: "bold" }}>Migration Contract: </span>
               0xe9a37bde0b9daa20e226608d04aec6358928c82b
             </p>
           </div>
 
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <p style={{ fontSize: "24px", fontWeight: "bold", color: "#fff" }}>Read Contract</p>
-          </div>
-
-          {contractLoading && <p style={{ textAlign: "center", color: "#fff" }}>Loading contract...</p>}
+          {migrationLoading && <p style={{ textAlign: "center", color: "#fff" }}>Loading contract...</p>}
 
           {/* BURN_ADDRESS Card */}
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
