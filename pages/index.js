@@ -217,10 +217,11 @@ export default function Home() {
                   style={{
                     margin: "10px",
                     padding: "10px 20px",
-                    width: "180px", // ~50% longer, rounded
-                    backgroundColor: isApproved ? "#D73D80" : "#28a745", // Pink for Migrate, green for Approve
-                    fontSize: "18px", // Larger text
-                    fontWeight: isApproved ? "bold" : "normal" // Bold for Migrate
+                    width: "180px",
+                    backgroundColor: isApproved ? "#D73D80" : "#DAF525", // Pink for Migrate, lime green for Approve
+                    fontSize: "18px",
+                    fontWeight: isApproved ? "bold" : "normal",
+                    textAlign: "center" // Center text in both states
                   }}
                 >
                   {isApproved ? "Migrate" : "Approve"}
