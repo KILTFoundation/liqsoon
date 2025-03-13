@@ -132,9 +132,9 @@ export default function Home() {
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
             <p>Migrate KILT on the BASE Network from</p>
-            <p><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
+            <p style={{ fontSize: "18px" }}><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
-            <p><code>0x634390EE30d03f26ac8575e830724b349625b65d</code></p>
+            <p style={{ fontSize: "18px" }}><code>0x634390EE30d03f26ac8575e830724b349625b65d</code></p>
             <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
             <div style={{
               background: "rgba(19, 87, 187, 0.65)", // Slightly transparent blue
