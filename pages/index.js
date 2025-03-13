@@ -143,7 +143,8 @@ export default function Home() {
               margin: "20px auto",
               width: "200px",
               textAlign: "center",
-              color: "#fff"
+              color: "#fff",
+              border: "1px solid #D73D80" // Thin pink outline
             }}>
               <div>
                 <span style={{ fontWeight: "bold" }}>Migration Ratio</span>
@@ -166,7 +167,8 @@ export default function Home() {
                 borderRadius: "8px",
                 margin: "20px auto",
                 width: "500px",
-                textAlign: "left"
+                textAlign: "left",
+                border: "1px solid #D73D80" // Thin pink outline
               }}>
                 <div style={{ marginBottom: "10px" }}>
                   <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
