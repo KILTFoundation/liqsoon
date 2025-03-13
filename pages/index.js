@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
-import Link from "next/link"; // Import Link from Next.js
+import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
 const OLD_KILT_ABI = [
@@ -110,7 +110,15 @@ export default function Home() {
   };
 
   return (
-    <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
+    <div style={{ 
+      backgroundImage: "url('/tartanbackground.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed",
+      minHeight: "100vh",
+      fontFamily: "Arial, sans-serif"
+    }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
         <img
           src="/KILT-Horizontal-black.png"
@@ -213,28 +221,28 @@ export default function Home() {
         </div>
       </main>
 
-<footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
-  <div>
-    <div style={{ marginBottom: "10px" }}>
-      <Link
-        href="/dashboard"
-        className={styles.footerLink2}
-        style={{fontSize: "28px" }}
-      >
-        →Dashboard
-      </Link>
-    </div>
-    <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
-    {" | "}
-    <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
-    {" | "}
-    <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
-    {" | "}
-     <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
-    {" | "}
-    <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
-  </div>
-</footer>
+      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+        <div>
+          <div style={{ marginBottom: "10px" }}>
+            <Link
+              href="/dashboard"
+              className={styles.footerLink2}
+              style={{ fontSize: "28px" }}
+            >
+              →Dashboard
+            </Link>
+          </div>
+          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
+          {" | "}
+          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+          {" | "}
+          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+          {" | "}
+          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
+          {" | "}
+          <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
+        </div>
+      </footer>
     </div>
   );
 }
