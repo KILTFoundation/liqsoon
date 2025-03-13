@@ -190,7 +190,15 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
+    <div style={{ 
+      backgroundImage: "url('/tartanbackground.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed",
+      minHeight: "100vh",
+      fontFamily: "Arial, sans-serif"
+    }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
         <img
           src="/KILT-Horizontal-black.png"
@@ -501,7 +509,7 @@ export default function Dashboard() {
               className={styles.footerLink}
               style={{ color: "#fff", fontSize: "28px" }}
             >
-              Portal
+              →Portal
             </Link>
           </div>
           <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
