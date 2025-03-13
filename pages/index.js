@@ -40,6 +40,7 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
+  const [isApproved, setIsApproved] = useState(false); // New state to track approval
 
   const { contract: oldKiltContract, isLoading: contractLoading, error: contractError } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -90,6 +91,7 @@ export default function Home() {
       ]);
       console.log("Approval tx:", tx);
       alert("Approval successful!");
+      setIsApproved(true); // Switch to Migrate on success
     } catch (err) {
       console.error("Approval error:", err.message);
       alert("Approval failed. Check console.");
@@ -103,9 +105,18 @@ export default function Home() {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
       alert("Migration successful!");
+      setIsApproved(false); // Reset to Approve after migration
     } catch (err) {
       console.error("Migration error:", err.message);
       alert("Migration failed. Check console.");
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (isApproved) {
+      handleMigrate();
+    } else {
+      handleApprove();
     }
   };
 
@@ -137,7 +148,7 @@ export default function Home() {
             <p style={{ fontSize: "18px" }}><code>0x634390EE30d03f26ac8575e830724b349625b65d</code></p>
             <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
             <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // Slightly transparent blue
+              background: "rgba(19, 87, 187, 0.8)",
               padding: "15px",
               borderRadius: "8px",
               margin: "20px auto",
@@ -161,7 +172,7 @@ export default function Home() {
 
             {address ? (
               <div style={{ 
-                background: "rgba(19, 87, 187, 0.65)", // Slightly transparent blue
+                background: "rgba(19, 87, 187, 0.8)",
                 padding: "15px",
                 borderRadius: "8px",
                 margin: "20px auto",
@@ -200,20 +211,18 @@ export default function Home() {
               />
               <div className={styles.grid} style={{ justifyContent: "center" }}>
                 <button
-                  onClick={handleApprove}
+                  onClick={handleButtonClick}
                   disabled={!amount || !address}
                   className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px" }}
+                  style={{
+                    margin: "10px",
+                    padding: "10px 20px",
+                    backgroundColor: isApproved ? "#D73D80" : "#28a745", // Pink for Migrate, green for Approve
+                    fontSize: "18px", // Larger text
+                    fontWeight: isApproved ? "bold" : "normal" // Bold for Migrate only
+                  }}
                 >
-                  1) Approve
-                </button>
-                <button
-                  onClick={handleMigrate}
-                  disabled={!amount || !address}
-                  className={styles.card}
-                  style={{ margin: "10px", padding: "10px 20px" }}
-                >
-                  2) Migrate
+                  {isApproved ? "Migrate" : "Approve"}
                 </button>
               </div>
             </div>
