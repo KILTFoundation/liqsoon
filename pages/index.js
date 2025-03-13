@@ -205,7 +205,7 @@ export default function Home() {
                   className={styles.card}
                   style={{ margin: "10px", padding: "10px 20px" }}
                 >
-                  Approve
+                  1) Approve
                 </button>
                 <button
                   onClick={handleMigrate}
@@ -213,7 +213,7 @@ export default function Home() {
                   className={styles.card}
                   style={{ margin: "10px", padding: "10px 20px" }}
                 >
-                  Migrate
+                  2) Migrate
                 </button>
               </div>
             </div>
