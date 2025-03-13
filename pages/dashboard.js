@@ -139,7 +139,15 @@ export default function Dashboard() {
   }, [migrationContract]);
 
   return (
-    <div style={{ backgroundColor: "#13061f", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
+        <div style={{ 
+      backgroundImage: "url('/tartanbackground.png')",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed",
+      minHeight: "100vh",
+      fontFamily: "Arial, sans-serif"
+    }}>
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
         <img
           src="/KILT-Horizontal-black.png"
