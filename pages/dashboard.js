@@ -55,8 +55,8 @@ const MIGRATION_ABI = [
   {
     constant: true,
     inputs: [],
-    name: "owner",
-    outputs: [{ name: "", type: "address" }],
+    name: "paused",
+    outputs: [{ name: "", type: "bool" }],
     stateMutability: "view",
     type: "function"
   },
@@ -88,7 +88,7 @@ export default function Dashboard() {
   const [isMigrationActive, setIsMigrationActive] = useState(null);
   const [newToken, setNewToken] = useState(null);
   const [oldToken, setOldToken] = useState(null);
-  const [owner, setOwner] = useState(null);
+  const [isPaused, setIsPaused] = useState(null); // New state for paused
   const [whitelistAddress, setWhitelistAddress] = useState("");
   const [whitelistResult, setWhitelistResult] = useState(null);
   const [burnAddressBalance, setBurnAddressBalance] = useState(null);
@@ -127,8 +127,8 @@ export default function Dashboard() {
       const oldTok = await migrationContract.call("oldToken");
       setOldToken(oldTok);
 
-      const own = await migrationContract.call("owner");
-      setOwner(own);
+      const paused = await migrationContract.call("paused");
+      setIsPaused(paused);
     } catch (err) {
       console.error("Data fetch error:", err.message);
       setBurnAddress("Error");
@@ -137,7 +137,7 @@ export default function Dashboard() {
       setIsMigrationActive("Error");
       setNewToken("Error");
       setOldToken("Error");
-      setOwner("Error");
+      setIsPaused("Error");
     }
   };
 
@@ -215,7 +215,7 @@ export default function Dashboard() {
             {/* Migration Progress Card */}
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
               <div style={{
-                background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
+                background: "rgba(19, 87, 187, 0.65)",
                 padding: "15px",
                 borderRadius: "8px",
                 width: "500px",
@@ -244,6 +244,7 @@ export default function Dashboard() {
               </button>
             </div>
 
+            {/* Migration Contract (not a card) */}
             <p style={{ color: "#fff" }}>
               <span style={{ fontWeight: "bold" }}>Migration Contract: </span>
               0xe9a37bde0b9daa20e226608d04aec6358928c82b
@@ -252,130 +253,10 @@ export default function Dashboard() {
 
           {migrationLoading && <p style={{ textAlign: "center", color: "#fff" }}>Loading contract...</p>}
 
-          {/* BURN_ADDRESS Card */}
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
-              padding: "15px",
-              borderRadius: "8px",
-              width: "500px",
-              textAlign: "left",
-              color: "#fff"
-            }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>BURN_ADDRESS: </span>
-                <span>
-                  {burnAddress === null
-                    ? "Loading..."
-                    : burnAddress === "Error"
-                    ? "Failed to load"
-                    : burnAddress}
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={fetchContractData}
-              className={styles.card}
-              style={{ marginLeft: "10px", padding: "10px 20px" }}
-            >
-              Query
-            </button>
-          </div>
-
-          {/* EXCHANGE_RATE_NUMERATOR Card */}
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
-              padding: "15px",
-              borderRadius: "8px",
-              width: "500px",
-              textAlign: "left",
-              color: "#fff"
-            }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_NUMERATOR: </span>
-                <span>
-                  {exchangeRateNumerator === null
-                    ? "Loading..."
-                    : exchangeRateNumerator === "Error"
-                    ? "Failed to load"
-                    : exchangeRateNumerator}
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={fetchContractData}
-              className={styles.card}
-              style={{ marginLeft: "10px", padding: "10px 20px" }}
-            >
-              Query
-            </button>
-          </div>
-
-          {/* EXCHANGE_RATE_DENOMINATOR Card */}
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
-              padding: "15px",
-              borderRadius: "8px",
-              width: "500px",
-              textAlign: "left",
-              color: "#fff"
-            }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_DENOMINATOR: </span>
-                <span>
-                  {exchangeRateDenominator === null
-                    ? "Loading..."
-                    : exchangeRateDenominator === "Error"
-                    ? "Failed to load"
-                    : exchangeRateDenominator}
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={fetchContractData}
-              className={styles.card}
-              style={{ marginLeft: "10px", padding: "10px 20px" }}
-            >
-              Query
-            </button>
-          </div>
-
-          {/* isMigrationActive Card */}
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
-              padding: "15px",
-              borderRadius: "8px",
-              width: "500px",
-              textAlign: "left",
-              color: "#fff"
-            }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>isMigrationActive: </span>
-                <span>
-                  {isMigrationActive === null
-                    ? "Loading..."
-                    : isMigrationActive === "Error"
-                    ? "Failed to load"
-                    : isMigrationActive.toString()}
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={fetchContractData}
-              className={styles.card}
-              style={{ marginLeft: "10px", padding: "10px 20px" }}
-            >
-              Query
-            </button>
-          </div>
-
           {/* newToken Card */}
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
             <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
+              background: "rgba(19, 87, 187, 0.65)",
               padding: "15px",
               borderRadius: "8px",
               width: "500px",
@@ -405,7 +286,7 @@ export default function Dashboard() {
           {/* oldToken Card */}
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
             <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
+              background: "rgba(19, 87, 187, 0.65)",
               padding: "15px",
               borderRadius: "8px",
               width: "500px",
@@ -432,10 +313,10 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* Owner Card */}
+          {/* EXCHANGE_RATE_NUMERATOR Card */}
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
             <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
+              background: "rgba(19, 87, 187, 0.65)",
               padding: "15px",
               borderRadius: "8px",
               width: "500px",
@@ -443,13 +324,103 @@ export default function Dashboard() {
               color: "#fff"
             }}>
               <div>
-                <span style={{ fontWeight: "bold" }}>Owner: </span>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_NUMERATOR: </span>
                 <span>
-                  {owner === null
+                  {exchangeRateNumerator === null
                     ? "Loading..."
-                    : owner === "Error"
+                    : exchangeRateNumerator === "Error"
                     ? "Failed to load"
-                    : owner}
+                    : exchangeRateNumerator}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* EXCHANGE_RATE_DENOMINATOR Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "rgba(19, 87, 187, 0.65)",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_DENOMINATOR: </span>
+                <span>
+                  {exchangeRateDenominator === null
+                    ? "Loading..."
+                    : exchangeRateDenominator === "Error"
+                    ? "Failed to load"
+                    : exchangeRateDenominator}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* isMigrationActive Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "rgba(19, 87, 187, 0.65)",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>isMigrationActive: </span>
+                <span>
+                  {isMigrationActive === null
+                    ? "Loading..."
+                    : isMigrationActive === "Error"
+                    ? "Failed to load"
+                    : isMigrationActive.toString()}
+                </span>
+              </div>
+            </div>
+            <button
+              onClick={fetchContractData}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px" }}
+            >
+              Query
+            </button>
+          </div>
+
+          {/* paused Card */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{
+              background: "rgba(19, 87, 187, 0.65)",
+              padding: "15px",
+              borderRadius: "8px",
+              width: "500px",
+              textAlign: "left",
+              color: "#fff"
+            }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>paused: </span>
+                <span>
+                  {isPaused === null
+                    ? "Loading..."
+                    : isPaused === "Error"
+                    ? "Failed to load"
+                    : isPaused.toString()}
                 </span>
               </div>
             </div>
@@ -465,7 +436,7 @@ export default function Dashboard() {
           {/* Check Whitelist Card */}
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
             <div style={{
-              background: "rgba(19, 87, 187, 0.65)", // 65% transparent blue
+              background: "rgba(19, 87, 187, 0.65)",
               padding: "15px",
               borderRadius: "8px",
               width: "500px",
