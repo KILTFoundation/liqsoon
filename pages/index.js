@@ -119,7 +119,7 @@ export default function Home() {
   return (
     <div style={{ 
       backgroundImage: "url('/tartanbackground.png')",
-      backgroundColor: "#161B3B", // Added fallback
+      backgroundColor: "#000", // Added fallback
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
