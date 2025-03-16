@@ -39,10 +39,9 @@ export default function Home() {
   const address = useAddress();
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
-  const [balanceError, setBalanceError] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
 
-  const { contract: oldKiltContract, isLoading: contractLoading, error: contractError } = useContract(
+  const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
     OLD_KILT_ABI
   );
@@ -60,7 +59,6 @@ export default function Home() {
   useEffect(() => {
     if (!address || !oldKiltContract) {
       setBalance(null);
-      setBalanceError(null);
       return;
     }
 
@@ -70,11 +68,9 @@ export default function Home() {
         const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
         const normalized = Number(balanceValue) / 10 ** 18;
         setBalance(normalized);
-        setBalanceError(null);
       } catch (err) {
         console.error("Balance fetch error:", err.message);
         setBalance("Error");
-        setBalanceError(err.message);
       }
     };
 
@@ -123,6 +119,7 @@ export default function Home() {
   return (
     <div style={{ 
       backgroundImage: "url('/tartanbackground.png')",
+      backgroundColor: "#161B3B", // Added fallback
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -138,7 +135,7 @@ export default function Home() {
         />
       </header>
 
-      <main className={styles.main}>
+      <main>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
@@ -165,8 +162,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={styles.header} style={{ textAlign: "center" }}>
-            <div className={styles.connect}>
+          <div style={{ textAlign: "center" }}>
+            <div style={{ marginBottom: "2rem" }}>
               <ConnectWallet />
             </div>
 
@@ -206,10 +203,9 @@ export default function Home() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0"
-                className={styles.code}
                 style={{ margin: "10px", padding: "8px", width: "200px" }}
               />
-              <div className={styles.grid} style={{ justifyContent: "center" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
                   disabled={!amount || !address}
@@ -218,10 +214,10 @@ export default function Home() {
                     margin: "10px",
                     padding: "10px 20px",
                     width: "180px",
-                    backgroundColor: isApproved ? "#D73D80" : "#DAF525", // Pink for Migrate, lime green for Approve
+                    backgroundColor: isApproved ? "#D73D80" : "#DAF525",
                     fontSize: "18px",
                     fontWeight: isApproved ? "bold" : "normal",
-                    textAlign: "center" // Center text in both states
+                    textAlign: "center"
                   }}
                 >
                   {isApproved ? "Migrate" : "Approve"}
@@ -256,10 +252,4 @@ export default function Home() {
       </footer>
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  return {
-    props: {},
-  };
 }
