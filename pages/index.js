@@ -115,7 +115,10 @@ export default function Home() {
     }
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = (e) => {
+    e.currentTarget.classList.remove("bounce"); // Reset animation
+    void e.currentTarget.offsetWidth; // Force reflow
+    e.currentTarget.classList.add("bounce"); // Trigger bounce
     if (isApproved) {
       handleMigrate();
     } else {
@@ -221,12 +224,12 @@ export default function Home() {
                     margin: "10px",
                     padding: "10px 20px",
                     width: "180px",
-                    height: "40px", // Fixed height
+                    height: "40px",
                     backgroundColor: isApproved ? "#D73D80" : "#DAF525",
                     fontSize: "18px",
                     fontWeight: isApproved ? "bold" : "normal",
                     textAlign: "center",
-                    display: "flex", // Flex layout for centering
+                    display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     position: "relative"
@@ -281,6 +284,14 @@ export default function Home() {
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+        @keyframes bounce {
+          0% { transform: scale(1); }
+          50% { transform: scale(0.95); }
+          100% { transform: scale(1); }
+        }
+        .bounce {
+          animation: bounce 0.2s ease-in-out;
         }
       `}</style>
     </div>
