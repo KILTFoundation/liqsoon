@@ -40,7 +40,8 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false); // New state for spinner
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isClicked, setIsClicked] = useState(false); // New state for click animation
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -81,7 +82,7 @@ export default function Home() {
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
-    setIsProcessing(true); // Start spinner
+    setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
         "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
@@ -94,14 +95,14 @@ export default function Home() {
       console.error("Approval error:", err.message);
       alert("Approval failed. Check console.");
     } finally {
-      setIsProcessing(false); // Stop spinner
+      setIsProcessing(false);
     }
   };
 
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
-    setIsProcessing(true); // Start spinner
+    setIsProcessing(true);
     try {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
@@ -111,11 +112,13 @@ export default function Home() {
       console.error("Migration error:", err.message);
       alert("Migration failed. Check console.");
     } finally {
-      setIsProcessing(false); // Stop spinner
+      setIsProcessing(false);
     }
   };
 
   const handleButtonClick = () => {
+    setIsClicked(true); // Trigger scale animation
+    setTimeout(() => setIsClicked(false), 200); // Reset after 200ms (animation duration)
     if (isApproved) {
       handleMigrate();
     } else {
@@ -225,12 +228,12 @@ export default function Home() {
                     fontSize: "18px",
                     fontWeight: isApproved ? "bold" : "normal",
                     textAlign: "center",
-                    transition: "transform 0.1s ease-out", // Smooth scale transition
-                    transform: isProcessing ? "scale(0.95)" : "scale(1)", // Scale effect
-                    position: "relative", // For spinner positioning
-                    color: "#fff", // Ensure text/spinner visibility
-                    border: "none", // Clean up default button styling
-                    cursor: isProcessing ? "not-allowed" : "pointer" // Cursor feedback
+                    transition: "transform 0.2s ease-in-out", // Smooth scale animation
+                    transform: isClicked ? "scale(0.95)" : "scale(1)", // Click scale
+                    position: "relative",
+                    color: "#fff",
+                    border: "none",
+                    cursor: isProcessing ? "not-allowed" : "pointer"
                   }}
                 >
                   {isProcessing ? (
@@ -282,7 +285,6 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Inline CSS for spinner animation */}
       <style jsx>{`
         @keyframes spin {
           0% { transform: translate(-50%, -50%) rotate(0deg); }
