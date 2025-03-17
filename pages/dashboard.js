@@ -110,7 +110,7 @@ export default function Dashboard() {
   return (
     <div style={{ 
       backgroundImage: "url('/tartanbackground.png')",
-      backgroundColor: "#161B3B", // Added fallback
+      backgroundColor: "#fff", // Added fallback
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
