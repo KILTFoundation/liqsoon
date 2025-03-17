@@ -8,18 +8,19 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next export",
-    "deploy": "next build && next export && npx thirdweb@latest upload out"
+    "deploy": "next build && next export && thirdweb upload out"
   },
   "dependencies": {
-    "@thirdweb-dev/react": "^4",
-    "@thirdweb-dev/sdk": "^4",
-    "ethers": "^5",
-    "next": "^13",
-    "react": "^18.2",
-    "react-dom": "^18.2"
+    "@thirdweb-dev/react": "4.1.16",
+    "@thirdweb-dev/sdk": "4.0.22",
+    "ethers": "5.7.2",
+    "next": "13.5.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "eslint": "8.11.0",
-    "eslint-config-next": "^13"
+    "eslint": "8.57.0",
+    "eslint-config-next": "13.5.6",
+    "thirdweb": "0.14.8"
   }
 }
