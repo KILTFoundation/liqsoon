@@ -226,10 +226,9 @@ export default function Home() {
                     fontWeight: isApproved ? "bold" : "normal",
                     textAlign: "center",
                     position: "relative",
-                    color: "#fff",
+                    color: isApproved ? "#fff" : "#000", // "Approve" black, "Migrate" white
                     border: "none",
-                    cursor: isProcessing ? "not-allowed" : "pointer",
-                    transition: "transform 0.1s ease-in-out" // Smooth scale transition
+                    cursor: isProcessing ? "not-allowed" : "pointer"
                   }}
                 >
                   {isProcessing ? (
@@ -286,8 +285,8 @@ export default function Home() {
           0% { transform: translate(-50%, -50%) rotate(0deg); }
           100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
-        button:active:not(:disabled) {
-          transform: scale(0.95);
+        button:hover:not(:disabled) {
+          opacity: 0.9;
         }
       `}</style>
     </div>
