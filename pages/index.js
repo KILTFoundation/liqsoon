@@ -41,7 +41,6 @@ export default function Home() {
   const [balance, setBalance] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isClicked, setIsClicked] = useState(false); // New state for click animation
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -116,9 +115,10 @@ export default function Home() {
     }
   };
 
-  const handleButtonClick = () => {
-    setIsClicked(true); // Trigger scale animation
-    setTimeout(() => setIsClicked(false), 200); // Reset after 200ms (animation duration)
+  const handleButtonClick = (e) => {
+    e.currentTarget.classList.remove("clicked"); // Reset animation
+    void e.currentTarget.offsetWidth; // Trigger reflow
+    e.currentTarget.classList.add("clicked"); // Start animation
     if (isApproved) {
       handleMigrate();
     } else {
@@ -219,7 +219,7 @@ export default function Home() {
                 <button
                   onClick={handleButtonClick}
                   disabled={!amount || !address || isProcessing}
-                  className={styles.card}
+                  className={`${styles.card} ${isProcessing ? "" : "clickable"}`}
                   style={{
                     margin: "10px",
                     padding: "10px 20px",
@@ -228,8 +228,6 @@ export default function Home() {
                     fontSize: "18px",
                     fontWeight: isApproved ? "bold" : "normal",
                     textAlign: "center",
-                    transition: "transform 0.2s ease-in-out", // Smooth scale animation
-                    transform: isClicked ? "scale(0.95)" : "scale(1)", // Click scale
                     position: "relative",
                     color: "#fff",
                     border: "none",
@@ -289,6 +287,14 @@ export default function Home() {
         @keyframes spin {
           0% { transform: translate(-50%, -50%) rotate(0deg); }
           100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes press {
+          0% { transform: scale(1); }
+          50% { transform: scale(0.95); }
+          100% { transform: scale(1); }
+        }
+        .clickable.clicked {
+          animation: press 0.2s ease-in-out;
         }
       `}</style>
     </div>
