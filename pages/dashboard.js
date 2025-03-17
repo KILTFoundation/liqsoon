@@ -168,4 +168,159 @@ export default function Dashboard() {
             {/* Button to refresh all data except whitelist */}
             <button
               onClick={(e) => handleButtonClick(e, fetchAllData)} // Trigger bounce and fetch
-              className={styles.card} // Apply card styles
+              className={styles.card} // Apply card styles from CSS module
+              style={{
+                margin: "10px auto", // Center horizontally
+                padding: "10px 20px", // Consistent padding
+                width: "150px", // Fixed width
+                height: "40px", // Fixed height matching other buttons
+                display: "flex", // Flex for centering content
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#DAF525", // Yellow to match portal's "Approve"
+                fontSize: "16px" // Slightly smaller than portal buttons
+              }}
+            >
+              Refresh Data
+            </button>
+          </div>
+
+          {/* Loading indicator while contracts initialize */}
+          {migrationLoading && <p style={{ textAlign: "center", color: "#fff" }}>Loading contract...</p>}
+
+          {/* Migration Progress card */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>Migration Progress: </span>
+                <span>
+                  {oldKiltLoading || migrationLoading ? "Contract loading..." // Show loading state
+                    : burnAddressBalance === null ? "Loading..." // Initial load
+                    : burnAddressBalance === "Error" ? "Failed to load" // Error state
+                    : `${burnAddressBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT / ${calculatePercentage()}%`} {/* Formatted balance and percentage */}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* newToken card */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>newToken: </span>
+                <span>{newToken === null ? "Loading..." : newToken === "Error" ? "Failed to load" : newToken}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* oldToken card */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>oldToken: </span>
+                <span>{oldToken === null ? "Loading..." : oldToken === "Error" ? "Failed to load" : oldToken}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* EXCHANGE_RATE_NUMERATOR card */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_NUMERATOR: </span>
+                <span>{exchangeRateNumerator === null ? "Loading..." : exchangeRateNumerator === "Error" ? "Failed to load" : exchangeRateNumerator}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* EXCHANGE_RATE_DENOMINATOR card */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_DENOMINATOR: </span>
+                <span>{exchangeRateDenominator === null ? "Loading..." : exchangeRateDenominator === "Error" ? "Failed to load" : exchangeRateDenominator}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* isMigrationActive card */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>isMigrationActive: </span>
+                <span>{isMigrationActive === null ? "Loading..." : isMigrationActive === "Error" ? "Failed to load" : isMigrationActive.toString()}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* paused card */}
+          <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>paused: </span>
+                <span>{isPaused === null ? "Loading..." : isPaused === "Error" ? "Failed to load" : isPaused.toString()}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Whitelist check section with input and separate Query button */}
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "510px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>Check Whitelist: </span>
+                {/* Input for user to enter an address to check */}
+                <input
+                  type="text"
+                  value={whitelistAddress}
+                  onChange={(e) => setWhitelistAddress(e.target.value)} // Update state on input change
+                  placeholder="Enter address"
+                  style={{ marginLeft: "10px", padding: "5px", width: "250px" }} // Fixed width for consistency
+                />
+                {/* Display whitelist result */}
+                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed to load" : whitelistResult}</span>
+              </div>
+            </div>
+            {/* Button to query whitelist status */}
+            <button
+              onClick={(e) => handleButtonClick(e, fetchWhitelistStatus)} // Trigger bounce and whitelist fetch
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              Query
+            </button>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer with navigation and links */}
+      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+        <div>
+          <div style={{ marginBottom: "10px" }}>
+            <Link href="/" className={styles.footerLink} style={{ color: "#fff", fontSize: "28px" }}>→Portal</Link> {/* Link back to Home page */}
+          </div>
+          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
+          {" | "}
+          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+          {" | "}
+          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+          {" | "}
+          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
+          {" | "}
+          <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
+        </div>
+      </footer>
+
+      {/* CSS-in-JS for button bounce animation */}
+      <style jsx>{`
+        @keyframes bounce {
+          0% { transform: scale(1); } /* Start at normal size */
+          50% { transform: scale(0.95); } /* Shrink to 95% mid-animation */
+          100% { transform: scale(1); } /* Return to normal size */
+        }
+        .bounce {
+          animation: bounce 0.2s ease-in-out; /* Apply 0.2s bounce with smooth easing */
+        }
+      `}</style>
+    </div>
+  );
+}
