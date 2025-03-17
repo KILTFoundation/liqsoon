@@ -116,6 +116,9 @@ export default function Dashboard() {
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Dashboard</p>
+            <p style={{ color: "#fff" }}>
+              <span style={{ fontWeight: "bold" }}>Migration Contract: </span>0xe9a37bde0b9daa20e226608d04aec6358928c82b
+            </p>
             <button
               onClick={(e) => handleButtonClick(e, fetchAllData)}
               className={styles.card}
@@ -133,9 +136,6 @@ export default function Dashboard() {
             >
               Refresh Data
             </button>
-            <p style={{ color: "#fff" }}>
-              <span style={{ fontWeight: "bold" }}>Migration Contract: </span>0xe9a37bde0b9daa20e226608d04aec6358928c82b
-            </p>
           </div>
           {migrationLoading && <p style={{ textAlign: "center", color: "#fff" }}>Loading contract...</p>}
           <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
@@ -197,7 +197,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "510px", textAlign: "left", color: "#fff" }}>
               <div>
                 <span style={{ fontWeight: "bold" }}>Check Whitelist: </span>
                 <input
