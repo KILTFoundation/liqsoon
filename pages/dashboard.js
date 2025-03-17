@@ -198,3 +198,97 @@ export default function Dashboard() {
               Query
             </button>
           </div>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_DENOMINATOR: </span>
+                <span>{exchangeRateDenominator === null ? "Loading..." : exchangeRateDenominator === "Error" ? "Failed to load" : exchangeRateDenominator}</span>
+              </div>
+            </div>
+            <button
+              onClick={(e) => handleButtonClick(e, fetchContractData)}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              Query
+            </button>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>isMigrationActive: </span>
+                <span>{isMigrationActive === null ? "Loading..." : isMigrationActive === "Error" ? "Failed to load" : isMigrationActive.toString()}</span>
+              </div>
+            </div>
+            <button
+              onClick={(e) => handleButtonClick(e, fetchContractData)}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              Query
+            </button>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>paused: </span>
+                <span>{isPaused === null ? "Loading..." : isPaused === "Error" ? "Failed to load" : isPaused.toString()}</span>
+              </div>
+            </div>
+            <button
+              onClick={(e) => handleButtonClick(e, fetchContractData)}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              Query
+            </button>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
+              <div>
+                <span style={{ fontWeight: "bold" }}>Check Whitelist: </span>
+                <input type="text" value={whitelistAddress} onChange={(e) => setWhitelistAddress(e.target.value)} placeholder="Enter address" style={{ marginLeft: "10px", padding: "5px", width: "250px" }} />
+                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed to load" : whitelistResult}</span>
+              </div>
+            </div>
+            <button
+              onClick={(e) => handleButtonClick(e, fetchWhitelistStatus)}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              Query
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+        <div>
+          <div style={{ marginBottom: "10px" }}>
+            <Link href="/" className={styles.footerLink} style={{ color: "#fff", fontSize: "28px" }}>→Portal</Link>
+          </div>
+          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
+          {" | "}
+          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+          {" | "}
+          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+          {" | "}
+          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
+          {" | "}
+          <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
+        </div>
+      </footer>
+
+      <style jsx>{`
+        @keyframes bounce {
+          0% { transform: scale(1); }
+          50% { transform: scale(0.95); }
+          100% { transform: scale(1); }
+        }
+        .bounce {
+          animation: bounce 0.2s ease-in-out;
+        }
+      `}</style>
+    </div>
+  );
+}
