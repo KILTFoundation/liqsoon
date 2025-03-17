@@ -91,6 +91,13 @@ export default function Dashboard() {
     }
   };
 
+  const handleButtonClick = (e, fetchFunction) => {
+    e.currentTarget.classList.remove("bounce");
+    void e.currentTarget.offsetWidth;
+    e.currentTarget.classList.add("bounce");
+    fetchFunction();
+  };
+
   useEffect(() => {
     fetchContractData();
   }, [migrationContract]);
@@ -110,7 +117,7 @@ export default function Dashboard() {
   return (
     <div style={{ 
       backgroundImage: "url('/tartanbackground.png')",
-      backgroundColor: "#fff", // Added fallback
+      backgroundColor: "#000",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
@@ -135,7 +142,13 @@ export default function Dashboard() {
                   </span>
                 </div>
               </div>
-              <button onClick={fetchBurnAddressBalance} className={styles.card} style={{ marginLeft: "10px", padding: "10px 20px" }}>Query</button>
+              <button
+                onClick={(e) => handleButtonClick(e, fetchBurnAddressBalance)}
+                className={styles.card}
+                style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+              >
+                Query
+              </button>
             </div>
             <p style={{ color: "#fff" }}><span style={{ fontWeight: "bold" }}>Migration Contract: </span>0xe9a37bde0b9daa20e226608d04aec6358928c82b</p>
           </div>
@@ -147,7 +160,13 @@ export default function Dashboard() {
                 <span>{newToken === null ? "Loading..." : newToken === "Error" ? "Failed to load" : newToken}</span>
               </div>
             </div>
-            <button onClick={fetchContractData} className={styles.card} style={{ marginLeft: "10px", padding: "10px 20px" }}>Query</button>
+            <button
+              onClick={(e) => handleButtonClick(e, fetchContractData)}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              Query
+            </button>
           </div>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
             <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
@@ -156,7 +175,13 @@ export default function Dashboard() {
                 <span>{oldToken === null ? "Loading..." : oldToken === "Error" ? "Failed to load" : oldToken}</span>
               </div>
             </div>
-            <button onClick={fetchContractData} className={styles.card} style={{ marginLeft: "10px", padding: "10px 20px" }}>Query</button>
+            <button
+              onClick={(e) => handleButtonClick(e, fetchContractData)}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              Query
+            </button>
           </div>
           <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
             <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
@@ -165,64 +190,11 @@ export default function Dashboard() {
                 <span>{exchangeRateNumerator === null ? "Loading..." : exchangeRateNumerator === "Error" ? "Failed to load" : exchangeRateNumerator}</span>
               </div>
             </div>
-            <button onClick={fetchContractData} className={styles.card} style={{ marginLeft: "10px", padding: "10px 20px" }}>Query</button>
+            <button
+              onClick={(e) => handleButtonClick(e, fetchContractData)}
+              className={styles.card}
+              style={{ marginLeft: "10px", padding: "10px 20px", width: "80px", height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              Query
+            </button>
           </div>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_DENOMINATOR: </span>
-                <span>{exchangeRateDenominator === null ? "Loading..." : exchangeRateDenominator === "Error" ? "Failed to load" : exchangeRateDenominator}</span>
-              </div>
-            </div>
-            <button onClick={fetchContractData} className={styles.card} style={{ marginLeft: "10px", padding: "10px 20px" }}>Query</button>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>isMigrationActive: </span>
-                <span>{isMigrationActive === null ? "Loading..." : isMigrationActive === "Error" ? "Failed to load" : isMigrationActive.toString()}</span>
-              </div>
-            </div>
-            <button onClick={fetchContractData} className={styles.card} style={{ marginLeft: "10px", padding: "10px 20px" }}>Query</button>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>paused: </span>
-                <span>{isPaused === null ? "Loading..." : isPaused === "Error" ? "Failed to load" : isPaused.toString()}</span>
-              </div>
-            </div>
-            <button onClick={fetchContractData} className={styles.card} style={{ marginLeft: "10px", padding: "10px 20px" }}>Query</button>
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "20px 0" }}>
-            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "500px", textAlign: "left", color: "#fff" }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>Check Whitelist: </span>
-                <input type="text" value={whitelistAddress} onChange={(e) => setWhitelistAddress(e.target.value)} placeholder="Enter address" style={{ marginLeft: "10px", padding: "5px", width: "250px" }} />
-                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed to load" : whitelistResult}</span>
-              </div>
-            </div>
-            <button onClick={fetchWhitelistStatus} className={styles.card} style={{ marginLeft: "10px", padding: "10px 20px" }}>Query</button>
-          </div>
-        </div>
-      </main>
-
-      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
-        <div>
-          <div style={{ marginBottom: "10px" }}>
-            <Link href="/" className={styles.footerLink} style={{ color: "#fff", fontSize: "28px" }}>→Portal</Link>
-          </div>
-          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
-          {" | "}
-          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
-          {" | "}
-          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
-          {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
-          {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
-        </div>
-      </footer>
-    </div>
-  );
-}
