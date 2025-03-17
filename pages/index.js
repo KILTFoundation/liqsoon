@@ -40,7 +40,7 @@ export default function Home() {
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false); // Added for spinner
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -81,7 +81,7 @@ export default function Home() {
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
-    setIsProcessing(true); // Start spinner
+    setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
         "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
@@ -94,14 +94,14 @@ export default function Home() {
       console.error("Approval error:", err.message);
       alert("Approval failed. Check console.");
     } finally {
-      setIsProcessing(false); // Stop spinner
+      setIsProcessing(false);
     }
   };
 
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
-    setIsProcessing(true); // Start spinner
+    setIsProcessing(true);
     try {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
@@ -111,7 +111,7 @@ export default function Home() {
       console.error("Migration error:", err.message);
       alert("Migration failed. Check console.");
     } finally {
-      setIsProcessing(false); // Stop spinner
+      setIsProcessing(false);
     }
   };
 
@@ -215,17 +215,21 @@ export default function Home() {
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
-                  disabled={!amount || !address || isProcessing} // Disable during processing
+                  disabled={!amount || !address || isProcessing}
                   className={styles.card}
                   style={{
                     margin: "10px",
                     padding: "10px 20px",
                     width: "180px",
+                    height: "40px", // Fixed height
                     backgroundColor: isApproved ? "#D73D80" : "#DAF525",
                     fontSize: "18px",
                     fontWeight: isApproved ? "bold" : "normal",
                     textAlign: "center",
-                    position: "relative" // For spinner positioning
+                    display: "flex", // Flex layout for centering
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative"
                   }}
                 >
                   {isProcessing ? (
@@ -234,14 +238,10 @@ export default function Home() {
                         display: "inline-block",
                         width: "20px",
                         height: "20px",
-                        border: `3px solid ${isApproved ? "#fff" : "#000"}`, // White for Migrate, black for Approve
+                        border: `3px solid ${isApproved ? "#fff" : "#000"}`,
                         borderTop: "3px solid transparent",
                         borderRadius: "50%",
-                        animation: "spin 1s linear infinite",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)"
+                        animation: "spin 1s linear infinite"
                       }}
                     />
                   ) : (
@@ -279,8 +279,8 @@ export default function Home() {
 
       <style jsx>{`
         @keyframes spin {
-          0% { transform: translate(-50%, -50%) rotate(0deg); }
-          100% { transform: translate(-50%, -50%) rotate(360deg); }
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
       `}</style>
     </div>
