@@ -115,10 +115,7 @@ export default function Home() {
     }
   };
 
-  const handleButtonClick = (e) => {
-    e.currentTarget.classList.remove("clicked"); // Reset animation
-    void e.currentTarget.offsetWidth; // Trigger reflow
-    e.currentTarget.classList.add("clicked"); // Start animation
+  const handleButtonClick = () => {
     if (isApproved) {
       handleMigrate();
     } else {
@@ -219,7 +216,7 @@ export default function Home() {
                 <button
                   onClick={handleButtonClick}
                   disabled={!amount || !address || isProcessing}
-                  className={`${styles.card} ${isProcessing ? "" : "clickable"}`}
+                  className={styles.card}
                   style={{
                     margin: "10px",
                     padding: "10px 20px",
@@ -231,7 +228,8 @@ export default function Home() {
                     position: "relative",
                     color: "#fff",
                     border: "none",
-                    cursor: isProcessing ? "not-allowed" : "pointer"
+                    cursor: isProcessing ? "not-allowed" : "pointer",
+                    transition: "transform 0.1s ease-in-out" // Smooth scale transition
                   }}
                 >
                   {isProcessing ? (
@@ -288,13 +286,8 @@ export default function Home() {
           0% { transform: translate(-50%, -50%) rotate(0deg); }
           100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
-        @keyframes press {
-          0% { transform: scale(1); }
-          50% { transform: scale(0.95); }
-          100% { transform: scale(1); }
-        }
-        .clickable.clicked {
-          animation: press 0.2s ease-in-out;
+        button:active:not(:disabled) {
+          transform: scale(0.95);
         }
       `}</style>
     </div>
