@@ -28,25 +28,23 @@ export default function Blocked() {
       <main>
         <div className={styles.container}>
           <div style={{ textAlign: "center", margin: "20px 0" }}>
+            {/* Line breaks to shift content down */}
+            <br />
+            <br />
             <p style={{ fontSize: "32px", fontWeight: "bold", color: "#fff" }}>
-              Sorry, this migration portal is not available in your region.
+              Restricted
+            </p>
+            <p style={{ fontSize: "24px", color: "#fff" }}>
+              <br />
+              The migration portal is not available in your region.
             </p>
           </div>
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Footer without Dashboard */}
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
-          <div style={{ marginBottom: "10px" }}>
-            <Link
-              href="/dashboard"
-              className={styles.footerLink2}
-              style={{ fontSize: "28px" }}
-            >
-              →Dashboard
-            </Link>
-          </div>
           <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
           {" | "}
           <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
