@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
@@ -42,8 +42,11 @@ export default function Home() {
   const [isApproved, setIsApproved] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
-  // New state for checkbox
   const [isChecked, setIsChecked] = useState(false);
+  // New state for scroll completion
+  const [scrolledToBottom, setScrolledToBottom] = useState(false);
+  // Ref to track scrollable div
+  const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -78,6 +81,23 @@ export default function Home() {
     };
     fetchBalance();
   }, [address, oldKiltContract]);
+
+  // Effect to handle scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const element = scrollRef.current;
+      if (element) {
+        const isBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1; // +1 for rounding
+        setScrolledToBottom(isBottom);
+      }
+    };
+
+    const scrollElement = scrollRef.current;
+    if (scrollElement) {
+      scrollElement.addEventListener("scroll", handleScroll);
+      return () => scrollElement.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
@@ -128,12 +148,15 @@ export default function Home() {
   };
 
   const handleProceed = () => {
-    setShowOverlay(false);
+    if (isChecked && scrolledToBottom) {
+      setShowOverlay(false);
+    }
   };
 
-  // Handler for checkbox change
   const handleCheckboxChange = (e) => {
-    setIsChecked(e.target.checked);
+    if (scrolledToBottom) {
+      setIsChecked(e.target.checked);
+    }
   };
 
   return (
@@ -176,15 +199,18 @@ export default function Home() {
             }}>Migration Terms & Conditions</h2>
             
             {/* Scrollable text box */}
-            <div style={{
-              maxHeight: "200px",
-              overflowY: "auto",
-              border: "1px solid #ccc",
-              padding: "10px",
-              marginBottom: "20px",
-              textAlign: "left",
-              color: "#000" // Black text
-            }}>
+            <div
+              ref={scrollRef}
+              style={{
+                maxHeight: "200px",
+                overflowY: "auto",
+                border: "1px solid #ccc",
+                padding: "10px",
+                marginBottom: "20px",
+                textAlign: "left",
+                color: "#000"
+              }}
+            >
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
               </p>
@@ -208,21 +234,25 @@ export default function Home() {
                 type="checkbox"
                 checked={isChecked}
                 onChange={handleCheckboxChange}
+                disabled={!scrolledToBottom}
                 style={{ marginRight: "10px" }}
               />
               <label style={{ color: "#000" }}>I agree to these terms of migration</label>
             </div>
 
+            {/* Proceed Button */}
             <button
               onClick={handleProceed}
+              disabled={!isChecked || !scrolledToBottom}
               style={{
                 padding: "10px 20px",
-                backgroundColor: "#D73D80",
+                backgroundColor: isChecked && scrolledToBottom ? "#D73D80" : "#ccc", // Pink when active, gray when disabled
                 color: "#fff",
                 border: "none",
                 borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "16px"
+                cursor: isChecked && scrolledToBottom ? "pointer" : "not-allowed",
+                fontSize: "16px",
+                opacity: isChecked && scrolledToBottom ? 1 : 0.6 // Shaded effect
               }}
             >
               Proceed
@@ -287,7 +317,7 @@ export default function Home() {
                 </div>
                 <div>
                   <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
-                  <span style={{ color: "fff" }}>
+                  <span style={{ color: "#fff" }}>
                     {contractLoading
                       ? "Contract loading..."
                       : balance === null
