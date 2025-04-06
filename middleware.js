@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
 
-const BLOCKED_COUNTRIES = ["NG", "RU"]; // Example: Nigeria, Russia (ISO 3166-1 alpha-2 codes)
+const BLOCKED_COUNTRIES = ["US"]; // Blocks USA
 
 export function middleware(req) {
-  const country = req.geo?.country || "Unknown";
+  const country = req.geo?.country || "Unknown"; // Vercel provides this as "US" for USA
   if (BLOCKED_COUNTRIES.includes(country)) {
-    return new NextResponse("Access restricted in your region.", { status: 403 });
+    return new NextResponse("Sorry, this migration portal is not available in your region.", {
+      status: 403,
+    });
   }
-  return NextResponse.next();
+  return NextResponse.next(); // Proceed if not blocked
 }
 
 export const config = {
-  matcher: "/", // Apply to all routes, or specify paths like "/migration"
+  matcher: "/", // Applies to the root page (your migration portal)
 };
