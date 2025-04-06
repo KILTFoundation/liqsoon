@@ -42,6 +42,8 @@ export default function Home() {
   const [isApproved, setIsApproved] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
+  // New state for checkbox
+  const [isChecked, setIsChecked] = useState(false);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
@@ -129,6 +131,11 @@ export default function Home() {
     setShowOverlay(false);
   };
 
+  // Handler for checkbox change
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
+
   return (
     <div style={{ 
       backgroundImage: "url('/tartanbackground.png')",
@@ -165,17 +172,18 @@ export default function Home() {
           }}>
             <h2 style={{ 
               marginBottom: "20px", 
-              color: "#000" // Changed to black
+              color: "#000" 
             }}>Migration Terms & Conditions</h2>
             
             {/* Scrollable text box */}
             <div style={{
-              maxHeight: "200px", // Fixed height for scrolling
-              overflowY: "auto", // Enable vertical scrollbar
-              border: "1px solid #ccc", // Light border for definition
+              maxHeight: "200px",
+              overflowY: "auto",
+              border: "1px solid #ccc",
               padding: "10px",
               marginBottom: "20px",
-              textAlign: "left" // Left-align text for readability
+              textAlign: "left",
+              color: "#000" // Black text
             }}>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -186,6 +194,23 @@ export default function Home() {
               <p>
                 Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.
               </p>
+            </div>
+
+            {/* Checkbox */}
+            <div style={{ 
+              marginBottom: "20px", 
+              textAlign: "left", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center" 
+            }}>
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+                style={{ marginRight: "10px" }}
+              />
+              <label style={{ color: "#000" }}>I agree to these terms of migration</label>
             </div>
 
             <button
@@ -262,7 +287,7 @@ export default function Home() {
                 </div>
                 <div>
                   <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
-                  <span style={{ color: "#fff" }}>
+                  <span style={{ color: "fff" }}>
                     {contractLoading
                       ? "Contract loading..."
                       : balance === null
