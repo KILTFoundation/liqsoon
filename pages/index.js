@@ -41,7 +41,6 @@ export default function Home() {
   const [balance, setBalance] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  // New state for overlay visibility
   const [showOverlay, setShowOverlay] = useState(true);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
@@ -126,7 +125,6 @@ export default function Home() {
     }
   };
 
-  // Function to close overlay
   const handleProceed = () => {
     setShowOverlay(false);
   };
@@ -141,7 +139,7 @@ export default function Home() {
       backgroundAttachment: "fixed",
       minHeight: "100vh",
       fontFamily: "Arial, sans-serif",
-      position: "relative" // For overlay positioning
+      position: "relative"
     }}>
       {/* Overlay */}
       {showOverlay && (
@@ -151,26 +149,50 @@ export default function Home() {
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.7)", // Semi-transparent gray shade
-          zIndex: 1000, // Ensure it’s above everything
+          backgroundColor: "rgba(0, 0, 0, 0.7)",
+          zIndex: 1000,
           display: "flex",
           justifyContent: "center",
           alignItems: "center"
         }}>
           <div style={{
-            backgroundColor: "#fff", // White background for popup
+            backgroundColor: "#fff",
             padding: "20px",
             borderRadius: "8px",
-            width: "500px", // Fixed width
-            maxWidth: "90%", // Responsive max width
+            width: "500px",
+            maxWidth: "90%",
             textAlign: "center"
           }}>
-            <h2 style={{ marginBottom: "20px" }}>Migration Terms & Conditions</h2>
+            <h2 style={{ 
+              marginBottom: "20px", 
+              color: "#000" // Changed to black
+            }}>Migration Terms & Conditions</h2>
+            
+            {/* Scrollable text box */}
+            <div style={{
+              maxHeight: "200px", // Fixed height for scrolling
+              overflowY: "auto", // Enable vertical scrollbar
+              border: "1px solid #ccc", // Light border for definition
+              padding: "10px",
+              marginBottom: "20px",
+              textAlign: "left" // Left-align text for readability
+            }}>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+              <p>
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+              <p>
+                Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.
+              </p>
+            </div>
+
             <button
               onClick={handleProceed}
               style={{
                 padding: "10px 20px",
-                backgroundColor: "#D73D80", // Pink button
+                backgroundColor: "#D73D80",
                 color: "#fff",
                 border: "none",
                 borderRadius: "4px",
