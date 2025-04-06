@@ -237,7 +237,7 @@ export default function Home() {
                 disabled={!scrolledToBottom}
                 style={{ marginRight: "10px" }}
               />
-              <label style={{ color: "#000" }}>I agree to these terms of migration</label>
+              <label style={{ color: "#000" }}>I agree</label>
             </div>
 
             {/* Proceed Button */}
