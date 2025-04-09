@@ -43,9 +43,8 @@ export default function Home() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
-  // New state for scroll completion
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
-  // Ref to track scrollable div
+  const [termsContent, setTermsContent] = useState("Loading terms...");
   const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
@@ -82,12 +81,11 @@ export default function Home() {
     fetchBalance();
   }, [address, oldKiltContract]);
 
-  // Effect to handle scroll detection
   useEffect(() => {
     const handleScroll = () => {
       const element = scrollRef.current;
       if (element) {
-        const isBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1; // +1 for rounding
+        const isBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
         setScrolledToBottom(isBottom);
       }
     };
@@ -97,6 +95,21 @@ export default function Home() {
       scrollElement.addEventListener("scroll", handleScroll);
       return () => scrollElement.removeEventListener("scroll", handleScroll);
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchTerms = async () => {
+      try {
+        const response = await fetch("/terms.txt");
+        if (!response.ok) throw new Error("Failed to fetch terms");
+        const text = await response.text();
+        setTermsContent(text);
+      } catch (err) {
+        console.error("Failed to load terms:", err);
+        setTermsContent("Failed to load terms and conditions.");
+      }
+    };
+    fetchTerms();
   }, []);
 
   const handleApprove = async () => {
@@ -171,7 +184,6 @@ export default function Home() {
       fontFamily: "Arial, sans-serif",
       position: "relative"
     }}>
-      {/* Overlay */}
       {showOverlay && (
         <div style={{
           position: "fixed",
@@ -198,7 +210,6 @@ export default function Home() {
               color: "#000" 
             }}>Migration Terms & Conditions</h2>
             
-            {/* Scrollable text box */}
             <div
               ref={scrollRef}
               style={{
@@ -211,18 +222,11 @@ export default function Home() {
                 color: "#000"
               }}
             >
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </p>
-              <p>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
-              <p>
-                Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida.
-              </p>
+              <pre style={{ whiteSpace: "pre-wrap", color: "#000" }}>
+                {termsContent}
+              </pre>
             </div>
 
-            {/* Checkbox */}
             <div style={{ 
               marginBottom: "20px", 
               textAlign: "left", 
@@ -240,19 +244,18 @@ export default function Home() {
               <label style={{ color: "#000" }}>I agree</label>
             </div>
 
-            {/* Proceed Button */}
             <button
               onClick={handleProceed}
               disabled={!isChecked || !scrolledToBottom}
               style={{
                 padding: "10px 20px",
-                backgroundColor: isChecked && scrolledToBottom ? "#D73D80" : "#ccc", // Pink when active, gray when disabled
+                backgroundColor: isChecked && scrolledToBottom ? "#D73D80" : "#ccc",
                 color: "#fff",
                 border: "none",
                 borderRadius: "4px",
                 cursor: isChecked && scrolledToBottom ? "pointer" : "not-allowed",
                 fontSize: "16px",
-                opacity: isChecked && scrolledToBottom ? 1 : 0.6 // Shaded effect
+                opacity: isChecked && scrolledToBottom ? 1 : 0.6
               }}
             >
               Proceed
@@ -261,7 +264,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Existing content */}
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
         <img
           src="/KILT-Horizontal-black.png"
