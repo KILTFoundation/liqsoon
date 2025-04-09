@@ -5,49 +5,82 @@ Last Updated: April 9, 2025
 By proceeding with the migration of KILT Coins to KILT Tokens (the "Migration") via the KILT Migration Portal (the "Portal"), you ("User" or "you") agree to be bound by these Terms and Conditions ("Terms"). These Terms are issued by the KILT Foundation, a Cayman Islands foundation company (the "Foundation"), governed by the laws of the Cayman Islands and subject to oversight by the Cayman Islands Monetary Authority (CIMA). Please read these Terms carefully before participating in the Migration. If you do not agree, do not proceed with the Migration.
 
 1. Overview of the Migration
+
    1.1 Purpose: The Migration facilitates the transition of KILT Coins from the current BASE contract (`0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b`) to a new BASE contract (`0x634390EE30d03f26ac8575e830724b349625b65d`) to rectify technical and tokenomic defects and support KILT’s multi-chain future, as outlined in the Tokenomic Adjustment Proposal (April XXth, 2025).
+   
    1.2 Migration Ratio: KILT Coins will be exchanged for KILT Tokens at a ratio of 1:1.75. For example, 1,000 KILT Coins will become 1,750 KILT Tokens. Deposited KILT Coins will be burned upon migration.
+   
    1.3 Maximum Supply: The maximum supply of KILT Tokens post-migration remains unchanged at 290,560,000, of which 100% will be minted. Unmigrated KILT Coins (estimated at 3,560,000) and any unmigrated tokens after the Migration Window closes will be redirected to the KILT Treasury for the project’s benefit.
+   
    1.4 Eligibility: The Migration is available only to existing KILT Coin holders as of [MIGRATION LAUNCH DATE]. It is not open to the general public.
+   
    1.5 Migration Window: The Portal will open on [MIGRATION LAUNCH DATE], with at least two weeks’ prior notice, and remain open until [MIGRATION CLOSURE DATE] (minimum 10 weeks). The Foundation may extend this period at its discretion but will not shorten it.
 
+
 2. User Responsibilities
+  
    2.1 Self-Custody: Users migrating via the Portal are responsible for using a compatible, self-custodial wallet (e.g., MetaMask, WalletConnect-compatible wallets). Centralized exchange (CEX) users will have their KILT migrated by the exchange at a pre-announced time.
+  
    2.2 Private Key Security: You are solely responsible for securing your wallet’s private keys or seed phrases. The Foundation will not request, store, or recover these for you. Loss of access to your wallet may result in permanent loss of your KILT Coins or Tokens.
+   
    2.3 Wallet Compatibility: Ensure your wallet supports the BASE network (chain ID: 84532) and the new KILT Token contract. The Foundation is not liable for losses due to incompatible wallets or network misconfigurations.
+   
    2.4 Accurate Inputs: You must verify the migration amount and wallet address before submission. Errors in input data are your responsibility.
+  
    2.5 Deadline Compliance: Migration requests must be completed by [MIGRATION CLOSURE DATE]. Unmigrated KILT Coins after this date will be redirected to the Treasury.
 
+
 3. Migration Process
+   
    3.1 Steps: 
        - Connect your wallet to the Portal.
        - Approve the transfer of KILT Coins to the migration contract.
        - Submit the migration request, burning KILT Coins and minting KILT Tokens at the 1:1.75 ratio.
        - Tokens will be sent to the originating wallet address.
+   
    3.2 Irreversibility: The Migration is a one-way process. Once completed, it cannot be undone.
+  
    3.3 No Consideration: The Foundation does not charge fees or receive profit from the Migration. It is conducted solely to facilitate the protocol upgrade.
 
+
 4. Risks and Disclaimers
+  
    4.1 Technical Risks: The Migration relies on blockchain technology, which may experience delays, failures, or vulnerabilities (e.g., smart contract bugs, network congestion). The Foundation is not liable for losses due to such issues.
+   
    4.2 Regulatory Risks: While the Foundation believes the Migration does not constitute a "virtual asset service" under the Cayman Islands Virtual Asset (Service Providers) Act (VASP Act), as it is a one-off action without commercial intent, CIMA may interpret this differently. You accept any regulatory risks arising from participation.
+   
    4.3 Tax Implications: The Migration may have tax consequences depending on your jurisdiction. Consult a tax professional; the Foundation does not provide tax advice.
+   
    4.4 No Warranty: The Portal and Migration are provided "as is." The Foundation disclaims all warranties, express or implied, regarding functionality or outcomes.
 
+
 5. Governance and Utility
+
    5.1 Post-Migration: KILT Tokens will retain the same governance rights over the KILT Protocol via bridging to Polkadot. The parachain will transition to DOT for gas, and an EVM DAO will address non-parachain matters.
+  
    5.2 No Future Issuances: This Migration does not involve plans for additional KILT Token issuances beyond the 290,560,000 maximum supply.
 
+
 6. Legal and Compliance
+
    6.1 Governing Law: These Terms are governed by the laws of the Cayman Islands. Disputes will be resolved under Cayman jurisdiction.
+   
    6.2 CIMA Oversight: The Foundation operates under CIMA’s regulatory framework but asserts the Migration does not require VASP registration, as it is not a business activity per the VASP Act.
+   
    6.3 Linked Policies: By agreeing to these Terms, you acknowledge the Foundation’s Imprint (https://www.kilt.io/imprint), Privacy Policy (https://www.kilt.io/privacy-policy), and Disclaimer (https://www.kilt.io/disclaimer), incorporated herein by reference.
 
+
 7. Support and Contact
+
    7.1 Assistance: For Migration support, contact us via:
        - Discord: https://discord.gg/kiltprotocol
        - Telegram: https://t.me/KILTProtocolChat
+   
    7.2 No Recovery: The Foundation cannot recover lost funds or assist with wallet access issues.
 
+
 8. Acceptance
+   
    8.1 Agreement: Clicking "I agree" and proceeding with the Migration constitutes your full acceptance of these Terms.
+
    8.2 Amendments: The Foundation may update these Terms, with notice provided via the Portal or KILT communication channels. Continued use after updates implies consent.
