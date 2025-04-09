@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
+import ReactMarkdown from "react-markdown";
 
 const OLD_KILT_ABI = [
   {
