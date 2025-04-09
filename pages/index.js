@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown"; // Added for formatted T&C
 import styles from "../styles/Home.module.css";
-import ReactMarkdown from "react-markdown";
 
 const OLD_KILT_ABI = [
   {
@@ -101,7 +101,7 @@ export default function Home() {
   useEffect(() => {
     const fetchTerms = async () => {
       try {
-        const response = await fetch("/terms.txt");
+        const response = await fetch("/terms.md");
         if (!response.ok) throw new Error("Failed to fetch terms");
         const text = await response.text();
         setTermsContent(text);
@@ -223,9 +223,7 @@ export default function Home() {
                 color: "#000"
               }}
             >
-              <pre style={{ whiteSpace: "pre-wrap", color: "#000" }}>
-                {termsContent}
-              </pre>
+              <ReactMarkdown>{termsContent}</ReactMarkdown>
             </div>
 
             <div style={{ 
