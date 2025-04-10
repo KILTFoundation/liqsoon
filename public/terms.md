@@ -6,47 +6,31 @@ By proceeding with the migration of KILT Coins to KILT Tokens (the "Migration") 
 
 ## 1. Overview of the Migration
 
-- **1.1 Purpose**: The Migration facilitates the transition of KILT Coins from the current BASE contract (`0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b`) to a new BASE contract (`0x634390EE30d03f26ac8575e830724b349625b65d`) to rectify technical and tokenomic defects and support KILT’s multi-chain future, as outlined in the Tokenomic Adjustment Proposal (April XXth, 2025).
-- **1.2 Migration Ratio**: KILT Coins will be exchanged for KILT Tokens at a ratio of **1:1.75**. For example, 1,000 KILT Coins will become 1,750 KILT Tokens. Deposited KILT Coins will be burned upon migration.
-- **1.3 Maximum Supply**: The maximum supply of KILT Tokens post-migration remains unchanged at **290,560,000**, of which 100% will be minted. Unmigrated KILT Coins (estimated at 3,560,000) and any unmigrated tokens after the Migration Window closes will be redirected to the KILT Treasury for the project’s benefit.
-- **1.4 Eligibility**: The Migration is available only to existing KILT Coin holders as of **[MIGRATION LAUNCH DATE]**. It is not open to the general public.
-- **1.5 Migration Window**: The Portal will open on **[MIGRATION LAUNCH DATE]**, with at least two weeks’ prior notice, and remain open until **[MIGRATION CLOSURE DATE]** (minimum 10 weeks). The Foundation may extend this period at its discretion but will not shorten it.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc efficitur sapien vitae enim ullamcorper, ut porta dui facilisis. Morbi massa nibh, viverra nec tincidunt eu, tempor nec nibh. Duis cursus risus eu feugiat eleifend. Cras condimentum nibh elit, ac consequat tellus sollicitudin vel. Curabitur gravida nisl id diam consequat, sed tincidunt sapien suscipit. Aliquam fringilla elit tellus, a viverra metus cursus gravida. Etiam risus mi, congue et tortor vel, dapibus consectetur elit. Etiam quis augue sollicitudin, elementum turpis ac, volutpat nisl. Aenean volutpat libero vitae lorem facilisis hendrerit. Praesent aliquam ornare leo, eget fringilla tellus bibendum non. Praesent a luctus magna. Donec sed mauris sem. Praesent nibh nisl, ultricies et arcu a, pretium tristique augue. Duis bibendum augue eu felis consectetur viverra. Curabitur sed orci neque.
+
 
 ## 2. User Responsibilities
 
-- **2.1 Self-Custody**: Users migrating via the Portal are responsible for using a compatible, self-custodial wallet (e.g., MetaMask, WalletConnect-compatible wallets). Centralized exchange (CEX) users will have their KILT migrated by the exchange at a pre-announced time.
-- **2.2 Private Key Security**: You are solely responsible for securing your wallet’s private keys or seed phrases. The Foundation will **not** request, store, or recover these for you. Loss of access to your wallet may result in permanent loss of your KILT Coins or Tokens.
-- **2.3 Wallet Compatibility**: Ensure your wallet supports the BASE network (chain ID: 84532) and the new KILT Token contract. The Foundation is not liable for losses due to incompatible wallets or network misconfigurations.
-- **2.4 Accurate Inputs**: You must verify the migration amount and wallet address before submission. Errors in input data are your responsibility.
-- **2.5 Deadline Compliance**: Migration requests must be completed by **[MIGRATION CLOSURE DATE]**. Unmigrated KILT Coins after this date will be redirected to the Treasury.
+Sed volutpat sapien eu luctus gravida. Nunc id dui et nibh luctus tempus sit amet ac ante. Duis faucibus bibendum interdum. Morbi eu lectus nulla. Duis in auctor neque, id imperdiet velit. Phasellus interdum, lectus ut ornare fermentum, risus sapien eleifend ligula, sed tristique lectus magna et quam. Cras commodo viverra eleifend. Aenean eget dictum est. Suspendisse tristique tortor non velit congue, id luctus quam varius. Suspendisse vitae aliquet elit. Mauris aliquam vitae ligula eget tincidunt.
+
 
 ## 3. Migration Process
 
-- **3.1 Steps**: 
-  - Connect your wallet to the Portal.
-  - Approve the transfer of KILT Coins to the migration contract.
-  - Submit the migration request, burning KILT Coins and minting KILT Tokens at the 1:1.75 ratio.
-  - Tokens will be sent to the originating wallet address.
-- **3.2 Irreversibility**: The Migration is a one-way process. Once completed, it **cannot be undone**.
-- **3.3 No Consideration**: The Foundation does not charge fees or receive profit from the Migration. It is conducted solely to facilitate the protocol upgrade.
+Praesent in iaculis turpis. Nulla ante dolor, fermentum dignissim ligula vel, varius dapibus ipsum. Phasellus sodales ornare suscipit. Morbi ac venenatis orci. Vivamus eget ullamcorper nisi. Duis vel nibh eu enim posuere aliquam quis id leo. Nunc nibh felis, bibendum quis mattis sit amet, dapibus eu ex. Curabitur commodo felis lacus, et rhoncus orci molestie vitae. Mauris sed erat dapibus, sagittis nisi eu, hendrerit ex. Vivamus mauris dui, lacinia lacinia erat ut, fermentum auctor lorem. Pellentesque id eros vitae velit gravida fringilla id a tortor. Fusce ultricies rutrum blandit. Phasellus facilisis fringilla justo ut auctor. Morbi elit erat, molestie a purus nec, tempor venenatis lectus.
+
 
 ## 4. Risks and Disclaimers
 
-- **4.1 Technical Risks**: The Migration relies on blockchain technology, which may experience delays, failures, or vulnerabilities (e.g., smart contract bugs, network congestion). The Foundation is not liable for losses due to such issues.
-- **4.2 Regulatory Risks**: While the Foundation believes the Migration does not constitute a "virtual asset service" under the Cayman Islands Virtual Asset (Service Providers) Act (VASP Act), as it is a one-off action without commercial intent, CIMA may interpret this differently. You accept any regulatory risks arising from participation.
-- **4.3 Tax Implications**: The Migration may have tax consequences depending on your jurisdiction. Consult a tax professional; the Foundation does not provide tax advice.
-- **4.4 No Warranty**: The Portal and Migration are provided "as is." The Foundation disclaims all warranties, express or implied, regarding functionality or outcomes.
+In lobortis faucibus pulvinar. In ut nisi sed lectus placerat sodales nec ut urna. Nulla nec ipsum massa. Phasellus lectus turpis, varius id quam sit amet, fermentum suscipit mi. Donec dui dolor, ullamcorper a rhoncus eget, pretium sodales turpis. Nullam in vehicula mauris. Nulla id neque ac sapien sagittis aliquet. Ut eu enim dignissim, accumsan dolor eget, lacinia massa. Fusce feugiat neque sit amet varius maximus. Suspendisse lobortis faucibus rutrum. Sed accumsan accumsan lorem, ut sagittis magna.
+
 
 ## 5. Governance and Utility
 
-- **5.1 Post-Migration**: KILT Tokens will retain the same governance rights over the KILT Protocol via bridging to Polkadot. The parachain will transition to DOT for gas, and an EVM DAO will address non-parachain matters.
-- **5.2 No Future Issuances**: This Migration does not involve plans for additional KILT Token issuances beyond the **290,560,000** maximum supply.
+Sed vulputate ipsum malesuada dolor sagittis lacinia. Fusce metus risus, viverra molestie elementum eget, blandit sit amet dolor. In venenatis odio ut pellentesque euismod. Integer non magna commodo, lobortis justo quis, feugiat magna. Donec nec tortor metus. Donec dictum rutrum nibh, sed tincidunt mauris egestas nec. Curabitur sit amet lacinia felis, id auctor arcu. Mauris rhoncus nibh nisl, sit amet mattis nibh dignissim a. Donec eu neque in lectus feugiat molestie.
 
 ## 6. Legal and Compliance
 
-- **6.1 Governing Law**: These Terms are governed by the laws of the **Cayman Islands**. Disputes will be resolved under Cayman jurisdiction.
-- **6.2 CIMA Oversight**: The Foundation operates under CIMA’s regulatory framework but asserts the Migration does not require VASP registration, as it is not a business activity per the VASP Act.
-- **6.3 Linked Policies**: By agreeing to these Terms, you acknowledge the Foundation’s [Imprint](https://www.kilt.io/imprint), [Privacy Policy](https://www.kilt.io/privacy-policy), and [Disclaimer](https://www.kilt.io/disclaimer), incorporated herein by reference.
+Sed vulputate ipsum malesuada dolor sagittis lacinia. Fusce metus risus, viverra molestie elementum eget, blandit sit amet dolor. In venenatis odio ut pellentesque euismod. Integer non magna commodo, lobortis justo quis, feugiat magna. Donec nec tortor metus. Donec dictum rutrum nibh, sed tincidunt mauris egestas nec. Curabitur sit amet lacinia felis, id auctor arcu. Mauris rhoncus nibh nisl, sit amet mattis nibh dignissim a. Donec eu neque in lectus feugiat molestie.
 
 ## 7. Support and Contact
 
