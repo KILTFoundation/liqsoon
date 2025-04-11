@@ -39,7 +39,7 @@ export default function Dashboard() {
 
   // Thirdweb hooks to connect to the smart contracts
   const { contract: migrationContract, isLoading: migrationLoading } = useContract(
-    "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b", // Migration contract address
+    "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303", // Migration contract address
     MIGRATION_ABI
   );
   const { contract: oldKiltContract, isLoading: oldKiltLoading } = useContract(
@@ -163,7 +163,7 @@ export default function Dashboard() {
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Dashboard</p>
             <p style={{ color: "#fff" }}>
-              <span style={{ fontWeight: "bold" }}>Migration Contract: </span>0xe9a37bde0b9daa20e226608d04aec6358928c82b
+              <span style={{ fontWeight: "bold" }}>Migration Contract: </span>0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303
             </p>
             {/* Button to refresh all data except whitelist */}
             <button
