@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown"; // Added for formatted T&C
+import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
 const OLD_KILT_ABI = [
@@ -118,18 +118,18 @@ export default function Home() {
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     setIsProcessing(true);
     try {
-      const tx = await oldKiltContract.call("approve", [
-        "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
-        weiAmount
-      ]);
-      console.log("Approval tx:", tx);
-      alert("Approval successful!");
-      setIsApproved(true);
+        const tx = await oldKiltContract.call("approve", [
+            "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303", // Fixed: Use migration contract address
+            weiAmount
+        ]);
+        console.log("Approval tx:", tx);
+        alert("Approval successful!");
+        setIsApproved(true);
     } catch (err) {
-      console.error("Approval error:", err.message);
-      alert("Approval failed. Check console.");
+        console.error("Approval error:", err.message);
+        alert("Approval failed. Check console.");
     } finally {
-      setIsProcessing(false);
+        setIsProcessing(false);
     }
   };
 
