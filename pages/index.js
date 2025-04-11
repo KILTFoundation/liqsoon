@@ -22,6 +22,17 @@ const OLD_KILT_ABI = [
     outputs: [{ name: "", type: "bool" }],
     stateMutability: "nonpayable",
     type: "function"
+  },
+  {
+    constant: true,
+    inputs: [
+      { name: "owner", type: "address" },
+      { name: "spender", type: "address" }
+    ],
+    name: "allowance",
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function"
   }
 ];
 
@@ -113,23 +124,45 @@ export default function Home() {
     fetchTerms();
   }, []);
 
+  // Allowance Check
+  useEffect(() => {
+    if (!oldKiltContract || !address || !amount) {
+      setIsApproved(false);
+      return;
+    }
+    const checkAllowance = async () => {
+      try {
+        const allowance = await oldKiltContract.call("allowance", [
+          address,
+          "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303"
+        ]);
+        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18));
+        setIsApproved(BigInt(allowance) >= weiAmount);
+      } catch (err) {
+        console.error("Allowance check error:", err.message);
+        setIsApproved(false);
+      }
+    };
+    checkAllowance();
+  }, [address, oldKiltContract, amount]);
+
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
     const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     setIsProcessing(true);
     try {
-        const tx = await oldKiltContract.call("approve", [
-            "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303", // Fixed: Use migration contract address
-            weiAmount
-        ]);
-        console.log("Approval tx:", tx);
-        alert("Approval successful!");
-        setIsApproved(true);
+      const tx = await oldKiltContract.call("approve", [
+        "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303",
+        weiAmount
+      ]);
+      console.log("Approval tx:", tx);
+      alert("Approval successful!");
+      setIsApproved(true); // Will update via useEffect after tx confirms
     } catch (err) {
-        console.error("Approval error:", err.message);
-        alert("Approval failed. Check console.");
+      console.error("Approval error:", err.message);
+      alert("Approval failed: " + err.message);
     } finally {
-        setIsProcessing(false);
+      setIsProcessing(false);
     }
   };
 
@@ -141,16 +174,27 @@ export default function Home() {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
       alert("Migration successful!");
-      setIsApproved(false);
+      setIsApproved(false); // Reset after successful migration
     } catch (err) {
       console.error("Migration error:", err.message);
-      alert("Migration failed. Check console.");
+      if (err.message.includes("Insufficient allowance")) {
+        alert("Please approve the amount first.");
+      } else if (err.message.includes("Pausable: paused")) {
+        alert("Migration is paused. Please try later.");
+      } else {
+        alert("Migration failed: " + err.message);
+      }
     } finally {
       setIsProcessing(false);
     }
   };
 
   const handleButtonClick = (e) => {
+    // Input Validation
+    if (Number(amount) <= 0 || Number(amount) > balance) {
+      alert("Amount must be positive and less than or equal to your balance.");
+      return;
+    }
     e.currentTarget.classList.remove("bounce");
     void e.currentTarget.offsetWidth;
     e.currentTarget.classList.add("bounce");
