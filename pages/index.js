@@ -53,7 +53,7 @@ export default function Home() {
     OLD_KILT_ABI
   );
   const { contract: migrationContract } = useContract(
-    "0xE9a37BDe0B9dAa20e226608d04AEC6358928c82b",
+    "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303",
     MIGRATION_ABI
   );
 
@@ -278,7 +278,7 @@ export default function Home() {
             <p>Migrate KILT on the BASE Network from</p>
             <p style={{ fontSize: "18px" }}><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
             <p>to</p>
-            <p style={{ fontSize: "18px" }}><code>0x634390EE30d03f26ac8575e830724b349625b65d</code></p>
+            <p style={{ fontSize: "18px" }}><code>0xc400539b5e08bce7866574d5fe26814e942c0f3e</code></p>
             <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
             <div style={{
               background: "rgba(19, 87, 187, 0.8)",
