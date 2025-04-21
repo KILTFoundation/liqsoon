@@ -438,11 +438,11 @@ export default function Home() {
               →Dashboard
             </Link>
           </div>
-          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
+          <a href="https://www.kilt.io/imprintBVI" className={styles.footerLink}>Imprint</a>
           {" | "}
-          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+          <a href="https://www.kilt.io/privacy-policyBVI" className={styles.footerLink}>Privacy Policy</a>
           {" | "}
-          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+          <a href="https://www.kilt.io/disclaimerBVI" className={styles.footerLink}>Disclaimer</a>
           {" | "}
           <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
           {" | "}
