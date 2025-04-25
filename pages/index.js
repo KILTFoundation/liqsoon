@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ConnectWallet, useNetwork, useAddress, useContract } from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress, useContract, useNetworkMismatch, useSwitchChain } from "@thirdweb-dev/react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
@@ -23,8 +23,9 @@ const MIGRATION_ABI = [
 ];
 
 export default function Home() {
-  const [{ data: network }, switchNetwork] = useNetwork();
   const address = useAddress();
+  const switchChain = useSwitchChain();
+  const isNetworkMismatch = useNetworkMismatch(); // Check if wallet chain mismatches app chain
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
@@ -33,7 +34,6 @@ export default function Home() {
   const [isChecked, setIsChecked] = useState(false);
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
   const [termsContent, setTermsContent] = useState("Loading terms...");
-  const [isCorrectNetwork, setIsCorrectNetwork] = useState(true);
   const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
@@ -45,20 +45,12 @@ export default function Home() {
     MIGRATION_ABI
   );
 
-  // Updated: Robust network check with dynamic updates
+  // Debug logging for network mismatch
   useEffect(() => {
-    console.log("Network data:", network); // Debug log
-    if (network && network.chain && typeof network.chain.id === "number") {
-      const isBaseSepolia = network.chain.id === 84532;
-      setIsCorrectNetwork(isBaseSepolia);
-      console.log("Is Base Sepolia (84532):", isBaseSepolia, "Chain ID:", network.chain.id); // Debug log
-    } else {
-      setIsCorrectNetwork(false);
-      console.log("No valid network data available"); // Debug log
-    }
-  }, [network]);
+    console.log("Network mismatch status:", isNetworkMismatch);
+  }, [isNetworkMismatch]);
 
-  // Balance fetch (unchanged)
+  // Balance fetch
   useEffect(() => {
     if (!address || !oldKiltContract) {
       setBalance(null);
@@ -78,7 +70,7 @@ export default function Home() {
     fetchBalance();
   }, [address, oldKiltContract]);
 
-  // Scroll handling (unchanged)
+  // Scroll handling
   useEffect(() => {
     const handleScroll = () => {
       const element = scrollRef.current;
@@ -94,7 +86,7 @@ export default function Home() {
     }
   }, []);
 
-  // Terms fetch (unchanged)
+  // Terms fetch
   useEffect(() => {
     const fetchTerms = async () => {
       try {
@@ -110,7 +102,7 @@ export default function Home() {
     fetchTerms();
   }, []);
 
-  // Allowance check (unchanged)
+  // Allowance check
   useEffect(() => {
     if (!oldKiltContract || !address || !amount) {
       setIsApproved(false);
@@ -202,13 +194,11 @@ export default function Home() {
     }
   };
 
-  // Updated: Simplified network switch handler
   const handleSwitchNetwork = async () => {
-    if (switchNetwork) {
+    if (switchChain) {
       try {
-        await switchNetwork(84532);
-        // Rely on useEffect to update isCorrectNetwork
-        console.log("Network switch requested to Base Sepolia (84532)"); // Debug log
+        await switchChain(84532);
+        console.log("Switched to Base Sepolia (84532)");
       } catch (err) {
         console.error("Network switch error:", err.message);
         alert("Failed to switch network: " + err.message);
@@ -342,7 +332,7 @@ export default function Home() {
               <ConnectWallet />
             </div>
 
-            {address && !isCorrectNetwork && (
+            {address && isNetworkMismatch && (
               <div style={{
                 background: "rgba(255, 0, 0, 0.8)",
                 padding: "15px",
@@ -417,7 +407,7 @@ export default function Home() {
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
-                  disabled={!amount || !address || isProcessing || !isCorrectNetwork}
+                  disabled={!amount || !address || isProcessing || isNetworkMismatch}
                   className={styles.card}
                   style={{
                     margin: "10px",
@@ -432,8 +422,8 @@ export default function Home() {
                     justifyContent: "center",
                     alignItems: "center",
                     position: "relative",
-                    opacity: !amount || !address || isProcessing || !isCorrectNetwork ? 0.6 : 1,
-                    cursor: !amount || !address || isProcessing || !isCorrectNetwork ? "not-allowed" : "pointer"
+                    opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
+                    cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
                   }}
                 >
                   {isProcessing ? (
