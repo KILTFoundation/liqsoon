@@ -25,7 +25,7 @@ const MIGRATION_ABI = [
 export default function Home() {
   const address = useAddress();
   const switchChain = useSwitchChain();
-  const isNetworkMismatch = useNetworkMismatch(); // Check if wallet chain mismatches app chain
+  const isNetworkMismatch = useNetworkMismatch();
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
@@ -45,12 +45,10 @@ export default function Home() {
     MIGRATION_ABI
   );
 
-  // Debug logging for network mismatch
   useEffect(() => {
     console.log("Network mismatch status:", isNetworkMismatch);
   }, [isNetworkMismatch]);
 
-  // Balance fetch
   useEffect(() => {
     if (!address || !oldKiltContract) {
       setBalance(null);
@@ -70,7 +68,6 @@ export default function Home() {
     fetchBalance();
   }, [address, oldKiltContract]);
 
-  // Scroll handling
   useEffect(() => {
     const handleScroll = () => {
       const element = scrollRef.current;
@@ -86,7 +83,6 @@ export default function Home() {
     }
   }, []);
 
-  // Terms fetch
   useEffect(() => {
     const fetchTerms = async () => {
       try {
@@ -102,9 +98,8 @@ export default function Home() {
     fetchTerms();
   }, []);
 
-  // Allowance check
   useEffect(() => {
-    if (!oldKiltContract || !address || !amount) {
+    if (!oldKiltContract || !address || !amount || Number(amount) <= 0) {
       setIsApproved(false);
       return;
     }
