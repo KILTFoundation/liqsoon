@@ -5,11 +5,21 @@ import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
 const OLD_KILT_ABI = [
-  // ... (unchanged)
+  { constant: true, inputs: [{ name: "owner", type: "address" }], name: "balanceOf", outputs: [{ name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  { constant: false, inputs: [{ name: "spender", type: "address" }, { name: "value", type: "uint256" }], name: "approve", outputs: [{ name: "", type: "bool" }], stateMutability: "nonpayable", type: "function" },
+  { constant: true, inputs: [{ name: "owner", type: "address" }, { name: "spender", type: "address" }], name: "allowance", outputs: [{ name: "", type: "uint256" }], stateMutability: "view", type: "function" }
 ];
 
 const MIGRATION_ABI = [
-  // ... (unchanged)
+  { constant: true, inputs: [], name: "BURN_ADDRESS", outputs: [{ name: "", type: "address" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "EXCHANGE_RATE_NUMERATOR", outputs: [{ name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "EXCHANGE_RATE_DENOMINATOR", outputs: [{ name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "isMigrationActive", outputs: [{ name: "", type: "bool" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "newToken", outputs: [{ name: "", type: "address" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "oldToken", outputs: [{ name: "", type: "address" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "paused", outputs: [{ name: "", type: "bool" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [{ name: "addr", type: "address" }], name: "whitelist", outputs: [{ name: "", type: "bool" }], stateMutability: "view", type: "function" },
+  { constant: false, inputs: [{ name: "amount", type: "uint256" }], name: "migrate", outputs: [], stateMutability: "nonpayable", type: "function" }
 ];
 
 export default function Home() {
@@ -23,7 +33,7 @@ export default function Home() {
   const [isChecked, setIsChecked] = useState(false);
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
   const [termsContent, setTermsContent] = useState("Loading terms...");
-  const [isCorrectNetwork, setIsCorrectNetwork] = useState(true); // New state for network check
+  const [isCorrectNetwork, setIsCorrectNetwork] = useState(true); // Track network status
   const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
@@ -35,10 +45,16 @@ export default function Home() {
     MIGRATION_ABI
   );
 
-  // Check network status without auto-switching
+  // Enhanced network check with logging
   useEffect(() => {
-    if (network?.chain?.id) {
-      setIsCorrectNetwork(network.chain.id === 84532);
+    console.log("Network data:", network); // Debug log
+    if (network && network.chain) {
+      const isBaseSepolia = network.chain.id === 84532;
+      setIsCorrectNetwork(isBaseSepolia);
+      console.log("Is correct network (84532):", isBaseSepolia); // Debug log
+    } else {
+      setIsCorrectNetwork(false); // Default to false if network data is missing
+      console.log("No network data available"); // Debug log
     }
   }, [network]);
 
@@ -160,7 +176,6 @@ export default function Home() {
   };
 
   const handleButtonClick = (e) => {
-    // Input validation
     if (Number(amount) <= 0 || Number(amount) > balance) {
       alert("Amount must be positive and less than or equal to your balance.");
       return;
@@ -187,7 +202,6 @@ export default function Home() {
     }
   };
 
-  // New: Handle network switch on user action
   const handleSwitchNetwork = async () => {
     if (switchNetwork) {
       try {
@@ -326,8 +340,8 @@ export default function Home() {
               <ConnectWallet />
             </div>
 
-            {/* New: Network warning prompt */}
-            {!isCorrectNetwork && address && (
+            {/* Updated: Simplified network prompt condition */}
+            {address && !isCorrectNetwork && (
               <div style={{
                 background: "rgba(255, 0, 0, 0.8)",
                 padding: "15px",
