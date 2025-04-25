@@ -5,7 +5,6 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // Apply headers to all routes
         source: "/:path*",
         headers: [
           {
@@ -24,4 +23,12 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'; " +
               "img-src 'self' data:; " +
               "connect-src 'self' https://*.thirdweb.com wss://*.thirdweb.com https://rpc.base.org; " +
-              "frame-src '
+              "frame-src 'self' https://*.thirdweb.com;",
+          },
+        ],
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
