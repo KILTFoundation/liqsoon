@@ -33,7 +33,7 @@ export default function Home() {
   const [isChecked, setIsChecked] = useState(false);
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
   const [termsContent, setTermsContent] = useState("Loading terms...");
-  const [isCorrectNetwork, setIsCorrectNetwork] = useState(true); // Track network status
+  const [isCorrectNetwork, setIsCorrectNetwork] = useState(true);
   const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
@@ -45,16 +45,16 @@ export default function Home() {
     MIGRATION_ABI
   );
 
-  // Enhanced network check with logging
+  // Updated: Robust network check with dynamic updates
   useEffect(() => {
     console.log("Network data:", network); // Debug log
-    if (network && network.chain) {
+    if (network && network.chain && typeof network.chain.id === "number") {
       const isBaseSepolia = network.chain.id === 84532;
       setIsCorrectNetwork(isBaseSepolia);
-      console.log("Is correct network (84532):", isBaseSepolia); // Debug log
+      console.log("Is Base Sepolia (84532):", isBaseSepolia, "Chain ID:", network.chain.id); // Debug log
     } else {
-      setIsCorrectNetwork(false); // Default to false if network data is missing
-      console.log("No network data available"); // Debug log
+      setIsCorrectNetwork(false);
+      console.log("No valid network data available"); // Debug log
     }
   }, [network]);
 
@@ -202,11 +202,13 @@ export default function Home() {
     }
   };
 
+  // Updated: Simplified network switch handler
   const handleSwitchNetwork = async () => {
     if (switchNetwork) {
       try {
         await switchNetwork(84532);
-        setIsCorrectNetwork(true);
+        // Rely on useEffect to update isCorrectNetwork
+        console.log("Network switch requested to Base Sepolia (84532)"); // Debug log
       } catch (err) {
         console.error("Network switch error:", err.message);
         alert("Failed to switch network: " + err.message);
@@ -340,7 +342,6 @@ export default function Home() {
               <ConnectWallet />
             </div>
 
-            {/* Updated: Simplified network prompt condition */}
             {address && !isCorrectNetwork && (
               <div style={{
                 background: "rgba(255, 0, 0, 0.8)",
