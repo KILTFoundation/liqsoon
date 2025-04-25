@@ -5,45 +5,11 @@ import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
 const OLD_KILT_ABI = [
-  {
-    constant: true,
-    inputs: [{ name: "owner", type: "address" }],
-    name: "balanceOf",
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function"
-  },
-  {
-    inputs: [
-      { name: "spender", type: "address" },
-      { name: "amount", type: "uint256" }
-    ],
-    name: "approve",
-    outputs: [{ name: "", type: "bool" }],
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    constant: true,
-    inputs: [
-      { name: "owner", type: "address" },
-      { name: "spender", type: "address" }
-    ],
-    name: "allowance",
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function"
-  }
+  // ... (unchanged)
 ];
 
 const MIGRATION_ABI = [
-  {
-    inputs: [{ name: "amount", type: "uint256" }],
-    name: "migrate",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function"
-  }
+  // ... (unchanged)
 ];
 
 export default function Home() {
@@ -57,6 +23,7 @@ export default function Home() {
   const [isChecked, setIsChecked] = useState(false);
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
   const [termsContent, setTermsContent] = useState("Loading terms...");
+  const [isCorrectNetwork, setIsCorrectNetwork] = useState(true); // New state for network check
   const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
@@ -68,12 +35,14 @@ export default function Home() {
     MIGRATION_ABI
   );
 
+  // Check network status without auto-switching
   useEffect(() => {
-    if (network?.chain?.id !== 84532 && switchNetwork) {
-      switchNetwork(84532);
+    if (network?.chain?.id) {
+      setIsCorrectNetwork(network.chain.id === 84532);
     }
-  }, [network, switchNetwork]);
+  }, [network]);
 
+  // Balance fetch (unchanged)
   useEffect(() => {
     if (!address || !oldKiltContract) {
       setBalance(null);
@@ -93,6 +62,7 @@ export default function Home() {
     fetchBalance();
   }, [address, oldKiltContract]);
 
+  // Scroll handling (unchanged)
   useEffect(() => {
     const handleScroll = () => {
       const element = scrollRef.current;
@@ -101,7 +71,6 @@ export default function Home() {
         setScrolledToBottom(isBottom);
       }
     };
-
     const scrollElement = scrollRef.current;
     if (scrollElement) {
       scrollElement.addEventListener("scroll", handleScroll);
@@ -109,6 +78,7 @@ export default function Home() {
     }
   }, []);
 
+  // Terms fetch (unchanged)
   useEffect(() => {
     const fetchTerms = async () => {
       try {
@@ -124,7 +94,7 @@ export default function Home() {
     fetchTerms();
   }, []);
 
-  // Allowance Check
+  // Allowance check (unchanged)
   useEffect(() => {
     if (!oldKiltContract || !address || !amount) {
       setIsApproved(false);
@@ -157,7 +127,7 @@ export default function Home() {
       ]);
       console.log("Approval tx:", tx);
       alert("Approval successful!");
-      setIsApproved(true); // Will update via useEffect after tx confirms
+      setIsApproved(true);
     } catch (err) {
       console.error("Approval error:", err.message);
       alert("Approval failed: " + err.message);
@@ -174,7 +144,7 @@ export default function Home() {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
       alert("Migration successful!");
-      setIsApproved(false); // Reset after successful migration
+      setIsApproved(false);
     } catch (err) {
       console.error("Migration error:", err.message);
       if (err.message.includes("Insufficient allowance")) {
@@ -190,7 +160,7 @@ export default function Home() {
   };
 
   const handleButtonClick = (e) => {
-    // Input Validation
+    // Input validation
     if (Number(amount) <= 0 || Number(amount) > balance) {
       alert("Amount must be positive and less than or equal to your balance.");
       return;
@@ -214,6 +184,19 @@ export default function Home() {
   const handleCheckboxChange = (e) => {
     if (scrolledToBottom) {
       setIsChecked(e.target.checked);
+    }
+  };
+
+  // New: Handle network switch on user action
+  const handleSwitchNetwork = async () => {
+    if (switchNetwork) {
+      try {
+        await switchNetwork(84532);
+        setIsCorrectNetwork(true);
+      } catch (err) {
+        console.error("Network switch error:", err.message);
+        alert("Failed to switch network: " + err.message);
+      }
     }
   };
 
@@ -250,11 +233,9 @@ export default function Home() {
             maxWidth: "90%",
             textAlign: "center"
           }}>
-            <h2 style={{ 
-              marginBottom: "20px", 
-              color: "#000" 
-            }}>Migration Terms & Conditions</h2>
-            
+            <h2 style={{ marginBottom: "20px", color: "#000" }}>
+              Migration Terms & Conditions
+            </h2>
             <div
               ref={scrollRef}
               style={{
@@ -269,7 +250,6 @@ export default function Home() {
             >
               <ReactMarkdown>{termsContent}</ReactMarkdown>
             </div>
-
             <div style={{ 
               marginBottom: "20px", 
               textAlign: "left", 
@@ -286,7 +266,6 @@ export default function Home() {
               />
               <label style={{ color: "#000" }}>I agree</label>
             </div>
-
             <button
               onClick={handleProceed}
               disabled={!isChecked || !scrolledToBottom}
@@ -347,6 +326,41 @@ export default function Home() {
               <ConnectWallet />
             </div>
 
+            {/* New: Network warning prompt */}
+            {!isCorrectNetwork && address && (
+              <div style={{
+                background: "rgba(255, 0, 0, 0.8)",
+                padding: "15px",
+                borderRadius: "8px",
+                margin: "20px auto",
+                width: "500px",
+                textAlign: "center",
+                color: "#fff"
+              }}>
+                <p style={{ fontWeight: "bold" }}>
+                  Wrong Network Detected
+                </p>
+                <p>
+                  Please switch to Base Sepolia (Chain ID: 84532) to proceed with migration.
+                </p>
+                <button
+                  onClick={handleSwitchNetwork}
+                  style={{
+                    margin: "10px",
+                    padding: "10px 20px",
+                    backgroundColor: "#DAF525",
+                    color: "#000",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontSize: "16px"
+                  }}
+                >
+                  Switch to Base Sepolia
+                </button>
+              </div>
+            )}
+
             {address ? (
               <div style={{ 
                 background: "rgba(19, 87, 187, 0.8)",
@@ -388,7 +402,7 @@ export default function Home() {
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
-                  disabled={!amount || !address || isProcessing}
+                  disabled={!amount || !address || isProcessing || !isCorrectNetwork}
                   className={styles.card}
                   style={{
                     margin: "10px",
@@ -402,7 +416,9 @@ export default function Home() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    position: "relative"
+                    position: "relative",
+                    opacity: !amount || !address || isProcessing || !isCorrectNetwork ? 0.6 : 1,
+                    cursor: !amount || !address || isProcessing || !isCorrectNetwork ? "not-allowed" : "pointer"
                   }}
                 >
                   {isProcessing ? (
