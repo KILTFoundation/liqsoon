@@ -334,7 +334,7 @@ export default function Home() {
 
             {address && isNetworkMismatch && (
               <div style={{
-                background: "rgba(255, 0, 0, 0.8)",
+                background: "#D73D80",
                 padding: "15px",
                 borderRadius: "8px",
                 margin: "20px auto",
@@ -353,7 +353,7 @@ export default function Home() {
                   style={{
                     margin: "10px",
                     padding: "10px 20px",
-                    backgroundColor: "#D73D80",
+                    backgroundColor: "#DAF525",
                     color: "#000",
                     border: "none",
                     borderRadius: "4px",
