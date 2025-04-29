@@ -301,7 +301,7 @@ export default function Dashboard() {
                   style={{ marginLeft: "10px", padding: "5px", width: "250px" }} // Fixed width for consistency
                 />
                 {/* Display whitelist result */}
-                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed to " : whitelistResult}</span>
+                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed" : whitelistResult}</span>
               </div>
             </div>
             {/* Button to query whitelist status */}
