@@ -193,7 +193,7 @@ export default function Home() {
     if (switchChain) {
       try {
         await switchChain(8453);
-        console.log("Switched to Base Sepolia (8453)");
+        console.log("Switched to Base (8453)");
       } catch (err) {
         console.error("Network switch error:", err.message);
         alert("Failed to switch network: " + err.message);
@@ -341,7 +341,7 @@ export default function Home() {
                   Wrong Network Detected
                 </p>
                 <p>
-                  Please switch to Base Sepolia (Chain ID: 8453) to proceed with migration.
+                  Please switch to Base (Chain ID: 8453) to proceed with migration.
                 </p>
                 <button
                   onClick={handleSwitchNetwork}
@@ -356,7 +356,7 @@ export default function Home() {
                     fontSize: "16px"
                   }}
                 >
-                  Switch to Base Sepolia
+                  Switch to Base
                 </button>
               </div>
             )}
