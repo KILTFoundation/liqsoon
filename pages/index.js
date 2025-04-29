@@ -109,7 +109,7 @@ export default function Home() {
           address,
           "0x35Ad1fd3095F2caabf1F2Ed2FF0Be907E172582a"
         ]);
-        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15));
+        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18));
         setIsApproved(BigInt(allowance) >= weiAmount);
       } catch (err) {
         console.error("Allowance check error:", err.message);
@@ -121,7 +121,7 @@ export default function Home() {
 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)).toString();
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
@@ -141,7 +141,7 @@ export default function Home() {
 
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)).toString();
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     setIsProcessing(true);
     try {
       const tx = await migrationContract.call("migrate", [weiAmount]);
