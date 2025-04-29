@@ -37,7 +37,7 @@ export default function Home() {
   const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
-    "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
+    "0x9E5189a77f698305Ef76510AFF1C528cff48779c",
     OLD_KILT_ABI
   );
   const { contract: migrationContract } = useContract(
@@ -300,7 +300,7 @@ export default function Home() {
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
             <p>Migrate KILT on the BASE Network from</p>
-            <p style={{ fontSize: "18px" }}><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
+            <p style={{ fontSize: "18px" }}><code>0x9E5189a77f698305Ef76510AFF1C528cff48779c</code></p>
             <p>to</p>
             <p style={{ fontSize: "18px" }}><code>0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8</code></p>
             <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
