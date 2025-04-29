@@ -33,6 +33,7 @@ export default function Dashboard() {
   const [whitelistAddress, setWhitelistAddress] = useState(""); // User-input address to check whitelist status
   const [whitelistResult, setWhitelistResult] = useState(null); // Result of whitelist check (true/false)
   const [burnAddressBalance, setBurnAddressBalance] = useState(null); // Balance of old tokens at burn address
+  const [hasFetched, setHasFetched] = useState(false); // Flag to ensure fetch runs only once initially
 
   // Constant for total KILT supply, used to calculate migration progress percentage
   const TOTAL_KILT_SUPPLY = 164000000;
@@ -51,7 +52,13 @@ export default function Dashboard() {
   const fetchAllData = async () => {
     console.log("fetchAllData triggered at:", new Date().toISOString());
     // Ensure both contracts are loaded before fetching
-    if (!migrationContract || !oldKiltContract) return;
+    if (!migrationContract || !oldKiltContract) {
+      console.log("Contracts not ready, skipping fetchAllData");
+      return;
+    }
+
+    // Mark that we've attempted to fetch
+    setHasFetched(true);
 
     // Helper function to handle individual contract calls with retries and error handling
     const callContract = async (setter, currentValue, contract, method, args = [], retries = 3) => {
@@ -163,14 +170,13 @@ export default function Dashboard() {
     fetchFunction();
   };
 
-  // Effect to fetch all data only once on component mount
+  // Effect to fetch data when contracts are ready
   useEffect(() => {
-    if (migrationContract && oldKiltContract) {
+    if (migrationContract && oldKiltContract && !hasFetched) {
+      console.log("useEffect triggering fetchAllData due to contracts being ready");
       fetchAllData();
     }
-    // Empty dependency array to run only once on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [migrationContract, oldKiltContract, hasFetched]);
 
   // Calculate percentage of total supply burned for Migration Progress
   const calculatePercentage = () => {
@@ -207,7 +213,7 @@ export default function Dashboard() {
             {/* Button to refresh all data except whitelist */}
             <button
               onClick={(e) => handleButtonClick(e, fetchAllData)} // Trigger bounce and fetch
-              className={styles.card} // Apply card styles from CSS module
+              className={styles.card} // Apply card styles19: Apply card styles from CSS module
               style={{
                 margin: "10px auto", // Center horizontally
                 padding: "10px 20px", // Consistent padding
@@ -264,7 +270,7 @@ export default function Dashboard() {
 
           {/* EXCHANGE_RATE_NUMERATOR card */}
           <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
-            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left W, color: "#fff" }}>
               <div>
                 <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_NUMERATOR: </span>
                 <span>{exchangeRateNumerator === null ? "Loading..." : exchangeRateNumerator === "Error" ? "Failed to load" : exchangeRateNumerator}</span>
