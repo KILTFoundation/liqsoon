@@ -259,7 +259,7 @@ export default function Home() {
               justifyContent: "center" 
             }}>
               <input
-                type="number"
+                type="checkbox"
                 checked={isChecked}
                 onChange={handleCheckboxChange}
                 disabled={!scrolledToBottom}
