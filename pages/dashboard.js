@@ -52,50 +52,57 @@ export default function Dashboard() {
     // Ensure both contracts are loaded before fetching
     if (!migrationContract || !oldKiltContract) return;
 
-    try {
-      // Fetch burn address and set state
-      const burnAddr = await migrationContract.call("BURN_ADDRESS");
-      setBurnAddress(burnAddr);
+    // Helper function to handle individual contract calls with error handling
+    const callContract = async (setter, contract, method, args = []) => {
+      try {
+        const result = await contract.call(method, args);
+        setter(result); // Set the state with the result
+        return result;
+      } catch (err) {
+        console.error(`Error fetching ${method}:`, err.message);
+        setter("Error"); // Set error state for this specific call
+        return null; // Return null to indicate failure
+      }
+    };
 
-      // Fetch exchange rate numerator (e.g., 175) and convert to string for display
-      const numerator = await migrationContract.call("EXCHANGE_RATE_NUMERATOR");
-      setExchangeRateNumerator(numerator.toString());
+    // Fetch each piece of data independently
+    const burnAddr = await callContract(setBurnAddress, migrationContract, "BURN_ADDRESS");
 
-      // Fetch exchange rate denominator (e.g., 100) and convert to string
-      const denominator = await migrationContract.call("EXCHANGE_RATE_DENOMINATOR");
-      setExchangeRateDenominator(denominator.toString());
+    await callContract(
+      setExchangeRateNumerator,
+      migrationContract,
+      "EXCHANGE_RATE_NUMERATOR"
+    ).then((result) => result && setExchangeRateNumerator(result.toString()));
 
-      // Fetch migration active status (true/false)
-      const migrationActive = await migrationContract.call("isMigrationActive");
-      setIsMigrationActive(migrationActive);
+    await callContract(
+      setExchangeRateDenominator,
+      migrationContract,
+      "EXCHANGE_RATE_DENOMINATOR"
+    ).then((result) => result && setExchangeRateDenominator(result.toString()));
 
-      // Fetch new token address
-      const newTok = await migrationContract.call("newToken");
-      setNewToken(newTok);
+    await callContract(setIsMigrationActive, migrationContract, "isMigrationActive");
 
-      // Fetch old token address
-      const oldTok = await migrationContract.call("oldToken");
-      setOldToken(oldTok);
+    await callContract(setNewToken, migrationContract, "newToken");
 
-      // Fetch paused status (true/false)
-      const paused = await migrationContract.call("paused");
-      setIsPaused(paused);
+    await callContract(setOldToken, migrationContract, "oldToken");
 
-      // Fetch balance of old tokens at burn address, normalize from wei to KILT
-      const bal = await oldKiltContract.call("balanceOf", [burnAddr]);
-      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal); // Handle hex or bigint output
-      const normalized = Number(balanceValue) / 10 ** 15; // Convert from wei (18 decimals)
-      setBurnAddressBalance(normalized);
-    } catch (err) {
-      // Log error and set all states to "Error" for user feedback
-      console.error("Data fetch error:", err.message);
-      setBurnAddress("Error");
-      setExchangeRateNumerator("Error");
-      setExchangeRateDenominator("Error");
-      setIsMigrationActive("Error");
-      setNewToken("Error");
-      setOldToken("Error");
-      setIsPaused("Error");
+    await callContract(setIsPaused, migrationContract, "paused");
+
+    // Fetch burn address balance only if burn address was successfully fetched
+    if (burnAddr && burnAddr !== "Error") {
+      await callContract(
+        setBurnAddressBalance,
+        oldKiltContract,
+        "balanceOf",
+        [burnAddr]
+      ).then((result) => {
+        if (result) {
+          const balanceValue = result?._hex ? BigInt(result._hex) : BigInt(result);
+          const normalized = Number(balanceValue) / 10 ** 15; // Convert from wei
+          setBurnAddressBalance(normalized);
+        }
+      });
+    } else {
       setBurnAddressBalance("Error");
     }
   };
