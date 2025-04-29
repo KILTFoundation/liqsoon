@@ -37,11 +37,11 @@ export default function Home() {
   const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
-    "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b",
+    "0x9E5189a77f698305Ef76510AFF1C528cff48779c",
     OLD_KILT_ABI
   );
   const { contract: migrationContract } = useContract(
-    "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303",
+    "0x35Ad1fd3095F2caabf1F2Ed2FF0Be907E172582a",
     MIGRATION_ABI
   );
 
@@ -107,7 +107,7 @@ export default function Home() {
       try {
         const allowance = await oldKiltContract.call("allowance", [
           address,
-          "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303"
+          "0x35Ad1fd3095F2caabf1F2Ed2FF0Be907E172582a"
         ]);
         const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18));
         setIsApproved(BigInt(allowance) >= weiAmount);
@@ -125,7 +125,7 @@ export default function Home() {
     setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
-        "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303",
+        "0x35Ad1fd3095F2caabf1F2Ed2FF0Be907E172582a",
         weiAmount
       ]);
       console.log("Approval tx:", tx);
@@ -192,8 +192,8 @@ export default function Home() {
   const handleSwitchNetwork = async () => {
     if (switchChain) {
       try {
-        await switchChain(84532);
-        console.log("Switched to Base Sepolia (84532)");
+        await switchChain(8453);
+        console.log("Switched to Base Sepolia (8453)");
       } catch (err) {
         console.error("Network switch error:", err.message);
         alert("Failed to switch network: " + err.message);
@@ -300,9 +300,9 @@ export default function Home() {
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
             <p>Migrate KILT on the BASE Network from</p>
-            <p style={{ fontSize: "18px" }}><code>0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b</code></p>
+            <p style={{ fontSize: "18px" }}><code>0x9E5189a77f698305Ef76510AFF1C528cff48779c</code></p>
             <p>to</p>
-            <p style={{ fontSize: "18px" }}><code>0xc400539b5e08bce7866574d5fe26814e942c0f3e</code></p>
+            <p style={{ fontSize: "18px" }}><code>0x97A687e945D30D44edBc6d68cEdcf49d54093180</code></p>
             <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
             <div style={{
               background: "rgba(19, 87, 187, 0.8)",
@@ -341,7 +341,7 @@ export default function Home() {
                   Wrong Network Detected
                 </p>
                 <p>
-                  Please switch to Base Sepolia (Chain ID: 84532) to proceed with migration.
+                  Please switch to Base Sepolia (Chain ID: 8453) to proceed with migration.
                 </p>
                 <button
                   onClick={handleSwitchNetwork}
