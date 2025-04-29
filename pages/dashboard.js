@@ -77,33 +77,33 @@ export default function Dashboard() {
 
     // Fetch each piece of data independently with delays
     const burnAddr = await callContract(setBurnAddress, migrationContract, "BURN_ADDRESS");
-    await delay(500);
+    await delay(1000);
 
     await callContract(
       setExchangeRateNumerator,
       migrationContract,
       "EXCHANGE_RATE_NUMERATOR"
     ).then((result) => result && setExchangeRateNumerator(result.toString()));
-    await delay(500);
+    await delay(1000);
 
     await callContract(
       setExchangeRateDenominator,
       migrationContract,
       "EXCHANGE_RATE_DENOMINATOR"
     ).then((result) => result && setExchangeRateDenominator(result.toString()));
-    await delay(500);
+    await delay(1000);
 
     await callContract(setIsMigrationActive, migrationContract, "isMigrationActive");
-    await delay(500);
+    await delay(1000);
 
     await callContract(setNewToken, migrationContract, "newToken");
-    await delay(500);
+    await delay(1000);
 
     await callContract(setOldToken, migrationContract, "oldToken");
-    await delay(500);
+    await delay(1000);
 
     await callContract(setIsPaused, migrationContract, "paused");
-    await delay(500);
+    await delay(1000);
 
     // Fetch burn address balance only if burn address was successfully fetched
     if (burnAddr && burnAddr !== "Error") {
