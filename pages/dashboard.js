@@ -270,7 +270,7 @@ export default function Dashboard() {
 
           {/* EXCHANGE_RATE_NUMERATOR card */}
           <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
-            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left W, color: "#fff" }}>
+            <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
               <div>
                 <span style={{ fontWeight: "bold" }}>EXCHANGE_RATE_NUMERATOR: </span>
                 <span>{exchangeRateNumerator === null ? "Loading..." : exchangeRateNumerator === "Error" ? "Failed to load" : exchangeRateNumerator}</span>
