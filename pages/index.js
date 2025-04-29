@@ -58,7 +58,7 @@ export default function Home() {
       try {
         const bal = await oldKiltContract.call("balanceOf", [address]);
         const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-        const normalized = Number(balanceValue) / 10 ** 18;
+        const normalized = Number(balanceValue) / 10 ** 15; // Use 15 decimals for old KILT
         setBalance(normalized);
       } catch (err) {
         console.error("Balance fetch error:", err.message);
@@ -109,7 +109,7 @@ export default function Home() {
           address,
           "0x4A62F30d95a8350Fc682642A455B299C074B3B8c"
         ]);
-        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18));
+        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)); // Use 15 decimals for old KILT
         setIsApproved(BigInt(allowance) >= weiAmount);
       } catch (err) {
         console.error("Allowance check error:", err.message);
@@ -121,7 +121,7 @@ export default function Home() {
 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)).toString(); // Use 15 decimals for old KILT
     setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
@@ -141,7 +141,7 @@ export default function Home() {
 
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)).toString(); // Use 15 decimals for old KILT
     setIsProcessing(true);
     try {
       const tx = await migrationContract.call("migrate", [weiAmount]);
@@ -259,7 +259,7 @@ export default function Home() {
               justifyContent: "center" 
             }}>
               <input
-                type="checkbox"
+                type="number"
                 checked={isChecked}
                 onChange={handleCheckboxChange}
                 disabled={!scrolledToBottom}
@@ -383,7 +383,7 @@ export default function Home() {
                       ? "Loading..."
                       : balance === "Error"
                       ? "Failed to load"
-                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migrateable KILT`}
+                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migratable KILT`}
                   </span>
                 </div>
               </div>
@@ -399,6 +399,11 @@ export default function Home() {
                 placeholder="0"
                 style={{ margin: "10px", padding: "8px", width: "200px" }}
               />
+              <div style={{ margin: "10px", color: "#fff" }}>
+                {amount && Number(amount) > 0
+                  ? `You will receive approximately ${(Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} new KILT`
+                  : ""}
+              </div>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
