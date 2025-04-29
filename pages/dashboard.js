@@ -35,7 +35,7 @@ export default function Dashboard() {
   const [burnAddressBalance, setBurnAddressBalance] = useState(null); // Balance of old tokens at burn address
 
   // Constant for total KILT supply, used to calculate migration progress percentage
-  const TOTAL_KILT_SUPPLY = 164000000000;
+  const TOTAL_KILT_SUPPLY = 164000000;
 
   // Thirdweb hooks to connect to the smart contracts
   const { contract: migrationContract, isLoading: migrationLoading } = useContract(
@@ -49,15 +49,23 @@ export default function Dashboard() {
 
   // Function to fetch all contract data except whitelist status
   const fetchAllData = async () => {
+    console.log("fetchAllData triggered at:", new Date().toISOString());
     // Ensure both contracts are loaded before fetching
     if (!migrationContract || !oldKiltContract) return;
 
     // Helper function to handle individual contract calls with retries and error handling
-    const callContract = async (setter, contract, method, args = [], retries = 3) => {
+    const callContract = async (setter, currentValue, contract, method, args = [], retries = 3) => {
+      // Skip if the current value is already successfully loaded (not null or "Error")
+      if (currentValue !== null && currentValue !== "Error") {
+        console.log(`Skipping ${method} as it already has value:`, currentValue);
+        return currentValue;
+      }
+
       for (let attempt = 1; attempt <= retries; attempt++) {
         try {
           const result = await contract.call(method, args);
           setter(result); // Set the state with the result
+          console.log(`Success for ${method} on attempt ${attempt}:`, result);
           return result;
         } catch (err) {
           console.error(`Attempt ${attempt} failed for ${method}:`, err.message);
@@ -76,11 +84,12 @@ export default function Dashboard() {
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     // Fetch each piece of data independently with delays
-    const burnAddr = await callContract(setBurnAddress, migrationContract, "BURN_ADDRESS");
+    const burnAddr = await callContract(setBurnAddress, burnAddress, migrationContract, "BURN_ADDRESS");
     await delay(1000);
 
     await callContract(
       setExchangeRateNumerator,
+      exchangeRateNumerator,
       migrationContract,
       "EXCHANGE_RATE_NUMERATOR"
     ).then((result) => result && setExchangeRateNumerator(result.toString()));
@@ -88,27 +97,29 @@ export default function Dashboard() {
 
     await callContract(
       setExchangeRateDenominator,
+      exchangeRateDenominator,
       migrationContract,
       "EXCHANGE_RATE_DENOMINATOR"
     ).then((result) => result && setExchangeRateDenominator(result.toString()));
     await delay(1000);
 
-    await callContract(setIsMigrationActive, migrationContract, "isMigrationActive");
+    await callContract(setIsMigrationActive, isMigrationActive, migrationContract, "isMigrationActive");
     await delay(1000);
 
-    await callContract(setNewToken, migrationContract, "newToken");
+    await callContract(setNewToken, newToken, migrationContract, "newToken");
     await delay(1000);
 
-    await callContract(setOldToken, migrationContract, "oldToken");
+    await callContract(setOldToken, oldToken, migrationContract, "oldToken");
     await delay(1000);
 
-    await callContract(setIsPaused, migrationContract, "paused");
+    await callContract(setIsPaused, isPaused, migrationContract, "paused");
     await delay(1000);
 
     // Fetch burn address balance only if burn address was successfully fetched
     if (burnAddr && burnAddr !== "Error") {
       await callContract(
         setBurnAddressBalance,
+        burnAddressBalance,
         oldKiltContract,
         "balanceOf",
         [burnAddr]
@@ -152,10 +163,14 @@ export default function Dashboard() {
     fetchFunction();
   };
 
-  // Effect to fetch all data on component mount or when contracts load
+  // Effect to fetch all data only once on component mount
   useEffect(() => {
-    fetchAllData();
-  }, [migrationContract, oldKiltContract]); // Dependencies ensure fetch runs when contracts are ready
+    if (migrationContract && oldKiltContract) {
+      fetchAllData();
+    }
+    // Empty dependency array to run only once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Calculate percentage of total supply burned for Migration Progress
   const calculatePercentage = () => {
@@ -301,7 +316,7 @@ export default function Dashboard() {
                   style={{ marginLeft: "10px", padding: "5px", width: "250px" }} // Fixed width for consistency
                 />
                 {/* Display whitelist result */}
-                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed" : whitelistResult}</span>
+                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed to load" : whitelistResult}</span>
               </div>
             </div>
             {/* Button to query whitelist status */}
