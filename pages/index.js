@@ -58,7 +58,7 @@ export default function Home() {
       try {
         const bal = await oldKiltContract.call("balanceOf", [address]);
         const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-        const normalized = Number(balanceValue) / 10 ** 18;
+        const normalized = Number(balanceValue) / 10 ** 15; // Old KILT has 15 decimals
         setBalance(normalized);
       } catch (err) {
         console.error("Balance fetch error:", err.message);
@@ -109,7 +109,7 @@ export default function Home() {
           address,
           "0x35Ad1fd3095F2caabf1F2Ed2FF0Be907E172582a"
         ]);
-        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18));
+        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)); // Scale for 15-to-18 decimal adjustment
         setIsApproved(BigInt(allowance) >= weiAmount);
       } catch (err) {
         console.error("Allowance check error:", err.message);
@@ -121,7 +121,8 @@ export default function Home() {
 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString(); // Scale for 15-to-18 decimal adjustment
+    console.log(`Approving ${amount} old KILT (burns ${Number(amount) * 1000} old KILT, ${weiAmount} base units)`);
     setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
@@ -141,19 +142,23 @@ export default function Home() {
 
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString(); // Scale for 15-to-18 decimal adjustment
+    console.log(`Migrating ${amount} old KILT (burns ${Number(amount) * 1000} old KILT, ${weiAmount} base units)`);
     setIsProcessing(true);
     try {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
       alert("Migration successful!");
       setIsApproved(false);
+      setAmount("");
     } catch (err) {
       console.error("Migration error:", err.message);
       if (err.message.includes("Insufficient allowance")) {
         alert("Please approve the amount first.");
       } else if (err.message.includes("Pausable: paused")) {
         alert("Migration is paused. Please try later.");
+      } else if (err.message.includes("Insufficient balance")) {
+        alert("Insufficient old KILT balance for migration.");
       } else {
         alert("Migration failed: " + err.message);
       }
@@ -163,8 +168,13 @@ export default function Home() {
   };
 
   const handleButtonClick = (e) => {
-    if (Number(amount) <= 0 || Number(amount) > balance) {
-      alert("Amount must be positive and less than or equal to your balance.");
+    const amountNum = Number(amount);
+    if (amountNum <= 0) {
+      alert("Amount must be positive.");
+      return;
+    }
+    if (balance !== null && balance !== "Error" && amountNum * 1000 > balance) {
+      alert(`Amount will burn ${amountNum * 1000} old KILT, exceeding your balance of ${balance} old KILT.`);
       return;
     }
     e.currentTarget.classList.remove("bounce");
@@ -200,6 +210,10 @@ export default function Home() {
       }
     }
   };
+
+  const actualBurnAmount = amount && Number(amount) > 0 ? (Number(amount) * 1000).toFixed(6) : "0";
+  const expectedNewKilt = amount && Number(amount) > 0 ? (Number(amount) * 1.75).toFixed(6) : "0";
+  const enteredAmount = amount && Number(amount) > 0 ? Number(amount).toFixed(6) : "0";
 
   return (
     <div style={{ 
@@ -320,6 +334,17 @@ export default function Home() {
                 <span>1:1.75</span>
               </div>
             </div>
+            <div style={{
+              background: "rgba(255, 0, 0, 0.2)",
+              padding: "10px",
+              borderRadius: "8px",
+              margin: "10px auto",
+              width: "500px",
+              textAlign: "center",
+              color: "#fff"
+            }}>
+              <p><strong>Warning:</strong> Due to differences in token decimals (old KILT: 15 decimals, new KILT: 18 decimals), entering an amount will burn <strong>1000x</strong> that amount in old KILT. For example, entering 0.01 old KILT will burn 10 old KILT to receive 0.0175 new KILT.</p>
+            </div>
           </div>
 
           <div style={{ textAlign: "center" }}>
@@ -383,7 +408,7 @@ export default function Home() {
                       ? "Loading..."
                       : balance === "Error"
                       ? "Failed to load"
-                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migrateable KILT`}
+                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} old KILT`}
                   </span>
                 </div>
               </div>
@@ -392,13 +417,21 @@ export default function Home() {
             )}
 
             <div style={{ margin: "20px 0" }}>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0"
-                style={{ margin: "10px", padding: "8px", width: "200px" }}
-              />
+              <div style={{ marginBottom: "10px", color: "#fff" }}>
+                <label>Amount to migrate (old KILT):</label>
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="Enter old KILT amount"
+                  style={{ margin: "10px", padding: "8px", width: "200px" }}
+                />
+              </div>
+              <div style={{ color: "#fff", marginBottom: "10px" }}>
+                <span>Amount to burn: {actualBurnAmount} old KILT</span>
+                <br />
+                <span>Expected new KILT: {expectedNewKilt}</span>
+              </div>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
