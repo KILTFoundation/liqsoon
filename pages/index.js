@@ -58,7 +58,7 @@ export default function Home() {
       try {
         const bal = await oldKiltContract.call("balanceOf", [address]);
         const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-        const normalized = Number(balanceValue) / 10 ** 15; // Old KILT has 15 decimals
+        const normalized = Number(balanceValue) / 10 ** 18;
         setBalance(normalized);
       } catch (err) {
         console.error("Balance fetch error:", err.message);
@@ -109,7 +109,7 @@ export default function Home() {
           address,
           "0x35Ad1fd3095F2caabf1F2Ed2FF0Be907E172582a"
         ]);
-        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)); // Scale by 10^18 to adjust for contract
+        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18));
         setIsApproved(BigInt(allowance) >= weiAmount);
       } catch (err) {
         console.error("Allowance check error:", err.message);
@@ -121,8 +121,7 @@ export default function Home() {
 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString(); // Scale by 10^18
-    console.log(`Approving ${amount} old KILT (burns ${Number(amount) * 1000} old KILT, ${weiAmount} base units)`);
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
@@ -142,15 +141,13 @@ export default function Home() {
 
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString(); // Scale by 10^18
-    console.log(`Migrating ${amount} old KILT (burns ${Number(amount) * 1000} old KILT, ${weiAmount} base units)`);
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 18)).toString();
     setIsProcessing(true);
     try {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
       alert("Migration successful!");
       setIsApproved(false);
-      setAmount("");
     } catch (err) {
       console.error("Migration error:", err.message);
       if (err.message.includes("Insufficient allowance")) {
@@ -166,13 +163,8 @@ export default function Home() {
   };
 
   const handleButtonClick = (e) => {
-    const amountNum = Number(amount);
-    if (amountNum <= 0) {
-      alert("Amount must be positive.");
-      return;
-    }
-    if (balance !== null && balance !== "Error" && amountNum * 1000 > balance) {
-      alert(`Amount will burn ${amountNum * 1000} old KILT, exceeding your balance of ${balance} old KILT.`);
+    if (Number(amount) <= 0 || Number(amount) > balance) {
+      alert("Amount must be positive and less than or equal to your balance.");
       return;
     }
     e.currentTarget.classList.remove("bounce");
@@ -208,9 +200,6 @@ export default function Home() {
       }
     }
   };
-
-  const expectedNewKilt = amount && Number(amount) > 0 ? (Number(amount) * 1.75).toFixed(6) : "0";
-  const actualBurnAmount = amount && Number(amount) > 0 ? (Number(amount) * 1000).toFixed(6) : "0";
 
   return (
     <div style={{ 
@@ -394,7 +383,7 @@ export default function Home() {
                       ? "Loading..."
                       : balance === "Error"
                       ? "Failed to load"
-                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migratable old KILT`}
+                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migrateable KILT`}
                   </span>
                 </div>
               </div>
@@ -403,24 +392,13 @@ export default function Home() {
             )}
 
             <div style={{ margin: "20px 0" }}>
-              <div style={{ marginBottom: "10px", color: "#fff" }}>
-                <p style={{ color: "#D73D80", fontWeight: "bold" }}>
-                  Warning: Due to a contract decimal mismatch, migrating will burn 1000x the entered amount of old KILT (e.g., 0.01 burns 10 old KILT) to produce the correct new KILT (e.g., 0.0175 new KILT).
-                </p>
-                <label>Amount to migrate (old KILT):</label>
-                <input
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Enter old KILT amount"
-                  style={{ margin: "10px", padding: "8px", width: "200px" }}
-                />
-              </div>
-              <div style={{ color: "#fff", marginBottom: "10px" }}>
-                <span>Amount to burn: {actualBurnAmount} old KILT</span>
-                <br />
-                <span>Expected new KILT: {expectedNewKilt}</span>
-              </div>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="0"
+                style={{ margin: "10px", padding: "8px", width: "200px" }}
+              />
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
