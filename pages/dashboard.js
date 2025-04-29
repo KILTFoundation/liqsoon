@@ -39,11 +39,11 @@ export default function Dashboard() {
 
   // Thirdweb hooks to connect to the smart contracts
   const { contract: migrationContract, isLoading: migrationLoading } = useContract(
-    "0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303", // Migration contract address
+    "0x35Ad1fd3095F2caabf1F2Ed2FF0Be907E172582a", // Migration contract address
     MIGRATION_ABI
   );
   const { contract: oldKiltContract, isLoading: oldKiltLoading } = useContract(
-    "0x944f601b4b0edb54ad3c15d76cd9ec4c3df7b24b", // Old KILT token address
+    "0x9E5189a77f698305Ef76510AFF1C528cff48779c", // Old KILT token address
     OLD_KILT_ABI
   );
 
@@ -163,7 +163,7 @@ export default function Dashboard() {
           <div style={{ textAlign: "center", margin: "20px 0" }}>
             <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Dashboard</p>
             <p style={{ color: "#fff" }}>
-              <span style={{ fontWeight: "bold" }}>Migration Contract: </span>0xF92e735Fd5410Ccd7710Af0C0897F7389A39C303
+              <span style={{ fontWeight: "bold" }}>Migration Contract: </span>0x35Ad1fd3095F2caabf1F2Ed2FF0Be907E172582a
             </p>
             {/* Button to refresh all data except whitelist */}
             <button
