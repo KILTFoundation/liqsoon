@@ -399,11 +399,6 @@ export default function Home() {
                 placeholder="0"
                 style={{ margin: "10px", padding: "8px", width: "200px" }}
               />
-              <div style={{ margin: "10px", color: "#fff" }}>
-                {amount && Number(amount) > 0
-                  ? `You will receive approximately ${(Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} new KILT`
-                  : ""}
-              </div>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
