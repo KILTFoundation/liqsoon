@@ -84,7 +84,7 @@ export default function Dashboard() {
       // Fetch balance of old tokens at burn address, normalize from wei to KILT
       const bal = await oldKiltContract.call("balanceOf", [burnAddr]);
       const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal); // Handle hex or bigint output
-      const normalized = Number(balanceValue) / 10 ** 18; // Convert from wei (18 decimals)
+      const normalized = Number(balanceValue) / 10 ** 15; // Convert from wei (18 decimals)
       setBurnAddressBalance(normalized);
     } catch (err) {
       // Log error and set all states to "Error" for user feedback
