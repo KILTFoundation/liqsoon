@@ -35,7 +35,7 @@ export default function Dashboard() {
   const [burnAddressBalance, setBurnAddressBalance] = useState(null); // Balance of old tokens at burn address
 
   // Constant for total KILT supply, used to calculate migration progress percentage
-  const TOTAL_KILT_SUPPLY = 164000000;
+  const TOTAL_KILT_SUPPLY = 164000000000;
 
   // Thirdweb hooks to connect to the smart contracts
   const { contract: migrationContract, isLoading: migrationLoading } = useContract(
