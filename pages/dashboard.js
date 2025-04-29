@@ -52,41 +52,58 @@ export default function Dashboard() {
     // Ensure both contracts are loaded before fetching
     if (!migrationContract || !oldKiltContract) return;
 
-    // Helper function to handle individual contract calls with error handling
-    const callContract = async (setter, contract, method, args = []) => {
-      try {
-        const result = await contract.call(method, args);
-        setter(result); // Set the state with the result
-        return result;
-      } catch (err) {
-        console.error(`Error fetching ${method}:`, err.message);
-        setter("Error"); // Set error state for this specific call
-        return null; // Return null to indicate failure
+    // Helper function to handle individual contract calls with retries and error handling
+    const callContract = async (setter, contract, method, args = [], retries = 3) => {
+      for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+          const result = await contract.call(method, args);
+          setter(result); // Set the state with the result
+          return result;
+        } catch (err) {
+          console.error(`Attempt ${attempt} failed for ${method}:`, err.message);
+          if (attempt === retries) {
+            console.error(`All ${retries} attempts failed for ${method}`);
+            setter("Error"); // Set error state after all retries fail
+            return null; // Return null to indicate failure
+          }
+          // Wait 1 second before retrying
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
       }
     };
 
-    // Fetch each piece of data independently
+    // Delay function to space out calls
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    // Fetch each piece of data independently with delays
     const burnAddr = await callContract(setBurnAddress, migrationContract, "BURN_ADDRESS");
+    await delay(500);
 
     await callContract(
       setExchangeRateNumerator,
       migrationContract,
       "EXCHANGE_RATE_NUMERATOR"
     ).then((result) => result && setExchangeRateNumerator(result.toString()));
+    await delay(500);
 
     await callContract(
       setExchangeRateDenominator,
       migrationContract,
       "EXCHANGE_RATE_DENOMINATOR"
     ).then((result) => result && setExchangeRateDenominator(result.toString()));
+    await delay(500);
 
     await callContract(setIsMigrationActive, migrationContract, "isMigrationActive");
+    await delay(500);
 
     await callContract(setNewToken, migrationContract, "newToken");
+    await delay(500);
 
     await callContract(setOldToken, migrationContract, "oldToken");
+    await delay(500);
 
     await callContract(setIsPaused, migrationContract, "paused");
+    await delay(500);
 
     // Fetch burn address balance only if burn address was successfully fetched
     if (burnAddr && burnAddr !== "Error") {
@@ -284,7 +301,7 @@ export default function Dashboard() {
                   style={{ marginLeft: "10px", padding: "5px", width: "250px" }} // Fixed width for consistency
                 />
                 {/* Display whitelist result */}
-                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed to load" : whitelistResult}</span>
+                <span style={{ marginLeft: "10px" }}>{whitelistResult === null ? "" : whitelistResult === "Error" ? "Failed to " : whitelistResult}</span>
               </div>
             </div>
             {/* Button to query whitelist status */}
