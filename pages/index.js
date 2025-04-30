@@ -256,7 +256,12 @@ export default function Home() {
             </div>
             <div style={{ 
               marginBottom: "20px", 
-              textAlign: "input"
+              textAlign: "left", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center" 
+            }}>
+              <input
                 type="checkbox"
                 checked={isChecked}
                 onChange={handleCheckboxChange}
