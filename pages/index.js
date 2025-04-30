@@ -49,22 +49,23 @@ export default function Home() {
     console.log("Network mismatch status:", isNetworkMismatch);
   }, [isNetworkMismatch]);
 
-  useEffect(() => {
+  const fetchBalance = async () => {
     if (!address || !oldKiltContract) {
       setBalance(null);
       return;
     }
-    const fetchBalance = async () => {
-      try {
-        const bal = await oldKiltContract.call("balanceOf", [address]);
-        const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-        const normalized = Number(balanceValue) / 10 ** 15; // Use 15 decimals for old KILT
-        setBalance(normalized);
-      } catch (err) {
-        console.error("Balance fetch error:", err.message);
-        setBalance("Error");
-      }
-    };
+    try {
+      const bal = await oldKiltContract.call("balanceOf", [address]);
+      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
+      const normalized = Number(balanceValue) / 10 ** 15; // Use 15 decimals for old KILT
+      setBalance(normalized);
+    } catch (err) {
+      console.error("Balance fetch error:", err.message);
+      setBalance("Error");
+    }
+  };
+
+  useEffect(() => {
     fetchBalance();
   }, [address, oldKiltContract]);
 
@@ -129,6 +130,7 @@ export default function Home() {
         weiAmount
       ]);
       console.log("Approval tx:", tx);
+      await fetchBalance(); // Refresh balance after approval
       alert("Approval successful!");
       setIsApproved(true);
     } catch (err) {
@@ -146,6 +148,7 @@ export default function Home() {
     try {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
+      await fetchBalance(); // Refresh balance after migration
       alert("Migration successful!");
       setIsApproved(false);
     } catch (err) {
@@ -253,12 +256,7 @@ export default function Home() {
             </div>
             <div style={{ 
               marginBottom: "20px", 
-              textAlign: "left", 
-              display: "flex", 
-              alignItems: "center", 
-              justifyContent: "center" 
-            }}>
-              <input
+              textAlign: "input"
                 type="checkbox"
                 checked={isChecked}
                 onChange={handleCheckboxChange}
