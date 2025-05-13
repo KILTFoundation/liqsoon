@@ -1,4 +1,4 @@
-# Terms and Conditions of Use – KILT Token Migration Portal
+# KILT Token Migration Portal
 
 These Terms and Conditions (“Terms”) govern your access to and use of the KILT Token Migration Portal (the “Portal”), a service offered by a British Virgin Islands-based entity (the “Entity”) for the purpose of migrating KILT tokens from the existing Base network contract to a new Base network contract. By using the Portal, you agree to be bound by these Terms.
 
