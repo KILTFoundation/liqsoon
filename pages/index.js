@@ -238,7 +238,7 @@ export default function Home() {
             textAlign: "center"
           }}>
             <h2 style={{ marginBottom: "20px", color: "#000" }}>
-              Migration Terms & Conditions
+              Terms and Conditions of Use
             </h2>
             <div
               ref={scrollRef}
