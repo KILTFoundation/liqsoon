@@ -235,7 +235,7 @@ export default function Dashboard() {
           {/* Loading indicator while contracts initialize */}
           {migrationLoading && <p style={{ textAlign: "center", color: "#fff" }}>Loading contract...</p>}
 
-          {/* Migration Progress card */}
+{/* Migration Progress card */}
           <div style={{ display: "flex", justifyContent: "center", margin: "20px 0" }}>
             <div style={{ background: "rgba(19, 87, 187, 0.65)", padding: "15px", borderRadius: "8px", width: "600px", textAlign: "left", color: "#fff" }}>
               <div>
@@ -244,7 +244,7 @@ export default function Dashboard() {
                   {oldKiltLoading || migrationLoading ? "Contract loading..." // Show loading state
                     : burnAddressBalance === null ? "Loading..." // Initial load
                     : burnAddressBalance === "Error" ? "Failed to load" // Error state
-                    : `${burnAddressBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT / ${calculatePercentage()}%`} {/* Formatted balance and percentage */}
+                    : `${(burnAddressBalance + 7764239).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT / ${calculatePercentage()}%`} {/* Formatted balance with pre-burned amount and percentage */}
                 </span>
               </div>
             </div>
