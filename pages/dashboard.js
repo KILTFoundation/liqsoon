@@ -244,7 +244,7 @@ export default function Dashboard() {
                   {oldKiltLoading || migrationLoading ? "Contract loading..." // Show loading state
                     : burnAddressBalance === null ? "Loading..." // Initial load
                     : burnAddressBalance === "Error" ? "Failed to load" // Error state
-                    : `${(burnAddressBalance + 7764239).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT / ${calculatePercentage()}%`} {/* Formatted balance with pre-burned amount and percentage */}
+                    : `${(burnAddressBalance + 7764239).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })} KILT / ${calculatePercentage()}%`} {/* Formatted balance with pre-burned amount and percentage */}
                 </span>
               </div>
             </div>
