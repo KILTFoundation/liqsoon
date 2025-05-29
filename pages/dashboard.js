@@ -178,11 +178,13 @@ export default function Dashboard() {
     }
   }, [migrationContract, oldKiltContract, hasFetched]);
 
-  // Calculate percentage of total supply burned for Migration Progress
+// Calculate percentage of total supply burned for Migration Progress
   const calculatePercentage = () => {
-    if (burnAddressBalance === null || burnAddressBalance === "Error") return "N/A"; // Handle loading or error states
-    const percentage = (burnAddressBalance / TOTAL_KILT_SUPPLY) * 100; // Convert to percentage
-    return percentage.toFixed(2); // Round to 2 decimal places
+    if (burnAddressBalance === null || burnAddressBalance === "Error") return "N/A";
+    const treasuryAmount = 7764239; 
+    const totalBurned = burnAddressBalance + treasuryAmount; 
+    const percentage = (totalBurned / TOTAL_KILT_SUPPLY) * 100;
+    return percentage.toFixed(2); 
   };
 
   // Render the dashboard UI
