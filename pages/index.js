@@ -315,15 +315,23 @@ const fetchNewBalance = async () => {
         </div>
       )}
 
-      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
-        <Image
-          src="/KILT-Horizontal-black.png"
-          alt="KILT Logo"
-          width={200}
-          height={40}
-          style={{ height: "auto" }}
-        />
-      </header>
+<header style={{
+  padding: "20px 20px 20px 20px",
+  backgroundColor: "rgba(215, 61, 128, 0.5)",
+  color: "#fff",
+  maxWidth: "1200px",
+  margin: "0 auto",
+  display: "flex",
+  justifyContent: "flex-start"
+}}>
+  <Image
+    src="/KILT-Horizontal-white.png"
+    alt="KILT Logo"
+    width={200}
+    height={40}
+    style={{ height: "auto" }}
+  />
+</header>
 
       <main style={{ display: "flex", maxWidth: "1200px", margin: "20px auto", padding: "0 20px" }}>
 {/* Left Column */}
