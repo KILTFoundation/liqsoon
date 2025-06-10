@@ -310,6 +310,7 @@ export default function Home() {
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
 
+ 
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
@@ -359,7 +360,7 @@ export default function Home() {
 
             <div style={{
               background: "#fff",
-              margin: "80px 10px 20px 10px",
+              margin: "80px 10px 30px 10px",
               padding: "8px",
               borderRadius: "8px",
               height: "72px",
@@ -370,7 +371,7 @@ export default function Home() {
               alignItems: "center"
             }}>
               <div style={{ position: "absolute", left: "10px" }}>
-                <span>Input (0x9E51...779c)</span>
+                <span style={{ fontWeight: "bold" }}>Input (0x9E51...779c)</span>
               </div>
               <input
                 type="number"
@@ -423,6 +424,7 @@ export default function Home() {
                   Max
                 </button>
               )}
+              <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
               <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
                 {address ? (
                   contractLoading
@@ -439,8 +441,22 @@ export default function Home() {
             </div>
 
             <div style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "10px 0"
+            }}>
+              <div style={{
+                width: "0",
+                height: "0",
+                borderLeft: "15px solid transparent",
+                borderRight: "15px solid transparent",
+                borderTop: "20px solid #fff"
+              }} />
+            </div>
+
+            <div style={{
               background: "#fff",
-              margin: "20px 10px",
+              margin: "10px 10px 20px 10px",
               padding: "8px",
               borderRadius: "8px",
               height: "72px",
@@ -451,7 +467,7 @@ export default function Home() {
               alignItems: "center"
             }}>
               <div style={{ position: "absolute", left: "10px" }}>
-                <span>Output (0x5d0d...d2d8)</span>
+                <span style={{ fontWeight: "bold" }}>Output (0x5d0d...d2d8)</span>
               </div>
               <div style={{
                 position: "absolute",
@@ -512,6 +528,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
