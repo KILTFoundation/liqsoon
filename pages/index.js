@@ -1,6 +1,8 @@
+```jsx
 import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useAddress, useContract, useNetworkMismatch, useSwitchChain } from "@thirdweb-dev/react";
 import Link from "next/link";
+import Image from "next/image"; // Added for optimized image
 import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
@@ -112,7 +114,7 @@ export default function Home() {
         ]);
         const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15));
         setIsApproved(BigInt(allowance) >= weiAmount);
-      }Butler {
+      } catch (err) {
         console.error("Allowance check error:", err.message);
         setIsApproved(false);
       }
@@ -170,9 +172,9 @@ export default function Home() {
       alert("Amount must be positive and less than or equal to your balance.");
       return;
     }
-    e.currentTarget.classList.remove("border");
+    e.currentTarget.classList.remove("bounce");
     void e.currentTarget.offsetWidth;
-    e.currentTarget.classList.add("border");
+    e.currentTarget.classList.add("bounce");
     if (isApproved) {
       handleMigrate();
     } else {
@@ -291,10 +293,12 @@ export default function Home() {
       )}
 
       <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
-        <img
+        <Image
           src="/KILT-Horizontal-black.png"
           alt="KILT Logo"
-          style={{ width: "200px", height: "auto" }}
+          width={200}
+          height={40} // Adjust based on actual image aspect ratio
+          style={{ height: "auto" }}
         />
       </header>
 
@@ -405,12 +409,12 @@ export default function Home() {
                     height: "40px",
                     backgroundColor: isApproved ? "#D73D80" : "#DAF525",
                     fontSize: "18px",
-                    fontWeight: isApproved ? "bold" : "normal",
+                    fontWeight: "bold",
                     textAlign: "center",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    position: "relative",
+                    position: "",
                     opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
                     cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
                   }}
@@ -437,7 +441,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
+      <footer style={{ padding: "10px", textAlign: "center", color: "#fff", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
             <Link
@@ -450,13 +454,13 @@ export default function Home() {
           </div>
           <a href="https://www.kilt.io/imprintBVI" className={styles.footerLink}>Imprint</a>
           {" | "}
-          <a href="https://www.kilt.io/privacy-policyBVI" className={styles.footerLink}>Privacy Policy</a>
+          <a href="https://www.kilt.io/privacy-policyBVI" className={styles.button} style={{color: "white"}}>Privacy Policy</a>
           {" | "}
-          <a href="https://www.kilt.io/disclaimerBVI" className={styles.footerLink}>Disclaimer</a>
+          <a href="#" className={styles.button} style={{color: "white"}}>Disclaimer</a>
           {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
+          <a href="https://www.kilt.io" className={styles.footerLink}>HOME</a>
           {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
+          <a href="#" className={styles.footerLink}>Security Audit</a>
         </div>
       </footer>
 
@@ -477,3 +481,4 @@ export default function Home() {
     </div>
   );
 }
+```
