@@ -311,6 +311,7 @@ export default function Home() {
         </div>
 
 
+ 
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
@@ -327,18 +328,18 @@ export default function Home() {
 
             {address && isNetworkMismatch && (
               <div style={{
-                backgroundColor: "#D73D80",
+                background: "#D73D80",
                 padding: "15px",
                 borderRadius: "8px",
                 margin: "20px 0",
                 textAlign: "center",
                 color: "#fff"
               }}>
-                <p style={{ fontWeight: "600" }}>
-                  Error: Incorrect Network
+                <p style={{ fontWeight: "bold" }}>
+                  Wrong Network Detected
                 </p>
                 <p>
-                  Please switch to the Base network (Chain ID: 8453) to continue with your migration.
+                  Please switch to Base (Chain ID: 8453) to proceed with migration.
                 </p>
                 <button
                   onClick={handleSwitchNetwork}
@@ -350,17 +351,17 @@ export default function Home() {
                     border: "none",
                     borderRadius: "4px",
                     cursor: "pointer",
-                    fontSize: "14px",
-                    }}
-                    >
-                      Switch to Base
+                    fontSize: "16px"
+                  }}
+                >
+                  Switch to Base
                 </button>
               </div>
             )}
 
             <div style={{
               background: "#fff",
-              margin: "80px 70px 20px 70px",
+              margin: "80px 10px 20px 10px",
               padding: "8px",
               borderRadius: "8px",
               height: "72px",
@@ -371,10 +372,10 @@ export default function Home() {
               alignItems: "center"
             }}>
               <div style={{ position: "absolute", left: "10px" }}>
-                <span>Input Range (0x9E51...779c)</span>
+                <span>Input (0x9E51...779c)</span>
               </div>
               <input
-                type="text"
+                type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0"
@@ -388,10 +389,10 @@ export default function Home() {
                   textAlign: "right",
                   fontWeight: "normal",
                   fontSize: "16px",
-                  backgroundColor: "#fff",
-                  appearance: "none",
+                  background: "transparent",
+                  appearance: "textfield",
                   MozAppearance: "textfield",
-                  WebkitAppearance: "none",
+                  WebkitAppearance: "none"
                 }}
               />
             </div>
@@ -400,11 +401,13 @@ export default function Home() {
               <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
               <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
                 {address ? (
-                  contractLoading || balance === null
-                  ? "Loading..."
-                  : balance === "Error"
-                  ? "Failed"
-                  : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`
+                  contractLoading
+                    ? "Loading..."
+                    : balance === null
+                    ? "0.0"
+                    : balance === "Error"
+                    ? "Failed"
+                    : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`
                 ) : (
                   "Connect wallet to view balance"
                 )}
@@ -424,7 +427,7 @@ export default function Home() {
                     height: "40px",
                     backgroundColor: isApproved ? "#D73D80" : "#DAF525",
                     fontSize: "18px",
-                    fontWeight: isApproved ? "600" : "normal",
+                    fontWeight: isApproved ? "bold" : "normal",
                     textAlign: "center",
                     display: "flex",
                     justifyContent: "center",
@@ -455,6 +458,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+
 
 
 
