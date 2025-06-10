@@ -310,6 +310,7 @@ export default function Home() {
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
 
+
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
@@ -326,18 +327,18 @@ export default function Home() {
 
             {address && isNetworkMismatch && (
               <div style={{
-                background: "#D73D80",
+                backgroundColor: "#D73D80",
                 padding: "15px",
                 borderRadius: "8px",
                 margin: "20px 0",
                 textAlign: "center",
                 color: "#fff"
               }}>
-                <p style={{ fontWeight: "bold" }}>
-                  Wrong Network Detected
+                <p style={{ fontWeight: "600" }}>
+                  Error: Incorrect Network
                 </p>
                 <p>
-                  Please switch to Base (Chain ID: 8453) to proceed with migration.
+                  Please switch to the Base network (Chain ID: 8453) to continue with your migration.
                 </p>
                 <button
                   onClick={handleSwitchNetwork}
@@ -349,17 +350,17 @@ export default function Home() {
                     border: "none",
                     borderRadius: "4px",
                     cursor: "pointer",
-                    fontSize: "16px"
-                  }}
-                >
-                  Switch to Base
+                    fontSize: "14px",
+                    }}
+                    >
+                      Switch to Base
                 </button>
               </div>
             )}
 
             <div style={{
               background: "#fff",
-              margin: "80px 20px 20px 20px",
+              margin: "80px 70px 20px 70px",
               padding: "8px",
               borderRadius: "8px",
               height: "72px",
@@ -370,10 +371,10 @@ export default function Home() {
               alignItems: "center"
             }}>
               <div style={{ position: "absolute", left: "10px" }}>
-                <span>Input (0x9E51...779c)</span>
+                <span>Input Range (0x9E51...779c)</span>
               </div>
               <input
-                type="number"
+                type="text"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0"
@@ -387,28 +388,28 @@ export default function Home() {
                   textAlign: "right",
                   fontWeight: "normal",
                   fontSize: "16px",
-                  background: "transparent",
-                  appearance: "textfield",
+                  backgroundColor: "#fff",
+                  appearance: "none",
                   MozAppearance: "textfield",
-                  WebkitAppearance: "none"
+                  WebkitAppearance: "none",
                 }}
               />
             </div>
 
-            {address && (
-              <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
-                <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
-                <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
-                  {contractLoading
-                    ? "Loading..."
-                    : balance === null
-                    ? "0.0"
-                    : balance === "Error"
-                    ? "Failed"
-                    : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`}
-                </span>
-              </div>
-            )}
+            <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
+              <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+              <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
+                {address ? (
+                  contractLoading || balance === null
+                  ? "Loading..."
+                  : balance === "Error"
+                  ? "Failed"
+                  : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`
+                ) : (
+                  "Connect wallet to view balance"
+                )}
+              </span>
+            </div>
 
             <div style={{ margin: "20px 0" }}>
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -423,7 +424,7 @@ export default function Home() {
                     height: "40px",
                     backgroundColor: isApproved ? "#D73D80" : "#DAF525",
                     fontSize: "18px",
-                    fontWeight: isApproved ? "bold" : "normal",
+                    fontWeight: isApproved ? "600" : "normal",
                     textAlign: "center",
                     display: "flex",
                     justifyContent: "center",
@@ -454,6 +455,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+
 
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
