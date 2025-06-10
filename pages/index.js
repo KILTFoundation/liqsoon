@@ -570,7 +570,7 @@ const fetchNewBalance = async () => {
     </div>
   </div>
 </div>
-
+      </main>
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
