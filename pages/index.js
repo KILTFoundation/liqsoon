@@ -57,7 +57,7 @@ export default function Home() {
     try {
       const bal = await oldKiltContract.call("balanceOf", [address]);
       const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-      const normalized = Number(balanceValue) / 10 ** 15; // Use 15 decimals for old KILT
+      const normalized = Number(balanceValue) / 10 ** 15;
       setBalance(normalized);
     } catch (err) {
       console.error("Balance fetch error:", err.message);
@@ -110,7 +110,7 @@ export default function Home() {
           address,
           "0x4A62F30d95a8350Fc682642A455B299C074B3B8c"
         ]);
-        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)); // Use 15 decimals for old KILT
+        const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15));
         setIsApproved(BigInt(allowance) >= weiAmount);
       } catch (err) {
         console.error("Allowance check error:", err.message);
@@ -122,7 +122,7 @@ export default function Home() {
 
   const handleApprove = async () => {
     if (!oldKiltContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)).toString(); // Use 15 decimals for old KILT
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)).toString();
     setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
@@ -130,7 +130,7 @@ export default function Home() {
         weiAmount
       ]);
       console.log("Approval tx:", tx);
-      await fetchBalance(); // Refresh balance after approval
+      await fetchBalance();
       alert("Approval successful!");
       setIsApproved(true);
     } catch (err) {
@@ -143,12 +143,12 @@ export default function Home() {
 
   const handleMigrate = async () => {
     if (!migrationContract || !amount || !address) return;
-    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)).toString(); // Use 15 decimals for old KILT
+    const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15)).toString();
     setIsProcessing(true);
     try {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
-      await fetchBalance(); // Refresh balance after migration
+      await fetchBalance();
       alert("Migration successful!");
       setIsApproved(false);
     } catch (err) {
@@ -298,34 +298,32 @@ export default function Home() {
         />
       </header>
 
-      <main>
-        <div className={styles.container}>
-          <div style={{ textAlign: "center", margin: "20px 0" }}>
-            <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
-            <p>Migrate KILT on the BASE Network from</p>
-            <p style={{ fontSize: "18px" }}><code>0x9E5189a77f698305Ef76510AFF1C528cff48779c</code></p>
-            <p>to</p>
-            <p style={{ fontSize: "18px" }}><code>0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8</code></p>
-            <hr style={{ border: "1px solid #D73D80", margin: "20px auto", width: "400px" }} />
-            <div style={{
-              background: "rgba(19, 87, 187, 0.8)",
-              padding: "15px",
-              borderRadius: "8px",
-              margin: "20px auto",
-              width: "200px",
-              textAlign: "center",
-              color: "#fff"
-            }}>
-              <div>
-                <span style={{ fontWeight: "bold" }}>Migration Ratio</span>
-                <br />
-                <br />
-                <span>1:1.75</span>
-              </div>
-            </div>
-          </div>
+      <main style={{ display: "flex", maxWidth: "1200px", margin: "20px auto", padding: "0 20px" }}>
+        {/* Left Column */}
+        <div style={{ flex: "1", paddingRight: "20px", textAlign: "left", color: "#fff" }}>
+          <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
+          <p>Migrate KILT on the BASE Network from</p>
+          <p style={{ fontSize: "18px" }}><code>0x9E5189a77f698305Ef76510AFF1C528cff48779c</code></p>
+          <p>to</p>
+          <p style={{ fontSize: "18px" }}><code>0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8</code></p>
+        </div>
 
-          <div style={{ textAlign: "center" }}>
+        {/* Right Column */}
+        <div style={{ flex: "1", paddingLeft: "20px" }}>
+          <div style={{
+            background: "rgba(19, 87, 187, 0.8)",
+            padding: "20px",
+            borderRadius: "8px",
+            textAlign: "center",
+            color: "#fff"
+          }}>
+            <div style={{ marginBottom: "20px" }}>
+              <span style={{ fontWeight: "bold" }}>Migration Ratio</span>
+              <br />
+              <br />
+              <span>1:1.75</span>
+            </div>
+
             <div style={{ marginBottom: "2rem" }}>
               <ConnectWallet />
             </div>
@@ -335,8 +333,7 @@ export default function Home() {
                 background: "#D73D80",
                 padding: "15px",
                 borderRadius: "8px",
-                margin: "20px auto",
-                width: "500px",
+                margin: "20px 0",
                 textAlign: "center",
                 color: "#fff"
               }}>
@@ -365,14 +362,7 @@ export default function Home() {
             )}
 
             {address ? (
-              <div style={{ 
-                background: "rgba(19, 87, 187, 0.8)",
-                padding: "15px",
-                borderRadius: "8px",
-                margin: "20px auto",
-                width: "500px",
-                textAlign: "left"
-              }}>
+              <div style={{ marginBottom: "20px", textAlign: "left" }}>
                 <div style={{ marginBottom: "10px" }}>
                   <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
                   <span style={{ color: "#fff" }}>{address}</span>
