@@ -314,131 +314,110 @@ export default function Home() {
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
-            background: "rgba(19, 87, 187, 0.8)",
-            padding: "20px",
-            borderRadius: "8px",
-            textAlign: "center",
-            color: "#fff",
-            position: "relative"
-          }}>
-            <div style={{ position: "absolute", top: "20px", right: "20px" }}>
-              <ConnectWallet />
-            </div>
+  background: "rgba(19, 87, 187, 0.8)",
+  padding: "20px",
+  borderRadius: "8px",
+  textAlign: "center",
+  color: "#fff",
+  position: "relative"
+}}>
+  <div style={{ position: "absolute", top: "20px", right: "20px" }}>
+    <ConnectWallet />
+  </div>
 
-            {address && isNetworkMismatch && (
-              <div style={{
-                background: "#D73D80",
-                padding: "15px",
-                borderRadius: "8px",
-                margin: "20px 0",
-                textAlign: "center",
-                color: "#fff"
-              }}>
-                <p style={{ fontWeight: "bold" }}>
-                  Wrong Network Detected
-                </p>
-                <p>
-                  Please switch to Base (Chain ID: 8453) to proceed with migration.
-                </p>
-                <button
-                  onClick={handleSwitchNetwork}
-                  style={{
-                    margin: "10px",
-                    padding: "10px 20px",
-                    backgroundColor: "#DAF525",
-                    color: "#000",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    fontSize: "16px"
-                  }}
-                >
-                  Switch to Base
-                </button>
-              </div>
-            )}
+  {address && isNetworkMismatch && (
+    <div style={{
+      background: "#D73D80",
+      padding: "15px",
+      borderRadius: "8px",
+      margin: "20px 0",
+      textAlign: "center",
+      color: "#fff"
+    }}>
+      <p style={{ fontWeight: "bold" }}>
+        Wrong Network Detected
+      </p>
+      <p>
+        Please switch to Base (Chain ID: 8453) to proceed with migration.
+      </p>
+      <button
+        onClick={handleSwitchNetwork}
+        style={{
+          margin: "10px",
+          padding: "10px 20px",
+          backgroundColor: "#DAF525",
+          color: "#000",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+          fontSize: "16px"
+        }}
+      >
+        Switch to Base
+      </button>
+    </div>
+  )}
 
-            {address && (
-              <div style={{ marginBottom: "20px", textAlign: "left" }}>
-                <div style={{ marginBottom: "10px" }}>
-                  <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
-                  <span style={{ color: "#fff" }}>{address}</span>
-                </div>
-                <div>
-                  <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
-                  <span style={{ color: "#fff" }}>
-                    {contractLoading
-                      ? "Contract loading..."
-                      : balance === null
-                      ? "Loading..."
-                      : balance === "Error"
-                      ? "Failed to load"
-                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migratable KILT`}
-                  </span>
-                </div>
-              </div>
-            )}
+  <div style={{
+    background: "#fff",
+    width: "90%",
+    margin: "80px auto 20px auto",
+    padding: "8px",
+    borderRadius: "8px",
+    height: "72px",
+  }}>
+    {/* Placeholder for future content */}
+  </div>
 
-            <div style={{
-              background: "#fff",
-              width: "90%",
-              margin: "20px auto",
-              padding: "8px",
-              borderRadius: "8px",
-              height: "48px",
-            }}>
-              {/* Placeholder for future content */}
-            </div>
-
-            <div style={{ margin: "20px 0" }}>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0"
-                style={{ margin: "10px", padding: "8px", width: "200px" }}
-              />
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <button
-                  onClick={handleButtonClick}
-                  disabled={!amount || !address || isProcessing || isNetworkMismatch}
-                  className={styles.card}
-                  style={{
-                    margin: "10px",
-                    padding: "10px 20px",
-                    width: "180px",
-                    height: "40px",
-                    backgroundColor: isApproved ? "#D73D80" : "#DAF525",
-                    fontSize: "18px",
-                    fontWeight: isApproved ? "bold" : "normal",
-                    textAlign: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    position: "relative",
-                    opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
-                    cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
-                  }}
-                >
-                  {isProcessing ? (
-                    <span
-                      style={{
-                        display: "inline-block",
-                        width: "20px",
-                        height: "20px",
-                        border: `3px solid ${isApproved ? "#fff" : "#000"}`,
-                        borderTop: "3px solid transparent",
-                        borderRadius: "50%",
-                        animation: "spin 1s linear infinite"
-                      }}
-                    />
-                  ) : (
-                    isApproved ? "Migrate" : "Approve"
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
+  <div style={{ margin: "20px 0" }}>
+    <input
+      type="number"
+      value={amount}
+      onChange={(e) => setAmount(e.target.value)}
+      placeholder="0"
+      style={{ margin: "10px", padding: "8px", width: "200px" }}
+    />
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <button
+        onClick={handleButtonClick}
+        disabled={!amount || !address || isProcessing || isNetworkMismatch}
+        className={styles.card}
+        style={{
+          margin: "10px",
+          padding: "10px 20px",
+          width: "180px",
+          height: "40px",
+          backgroundColor: isApproved ? "#D73D80" : "#DAF525",
+          fontSize: "18px",
+          fontWeight: isApproved ? "bold" : "normal",
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+          opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
+          cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
+        }}
+      >
+        {isProcessing ? (
+          <span
+            style={{
+              display: "inline-block",
+              width: "20px",
+              height: "20px",
+              border: `3px solid ${isApproved ? "#fff" : "#000"}`,
+              borderTop: "3px solid transparent",
+              borderRadius: "50%",
+              animation: "spin 1s linear infinite"
+            }}
+          />
+        ) : (
+          isApproved ? "Migrate" : "Approve"
+        )}
+      </button>
+    </div>
+  </div>
+</div>
         </div>
       </main>
 
