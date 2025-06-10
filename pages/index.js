@@ -358,7 +358,7 @@ const fetchNewBalance = async () => {
     textAlign: "center",
     color: "#fff",
     position: "relative",
-  marginTop: "40px"
+  marginTop: "20px"
   }}>
     <div style={{
       position: "absolute",
