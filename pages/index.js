@@ -309,9 +309,6 @@ export default function Home() {
           This portal allows you to migrate your tokens from the old Base contract to the new Base contract.</p>
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
-
-
- 
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
@@ -398,7 +395,33 @@ export default function Home() {
             </div>
 
             <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
-              <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+              {address && (
+                <button
+                  onClick={(e) => {
+                    if (balance && balance !== "Error") {
+                      setAmount(balance.toString());
+                      e.currentTarget.classList.remove("bounce");
+                      void e.currentTarget.offsetWidth;
+                      e.currentTarget.classList.add("bounce");
+                    }
+                  }}
+                  className={styles.card}
+                  style={{
+                    display: "inline-block",
+                    marginRight: "10px",
+                    padding: "5px 10px",
+                    backgroundColor: "#DAF525",
+                    color: "#000",
+                    border: "none",
+                    borderRadius: "4px",
+                    fontSize: "14px",
+                    cursor: balance && balance !== "Error" ? "pointer" : "not-allowed",
+                    opacity: balance && balance !== "Error" ? 1 : 0.6
+                  }}
+                >
+                  Max
+                </button>
+              )}
               <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
                 {address ? (
                   contractLoading
@@ -458,10 +481,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-
-
-
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
