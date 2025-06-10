@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useAddress, useContract, useNetworkMismatch, useSwitchChain } from "@thirdweb-dev/react";
 import Link from "next/link";
-import Image from "next/image"; // Added for optimized image
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
@@ -297,7 +297,7 @@ export default function Home() {
           src="/KILT-Horizontal-black.png"
           alt="KILT Logo"
           width={200}
-          height={40} // Adjust based on actual image aspect ratio
+          height={40}
           style={{ height: "auto" }}
         />
       </header>
@@ -409,12 +409,12 @@ export default function Home() {
                     height: "40px",
                     backgroundColor: isApproved ? "#D73D80" : "#DAF525",
                     fontSize: "18px",
-                    fontWeight: "bold",
+                    fontWeight: isApproved ? "bold" : "normal",
                     textAlign: "center",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    position: "",
+                    position: "relative",
                     opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
                     cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
                   }}
@@ -428,7 +428,7 @@ export default function Home() {
                         border: `3px solid ${isApproved ? "#fff" : "#000"}`,
                         borderTop: "3px solid transparent",
                         borderRadius: "50%",
-                        animation: "spin 1s linear infinite"
+                        animation: "spin 1s linear infinite",
                       }}
                     />
                   ) : (
@@ -441,7 +441,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer style={{ padding: "10px", textAlign: "center", color: "#fff", fontSize: "14px" }}>
+      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
             <Link
@@ -454,13 +454,13 @@ export default function Home() {
           </div>
           <a href="https://www.kilt.io/imprintBVI" className={styles.footerLink}>Imprint</a>
           {" | "}
-          <a href="https://www.kilt.io/privacy-policyBVI" className={styles.button} style={{color: "white"}}>Privacy Policy</a>
+          <a href="https://www.kilt.io/privacy-policyBVI" className={styles.footerLink}>Privacy Policy</a>
           {" | "}
-          <a href="#" className={styles.button} style={{color: "white"}}>Disclaimer</a>
+          <a href="https://www.kilt.io/disclaimerBVI" className={styles.footerLink}>Disclaimer</a>
           {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>HOME</a>
+          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
           {" | "}
-          <a href="#" className={styles.footerLink}>Security Audit</a>
+          <a href="https://www.kilt.io/security-audit" className={styles.footerLink}>Security Audit</a>
         </div>
       </footer>
 
