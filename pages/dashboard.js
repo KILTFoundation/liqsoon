@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"; // React hooks for state and lifecy
 import { useContract } from "@thirdweb-dev/react"; // Thirdweb hook for smart contract interaction
 import Link from "next/link"; // Next.js component for client-side navigation
 import styles from "../styles/Home.module.css"; // CSS module for shared styles
+import Image from "next/image"
 
 // ABI for the migration contract, defining its view functions
 const MIGRATION_ABI = [
@@ -199,9 +200,7 @@ export default function Dashboard() {
       minHeight: "100vh", // Full viewport height
       fontFamily: "Arial, sans-serif" // Consistent font
     }}>
-      {/* Header with KILT logo */}
-
-
+    
 <header style={{
   padding: "20px 20px 20px 20px",
   backgroundColor: "rgba(215, 61, 128, 0.5)",
