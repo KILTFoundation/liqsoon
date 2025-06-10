@@ -496,7 +496,7 @@ const fetchNewBalance = async () => {
         )}
       </span>
     </div>
-    <br /><br />
+    <br />
     <div style={{ 
       textAlign: "center", 
       margin: "10px 0", 
@@ -505,7 +505,14 @@ const fetchNewBalance = async () => {
     }}>
       Migration Ratio: 1 to 1.75
     </div>
-    <br />
+  <div style={{
+      textAlign: "center",
+      margin: "10px 0",
+      color: "#fff",
+      fontSize: "24px"
+    }}>
+      ↓
+    </div>
   
     <div style={{
       background: "#fff",
