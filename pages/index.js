@@ -309,6 +309,7 @@ export default function Home() {
           This portal allows you to migrate your tokens from the old Base contract to the new Base contract.</p>
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
+
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
@@ -437,6 +438,36 @@ export default function Home() {
               </span>
             </div>
 
+            <div style={{
+              background: "#fff",
+              margin: "20px 10px",
+              padding: "8px",
+              borderRadius: "8px",
+              height: "72px",
+              position: "relative",
+              color: "#000",
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center"
+            }}>
+              <div style={{ position: "absolute", left: "10px" }}>
+                <span>Output (0x5d0d...d2d8)</span>
+              </div>
+              <div style={{
+                position: "absolute",
+                right: "10px",
+                width: "200px",
+                padding: "8px",
+                textAlign: "right",
+                fontWeight: "normal",
+                fontSize: "16px"
+              }}>
+                {amount && Number(amount) > 0
+                  ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })
+                  : "0.0"}
+              </div>
+            </div>
+
             <div style={{ margin: "20px 0" }}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
@@ -481,6 +512,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
