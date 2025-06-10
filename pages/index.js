@@ -309,6 +309,7 @@ export default function Home() {
           This portal allows you to migrate your tokens from the old Base contract to the new Base contract.</p>
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
+
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
@@ -358,8 +359,7 @@ export default function Home() {
 
             <div style={{
               background: "#fff",
-              width: "90%",
-              margin: "80px auto 20px auto",
+              margin: "80px 20px 20px 20px",
               padding: "8px",
               borderRadius: "8px",
               height: "72px",
@@ -370,9 +370,9 @@ export default function Home() {
               <div style={{ position: "absolute", top: "10px", left: "10px" }}>
                 <span>Input (0x9E51...779c)</span>
               </div>
-              <div style={{ position: "absolute", top: "10px", right: "10px" }}>
+              <div style={{ position: "absolute", top: "10px", right: "10px", textAlign: "right" }}>
                 <span style={{ fontWeight: "bold" }}>Balance: </span>
-                <span>
+                <span style={{ fontWeight: "normal", fontSize: "16px" }}>
                   {contractLoading
                     ? "Loading..."
                     : balance === null
@@ -382,16 +382,28 @@ export default function Home() {
                     : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`}
                 </span>
               </div>
-            </div>
-
-            <div style={{ margin: "20px 0" }}>
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0"
-                style={{ margin: "10px", padding: "8px", width: "200px" }}
+                style={{
+                  position: "absolute",
+                  bottom: "8px",
+                  right: "10px",
+                  width: "200px",
+                  padding: "8px",
+                  border: "none",
+                  outline: "none",
+                  textAlign: "right",
+                  fontWeight: "normal",
+                  fontSize: "16px",
+                  background: "transparent"
+                }}
               />
+            </div>
+
+            <div style={{ margin: "20px 0" }}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
@@ -435,6 +447,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
