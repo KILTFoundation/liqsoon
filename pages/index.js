@@ -112,7 +112,7 @@ export default function Home() {
         ]);
         const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15));
         setIsApproved(BigInt(allowance) >= weiAmount);
-      } catch (err) {
+      }Butler {
         console.error("Allowance check error:", err.message);
         setIsApproved(false);
       }
@@ -170,9 +170,9 @@ export default function Home() {
       alert("Amount must be positive and less than or equal to your balance.");
       return;
     }
-    e.currentTarget.classList.remove("bounce");
+    e.currentTarget.classList.remove("border");
     void e.currentTarget.offsetWidth;
-    e.currentTarget.classList.add("bounce");
+    e.currentTarget.classList.add("border");
     if (isApproved) {
       handleMigrate();
     } else {
@@ -315,16 +315,10 @@ export default function Home() {
             padding: "20px",
             borderRadius: "8px",
             textAlign: "center",
-            color: "#fff"
+            color: "#fff",
+            position: "relative"
           }}>
-            <div style={{ marginBottom: "20px" }}>
-              <span style={{ fontWeight: "bold" }}>Migration Ratio</span>
-              <br />
-              <br />
-              <span>1:1.75</span>
-            </div>
-
-            <div style={{ marginBottom: "2rem" }}>
+            <div style={{ position: "absolute", top: "20px", right: "20px" }}>
               <ConnectWallet />
             </div>
 
@@ -361,37 +355,44 @@ export default function Home() {
               </div>
             )}
 
-            {address ? (
-              <div style={{ marginBottom: "20px", textAlign: "left" }}>
-                <div style={{ marginBottom: "10px" }}>
-                  <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
-                  <span style={{ color: "#fff" }}>{address}</span>
-                </div>
-                <div>
-                  <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
-                  <span style={{ color: "#fff" }}>
-                    {contractLoading
-                      ? "Contract loading..."
-                      : balance === null
-                      ? "Loading..."
-                      : balance === "Error"
-                      ? "Failed to load"
-                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migratable KILT`}
-                  </span>
-                </div>
+            <div style={{
+              background: "#fff",
+              width: "90%",
+              margin: "20px auto",
+              padding: "20px",
+              borderRadius: "8px",
+              position: "relative",
+              textAlign: "left"
+            }}>
+              <div style={{ position: "absolute", top: "10px", right: "10px", color: "#000" }}>
+                <span style={{ fontWeight: "bold" }}>Balance: </span>
+                <span>
+                  {contractLoading
+                    ? "Contract loading..."
+                    : balance === null
+                    ? "Loading..."
+                    : balance === "Error"
+                    ? "Failed to load"
+                    : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT`}
+                </span>
               </div>
-            ) : (
-              <p>Connect your wallet to view balance.</p>
-            )}
-
-            <div style={{ margin: "20px 0" }}>
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                placeholder="0"
-                style={{ margin: "10px", padding: "8px", width: "200px" }}
+                placeholder="Enter amount to migrate"
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  fontSize: "16px",
+                  border: "none",
+                  outline: "none",
+                  background: "transparent"
+                }}
               />
+            </div>
+
+            <div style={{ margin: "20px 0" }}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
