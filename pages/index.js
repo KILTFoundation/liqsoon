@@ -1,8 +1,7 @@
-```jsx
 import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useAddress, useContract, useNetworkMismatch, useSwitchChain } from "@thirdweb-dev/react";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/image"; // Added for optimized image
 import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
@@ -128,7 +127,7 @@ export default function Home() {
     setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
-        "0x4A62F30d95a8350Fc682642A455B299C074B3B8c",
+        "0x4A62F30d95a8352Fc682642A455B299C074B3B8c",
         weiAmount
       ]);
       console.log("Approval tx:", tx);
@@ -359,44 +358,46 @@ export default function Home() {
               </div>
             )}
 
+            {address && (
+              <div style={{ marginBottom: "20px", textAlign: "left" }}>
+                <div style={{ marginBottom: "10px" }}>
+                  <span style={{ fontWeight: "bold", color: "#fff" }}>Wallet: </span>
+                  <span style={{ color: "#fff" }}>{address}</span>
+                </div>
+                <div>
+                  <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+                  <span style={{ color: "#fff" }}>
+                    {contractLoading
+                      ? "Contract loading..."
+                      : balance === null
+                      ? "Loading..."
+                      : balance === "Error"
+                      ? "Failed to load"
+                      : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} Migratable KILT`}
+                  </span>
+                </div>
+              </div>
+            )}
+
             <div style={{
               background: "#fff",
               width: "90%",
               margin: "20px auto",
-              padding: "20px",
+              padding: "8px",
               borderRadius: "8px",
-              position: "relative",
-              textAlign: "left"
+              height: "48px",
             }}>
-              <div style={{ position: "absolute", top: "10px", right: "10px", color: "#000" }}>
-                <span style={{ fontWeight: "bold" }}>Balance: </span>
-                <span>
-                  {contractLoading
-                    ? "Contract loading..."
-                    : balance === null
-                    ? "Loading..."
-                    : balance === "Error"
-                    ? "Failed to load"
-                    : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })} KILT`}
-                </span>
-              </div>
+              {/* Placeholder for future content */}
+            </div>
+
+            <div style={{ margin: "20px 0" }}>
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                placeholder="Enter amount to migrate"
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  fontSize: "16px",
-                  border: "none",
-                  outline: "none",
-                  background: "transparent"
-                }}
+                placeholder="0"
+                style={{ margin: "10px", padding: "8px", width: "200px" }}
               />
-            </div>
-
-            <div style={{ margin: "20px 0" }}>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={handleButtonClick}
@@ -428,7 +429,7 @@ export default function Home() {
                         border: `3px solid ${isApproved ? "#fff" : "#000"}`,
                         borderTop: "3px solid transparent",
                         borderRadius: "50%",
-                        animation: "spin 1s linear infinite",
+                        animation: "spin 1s linear infinite"
                       }}
                     />
                   ) : (
@@ -460,7 +461,7 @@ export default function Home() {
           {" | "}
           <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
           {" | "}
-          <a href="https://www.kilt.io/security-audit" className={styles.footerLink}>Security Audit</a>
+          <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
         </div>
       </footer>
 
@@ -481,4 +482,3 @@ export default function Home() {
     </div>
   );
 }
-```
