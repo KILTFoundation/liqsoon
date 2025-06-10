@@ -383,43 +383,49 @@ const fetchNewBalance = async () => {
             )}
 
             <div style={{
-              background: "#fff",
-              margin: "80px 10px 20px 10px",
-              padding: "8px",
-              borderRadius: "8px",
-              height: "72px",
-              position: "relative",
-              color: "#000",
-              textAlign: "left",
-              display: "flex",
-              alignItems: "center"
-            }}>
-              <div style={{ position: "absolute", left: "10px" }}>
-                <span style={{ fontWeight: "bold" }}>Input</span>
-                <span> (0x9E51...779c)</span>
-              </div>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0"
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  width: "200px",
-                  padding: "8px",
-                  border: "none",
-                  outline: "none",
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                  background: "transparent",
-                  appearance: "textfield",
-                  MozAppearance: "textfield",
-                  WebkitAppearance: "none"
-                }}
-              />
-            </div>
+  background: "#fff",
+  margin: "80px 10px 20px 10px",
+  padding: "8px",
+  borderRadius: "8px",
+  height: "72px",
+  position: "relative",
+  color: "#000",
+  textAlign: "left",
+  display: "flex",
+  alignItems: "center"
+}}>
+  <div style={{ position: "absolute", left: "10px" }}>
+    <span style={{ fontWeight: "bold" }}>Input</span>
+    <span> (0x9E51...779c)</span>
+  </div>
+  <input
+    type="number"
+    min="0"
+    value={amount}
+    onChange={(e) => {
+      const value = e.target.value;
+      if (value === "" || Number(value) >= 0) {
+        setAmount(value);
+      }
+    }}
+    placeholder="0"
+    style={{
+      position: "absolute",
+      right: "10px",
+      width: "200px",
+      padding: "8px",
+      border: "none",
+      outline: "none",
+      textAlign: "right",
+      fontWeight: "bold",
+      fontSize: "16px",
+      background: "transparent",
+      appearance: "textfield",
+      MozAppearance: "textfield",
+      WebkitAppearance: "none"
+    }}
+  />
+</div>
 
             <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
               {address && (
