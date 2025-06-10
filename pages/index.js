@@ -357,17 +357,6 @@ const fetchNewBalance = async () => {
     color: "#fff",
     position: "relative"
   }}>
-
-  <div style={{
-  position: "absolute",
-  top: "20px",
-  left: "20px",
-  fontSize: "32px",
-  fontWeight: "bold",
-  color: "#fff"
-}}>
-  Migration Portal
-</div>
     
     <div style={{ position: "absolute", top: "20px", right: "20px" }}>
       <ConnectWallet />
