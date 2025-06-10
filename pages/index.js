@@ -1,7 +1,8 @@
+```jsx
 import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useAddress, useContract, useNetworkMismatch, useSwitchChain } from "@thirdweb-dev/react";
 import Link from "next/link";
-import Image from "next/image"; // Added for optimized image
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
@@ -29,6 +30,7 @@ export default function Home() {
   const isNetworkMismatch = useNetworkMismatch();
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
+  const [newBalance, setNewBalance] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
@@ -39,6 +41,10 @@ export default function Home() {
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x9E5189a77f698305Ef76510AFF1C528cff48779c",
+    OLD_KILT_ABI
+  );
+  const { contract: newKiltContract } = useContract(
+    "0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8",
     OLD_KILT_ABI
   );
   const { contract: migrationContract } = useContract(
@@ -66,9 +72,26 @@ export default function Home() {
     }
   };
 
+  const fetchNewBalance = async () => {
+    if (!address || !newKiltContract) {
+      setNewBalance(null);
+      return;
+    }
+    try {
+      const bal = await newKiltContract.call("balanceOf", [address]);
+      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
+      const normalized = Number(balanceValue) / 10 ** 15;
+      setNewBalance(normalized);
+    } catch (err) {
+      console.error("New balance fetch error:", err.message);
+      setNewBalance("Error");
+    }
+  };
+
   useEffect(() => {
     fetchBalance();
-  }, [address, oldKiltContract]);
+    fetchNewBalance();
+  }, [address, oldKiltContract, newKiltContract]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -127,7 +150,7 @@ export default function Home() {
     setIsProcessing(true);
     try {
       const tx = await oldKiltContract.call("approve", [
-        "0x4A62F30d95a8352Fc682642A455B299C074B3B8c",
+        "0x4A62F30d95a8350Fc682642A455B299C074B3B8c",
         weiAmount
       ]);
       console.log("Approval tx:", tx);
@@ -150,6 +173,7 @@ export default function Home() {
       const tx = await migrationContract.call("migrate", [weiAmount]);
       console.log("Migration tx:", tx);
       await fetchBalance();
+      await fetchNewBalance();
       alert("Migration successful!");
       setIsApproved(false);
     } catch (err) {
@@ -310,7 +334,6 @@ export default function Home() {
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
 
- 
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
@@ -360,7 +383,7 @@ export default function Home() {
 
             <div style={{
               background: "#fff",
-              margin: "80px 10px 30px 10px",
+              margin: "80px 10px 20px 10px",
               padding: "8px",
               borderRadius: "8px",
               height: "72px",
@@ -371,7 +394,8 @@ export default function Home() {
               alignItems: "center"
             }}>
               <div style={{ position: "absolute", left: "10px" }}>
-                <span style={{ fontWeight: "bold" }}>Input (0x9E51...779c)</span>
+                <span style={{ fontWeight: "bold" }}>Input</span>
+                <span> (0x9E51...779c)</span>
               </div>
               <input
                 type="number"
@@ -386,7 +410,7 @@ export default function Home() {
                   border: "none",
                   outline: "none",
                   textAlign: "right",
-                  fontWeight: "normal",
+                  fontWeight: "bold",
                   fontSize: "16px",
                   background: "transparent",
                   appearance: "textfield",
@@ -441,22 +465,8 @@ export default function Home() {
             </div>
 
             <div style={{
-              display: "flex",
-              justifyContent: "center",
-              margin: "10px 0"
-            }}>
-              <div style={{
-                width: "0",
-                height: "0",
-                borderLeft: "15px solid transparent",
-                borderRight: "15px solid transparent",
-                borderTop: "20px solid #fff"
-              }} />
-            </div>
-
-            <div style={{
               background: "#fff",
-              margin: "10px 10px 20px 10px",
+              margin: "20px 10px",
               padding: "8px",
               borderRadius: "8px",
               height: "72px",
@@ -467,7 +477,8 @@ export default function Home() {
               alignItems: "center"
             }}>
               <div style={{ position: "absolute", left: "10px" }}>
-                <span style={{ fontWeight: "bold" }}>Output (0x5d0d...d2d8)</span>
+                <span style={{ fontWeight: "bold" }}>Output</span>
+                <span> (0x5d0d...d2d8)</span>
               </div>
               <div style={{
                 position: "absolute",
@@ -475,13 +486,30 @@ export default function Home() {
                 width: "200px",
                 padding: "8px",
                 textAlign: "right",
-                fontWeight: "normal",
+                fontWeight: "bold",
                 fontSize: "16px"
               }}>
                 {amount && Number(amount) > 0
                   ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })
                   : "0.0"}
               </div>
+            </div>
+
+            <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
+              <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+              <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
+                {address ? (
+                  contractLoading
+                    ? "Loading..."
+                    : newBalance === null
+                    ? "0.0"
+                    : newBalance === "Error"
+                    ? "Failed"
+                    : `${newBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`
+                ) : (
+                  "Connect wallet to view balance"
+                )}
+              </span>
             </div>
 
             <div style={{ margin: "20px 0" }}>
@@ -529,7 +557,6 @@ export default function Home() {
         </div>
       </main>
 
-
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
@@ -570,3 +597,4 @@ export default function Home() {
     </div>
   );
 }
+```
