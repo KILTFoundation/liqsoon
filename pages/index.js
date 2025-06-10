@@ -523,7 +523,7 @@ const fetchNewBalance = async () => {
             ? "0.0"
             : newBalance === "Error"
               ? "Failed"
-              : `${newBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`
+              : `${newBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
           ) : (
             "Connect wallet to view balance"
           )}
