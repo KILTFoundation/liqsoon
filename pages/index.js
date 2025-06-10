@@ -476,9 +476,9 @@ const fetchNewBalance = async () => {
       margin: "10px 0", 
       fontWeight: "bold", 
       color: "#fff" 
-    }}><p></p>
+    }}><br />
       Migration Ratio: 1 to 1.75
-        <p></p>
+        <br />
     </div>
 
     <div style={{
@@ -507,7 +507,7 @@ const fetchNewBalance = async () => {
         fontSize: "16px"
       }}>
         {amount && Number(amount) > 0
-          ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })
           : "0.0"}
       </div>
     </div>
