@@ -326,13 +326,12 @@ const fetchNewBalance = async () => {
       </header>
 
       <main style={{ display: "flex", maxWidth: "1200px", margin: "20px auto", padding: "0 20px" }}>
-        {/* Left Column */}
+{/* Left Column */}
         <div style={{ flex: "1", paddingRight: "20px", textAlign: "left", color: "#fff" }}>
-          <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
-          <p>Migrate KILT on the BASE Network from</p>
-          <p style={{ fontSize: "18px" }}><code>0x9E5189a77f698305Ef76510AFF1C528cff48779c</code></p>
-          <p>to</p>
-          <p style={{ fontSize: "18px" }}><code>0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8</code></p>
+          <p style={{ fontSize: "32px", fontWeight: "bold" }}>KILT Token Migration</p>
+          <p>KILT is migrating to a new contract on Base. The migration window will open on DATE and remain open for at least 10 weeks. All holders must migrate their tokens within this timeframe or their tokens will be lost.
+          This portal allows you to migrate your tokens from the old Base contract to the new Base contract.</p>
+          <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
 
         {/* Right Column */}
@@ -470,17 +469,17 @@ const fetchNewBalance = async () => {
         )}
       </span>
     </div>
-
+<br /><br />
     <div style={{ 
       textAlign: "center", 
       margin: "10px 0", 
       fontWeight: "bold", 
       color: "#fff" 
-    }}><br />
+    }}>
       Migration Ratio: 1 to 1.75
-        <br />
+     
     </div>
-
+   <br /><br />
     <div style={{
       background: "#fff",
       margin: "20px 10px",
