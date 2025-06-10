@@ -1,122 +1,27 @@
-```jsx
+
 import { useState, useEffect, useRef } from "react";
-import {
-  ConnectWallet,
-  useAddress,
-  useContract,
-  useNetworkMismatch,
-  useSwitchChain,
-} from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress, useContract, useNetworkMismatch, useSwitchChain } from "@thirdweb-dev/react";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
 const OLD_KILT_ABI = [
-  {
-    constant: true,
-    inputs: [{ name: "owner", type: "address" }],
-    name: "balanceOf",
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      { name: "spender", type: "address" },
-      { name: "value", type: "uint256" },
-    ],
-    name: "approve",
-    outputs: [{ name: "", type: "bool" }],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      { name: "owner", type: "address" },
-      { name: "spender", type: "address" },
-    ],
-    name: "allowance",
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
+  { constant: true, inputs: [{ name: "owner", type: "address" }], name: "balanceOf", outputs: [{ name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  { constant: false, inputs: [{ name: "spender", type: "address" }, { name: "value", type: "uint256" }], name: "approve", outputs: [{ name: "", type: "bool" }], stateMutability: "nonpayable", type: "function" },
+  { constant: true, inputs: [{ name: "owner", type: "address" }, { name: "spender", type: "address" }], name: "allowance", outputs: [{ name: "", type: "uint256" }], stateMutability: "view", type: "function" }
 ];
 
 const MIGRATION_ABI = [
-  {
-    constant: true,
-    inputs: [],
-    name: "BURN_ADDRESS",
-    outputs: "address",
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "EXCHANGE_RATE_NUMERATOR",
-    outputs: [{ name: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: "EXCHANGE_RATE_DENOMINATOR",
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "isMigrationActive",
-    outputs: [{ name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "newToken",
-    outputs: [{ name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "oldToken",
-    outputs: [{ name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "paused",
-    outputs: [{ name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [{ name: "addr", type: "address" }],
-    name: "whitelist",
-    outputs: [{ name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [{ name: "amount", type: "uint256" }],
-    name: "migrate",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
+  { constant: true, inputs: [], name: "BURN_ADDRESS", outputs: [{ name: "", type: "address" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "EXCHANGE_RATE_NUMERATOR", outputs: [{ name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "EXCHANGE_RATE_DENOMINATOR", outputs: [{ name: "", type: "uint256" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "isMigrationActive", outputs: [{ name: "", type: "bool" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "newToken", outputs: [{ name: "", type: "address" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "oldToken", outputs: [{ name: "", type: "address" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [], name: "paused", outputs: [{ name: "", type: "bool" }], stateMutability: "view", type: "function" },
+  { constant: true, inputs: [{ name: "addr", type: "address" }], name: "whitelist", outputs: [{ name: "", type: "bool" }], stateMutability: "view", type: "function" },
+  { constant: false, inputs: [{ name: "amount", type: "uint256" }], name: "migrate", outputs: [], stateMutability: "nonpayable", type: "function" }
 ];
 
 export default function Home() {
@@ -175,7 +80,7 @@ export default function Home() {
     try {
       const bal = await newKiltContract.call("balanceOf", [address]);
       const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-      const normalized = Number(balanceValue) / 10 ** 18;
+      const normalized = Number(balanceValue) / 10 ** 15;
       setNewBalance(normalized);
     } catch (err) {
       console.error("New balance fetch error:", err.message);
@@ -192,9 +97,7 @@ export default function Home() {
     const handleScroll = () => {
       const element = scrollRef.current;
       if (element) {
-        const isBottom =
-          element.scrollHeight - element.scrollTop <=
-          element.clientHeight + 1;
+        const isBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
         setScrolledToBottom(isBottom);
       }
     };
@@ -229,7 +132,7 @@ export default function Home() {
       try {
         const allowance = await oldKiltContract.call("allowance", [
           address,
-          "0x4A62F30d95a8350Fc682642A455B299C074B3B8c",
+          "0x4A62F30d95a8350Fc682642A455B299C074B3B8c"
         ]);
         const weiAmount = BigInt(Math.floor(Number(amount) * 10 ** 15));
         setIsApproved(BigInt(allowance) >= weiAmount);
@@ -248,7 +151,7 @@ export default function Home() {
     try {
       const tx = await oldKiltContract.call("approve", [
         "0x4A62F30d95a8350Fc682642A455B299C074B3B8c",
-        weiAmount,
+        weiAmount
       ]);
       console.log("Approval tx:", tx);
       await fetchBalance();
@@ -327,44 +230,38 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: "url('/tartanbackground.png')",
-        backgroundColor: "#000",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-        minHeight: "100vh",
-        fontFamily: "Arial, sans-serif",
-        position: "relative",
-      }}
-    >
+    <div style={{ 
+      backgroundImage: "url('/tartanbackground.png')",
+      backgroundColor: "#000",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "fixed",
+      minHeight: "100vh",
+      fontFamily: "Arial, sans-serif",
+      position: "relative"
+    }}>
       {showOverlay && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.7)",
-            zIndex: 1000,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "8px",
-              width: "500px",
-              maxWidth: "90%",
-              textAlign: "center",
-            }}
-          >
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.7)",
+          zIndex: 1000,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}>
+          <div style={{
+            backgroundColor: "#fff",
+            padding: "20px",
+            borderRadius: "8px",
+            width: "500px",
+            maxWidth: "90%",
+            textAlign: "center"
+          }}>
             <h2 style={{ marginBottom: "20px", color: "#000" }}>
               Terms and Conditions of Use
             </h2>
@@ -377,20 +274,18 @@ export default function Home() {
                 padding: "10px",
                 marginBottom: "20px",
                 textAlign: "left",
-                color: "#000",
+                color: "#000"
               }}
             >
               <ReactMarkdown>{termsContent}</ReactMarkdown>
             </div>
-            <div
-              style={{
-                marginBottom: "20px",
-                textAlign: "left",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+            <div style={{ 
+              marginBottom: "20px", 
+              textAlign: "left", 
+              display: "flex", 
+              alignItems: "center", 
+              justifyContent: "center" 
+            }}>
               <input
                 type="checkbox"
                 checked={isChecked}
@@ -411,7 +306,7 @@ export default function Home() {
                 borderRadius: "4px",
                 cursor: isChecked && scrolledToBottom ? "pointer" : "not-allowed",
                 fontSize: "16px",
-                opacity: isChecked && scrolledToBottom ? 1 : 0.6,
+                opacity: isChecked && scrolledToBottom ? 1 : 0.6
               }}
             >
               Proceed
@@ -420,14 +315,7 @@ export default function Home() {
         </div>
       )}
 
-      <header
-        style={{
-          padding: "20px",
-          textAlign: "center",
-          backgroundColor: "#D73D80",
-          color: "#fff",
-        }}
-      >
+      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
         <Image
           src="/KILT-Horizontal-black.png"
           alt="KILT Logo"
@@ -437,67 +325,44 @@ export default function Home() {
         />
       </header>
 
-      <main
-        style={{
-          display: "flex",
-          maxWidth: "1200px",
-          margin: "20px auto",
-          padding: "0 20px",
-        }}
-      >
+      <main style={{ display: "flex", maxWidth: "1200px", margin: "20px auto", padding: "0 20px" }}>
         {/* Left Column */}
-        <div
-          style={{
-            flex: "1",
-            paddingRight: "20px",
-            textAlign: "left",
-            color: "#fff",
-          }}
-        >
-          <p style={{ fontSize: "32px", fontWeight: "bold" }}>
-            Migration Portal
-          </p>
+        <div style={{ flex: "1", paddingRight: "20px", textAlign: "left", color: "#fff" }}>
+          <p style={{ fontSize: "32px", fontWeight: "bold" }}>Migration Portal</p>
           <p>Migrate KILT on the BASE Network from</p>
-          <p style={{ fontSize: "18px" }}>
-            <code>0x9E5189a77f698305Ef76510AFF1C528cff48779c</code>
-          </p>
+          <p style={{ fontSize: "18px" }}><code>0x9E5189a77f698305Ef76510AFF1C528cff48779c</code></p>
           <p>to</p>
-          <p style={{ fontSize: "18px" }}>
-            <code>0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8</code>
-          </p>
+          <p style={{ fontSize: "18px" }}><code>0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8</code></p>
         </div>
 
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
-          <div
-            style={{
-              background: "rgba(19, 87, 187, 0.8)",
-              padding: "20px",
-              borderRadius: "8px",
-              textAlign: "center",
-              color: "#fff",
-              position: "relative",
-            }}
-          >
+          <div style={{
+            background: "rgba(19, 87, 187, 0.8)",
+            padding: "20px",
+            borderRadius: "8px",
+            textAlign: "center",
+            color: "#fff",
+            position: "relative"
+          }}>
             <div style={{ position: "absolute", top: "20px", right: "20px" }}>
               <ConnectWallet />
             </div>
 
             {address && isNetworkMismatch && (
-              <div
-                style={{
-                  background: "#D73D80",
-                  padding: "15px",
-                  borderRadius: "8px",
-                  margin: "20px 0",
-                  textAlign: "center",
-                  color: "#fff",
-                }}
-              >
-                <p style={{ fontWeight: "bold" }}>Wrong Network Detected</p>
+              <div style={{
+                background: "#D73D80",
+                padding: "15px",
+                borderRadius: "8px",
+                margin: "20px 0",
+                textAlign: "center",
+                color: "#fff"
+              }}>
+                <p style={{ fontWeight: "bold" }}>
+                  Wrong Network Detected
+                </p>
                 <p>
-                  Please switch to Base (Chain ID: 8453) to proceed with
-                  migration.
+                  Please switch to Base (Chain ID: 8453) to proceed with migration.
                 </p>
                 <button
                   onClick={handleSwitchNetwork}
@@ -509,7 +374,7 @@ export default function Home() {
                     border: "none",
                     borderRadius: "4px",
                     cursor: "pointer",
-                    fontSize: "16px",
+                    fontSize: "16px"
                   }}
                 >
                   Switch to Base
@@ -517,34 +382,26 @@ export default function Home() {
               </div>
             )}
 
-            <div
-              style={{
-                background: "#fff",
-                margin: "80px 10px 20px 10px",
-                padding: "8px",
-                borderRadius: "8px",
-                height: "72px",
-                position: "relative",
-                color: "#000",
-                textAlign: "left",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <div style={{
+              background: "#fff",
+              margin: "80px 10px 20px 10px",
+              padding: "8px",
+              borderRadius: "8px",
+              height: "72px",
+              position: "relative",
+              color: "#000",
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center"
+            }}>
               <div style={{ position: "absolute", left: "10px" }}>
                 <span style={{ fontWeight: "bold" }}>Input</span>
                 <span> (0x9E51...779c)</span>
               </div>
               <input
                 type="number"
-                min="0"
                 value={amount}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value === "" || Number(value) >= 0) {
-                    setAmount(value);
-                  }
-                }}
+                onChange={(e) => setAmount(e.target.value)}
                 placeholder="0"
                 style={{
                   position: "absolute",
@@ -559,18 +416,12 @@ export default function Home() {
                   background: "transparent",
                   appearance: "textfield",
                   MozAppearance: "textfield",
-                  WebkitAppearance: "none",
+                  WebkitAppearance: "none"
                 }}
               />
             </div>
 
-            <div
-              style={{
-                textAlign: "right",
-                marginTop: "5px",
-                marginRight: "20px",
-              }}
-            >
+            <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
               {address && (
                 <button
                   onClick={(e) => {
@@ -591,111 +442,71 @@ export default function Home() {
                     border: "none",
                     borderRadius: "4px",
                     fontSize: "14px",
-                    cursor:
-                      balance && balance !== "Error" ? "pointer" : "not-allowed",
-                    opacity: balance && balance !== "Error" ? 1 : 0.6,
+                    cursor: balance && balance !== "Error" ? "pointer" : "not-allowed",
+                    opacity: balance && balance !== "Error" ? 1 : 0.6
                   }}
                 >
                   Max
                 </button>
               )}
-              <span style={{ fontWeight: "bold", color: "#fff" }}>
-                Balance:{' '}
-              </span>
-              <span
-                style={{
-                  color: "#fff",
-                  fontWeight: "normal",
-                  fontSize: "16px",
-                }}
-              >
+              <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+              <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
                 {address ? (
-                  contractLoading ? (
-                    "Loading..."
-                  ) : balance === null ? (
-                    "0.0"
-                  ) : balance === "Error" ? (
-                    "Failed"
-                  ) : (
-                    `${balance.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 6,
-                    })}`
-                  )
+                  contractLoading
+                    ? "Loading..."
+                    : balance === null
+                    ? "0.0"
+                    : balance === "Error"
+                    ? "Failed"
+                    : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`
                 ) : (
                   "Connect wallet to view balance"
                 )}
               </span>
             </div>
 
-            <div
-              style={{
-                background: "#fff",
-                margin: "20px 10px",
-                padding: "8px",
-                borderRadius: "8px",
-                height: "72px",
-                position: "relative",
-                color: "#000",
-                textAlign: "left",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            <div style={{
+              background: "#fff",
+              margin: "20px 10px",
+              padding: "8px",
+              borderRadius: "8px",
+              height: "72px",
+              position: "relative",
+              color: "#000",
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center"
+            }}>
               <div style={{ position: "absolute", left: "10px" }}>
                 <span style={{ fontWeight: "bold" }}>Output</span>
                 <span> (0x5d0d...d2d8)</span>
               </div>
-              <div
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  width: "200px",
-                  padding: "8px",
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  fontSize: "16px",
-                }}
-              >
+              <div style={{
+                position: "absolute",
+                right: "10px",
+                width: "200px",
+                padding: "8px",
+                textAlign: "right",
+                fontWeight: "bold",
+                fontSize: "16px"
+              }}>
                 {amount && Number(amount) > 0
-                  ? (Number(amount) * 1.75).toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 6,
-                    })
+                  ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })
                   : "0.0"}
               </div>
             </div>
 
-            <div
-              style={{
-                textAlign: "right",
-                marginTop: "5px",
-                marginRight: "20px",
-              }}
-            >
-              <span style={{ fontWeight: "bold", color: "#fff" }}>
-                Balance:{' '}
-              </span>
-              <span
-                style={{
-                  color: "#fff",
-                  fontWeight: "normal",
-                  fontSize: "16px",
-                }}
-              >
+            <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
+              <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+              <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
                 {address ? (
-                  contractLoading ? (
-                    "Loading..."
-                  ) : newBalance === null ? (
-                    "0.0"
-                  ) : newBalance === "Error" ? (
-                    "Failed"
-                  ) : (
-                    `${newBalance.toLocaleString(undefined, {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 6,
-                    })}`
-                  )
+                  contractLoading
+                    ? "Loading..."
+                    : newBalance === null
+                    ? "0.0"
+                    : newBalance === "Error"
+                    ? "Failed"
+                    : `${newBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`
                 ) : (
                   "Connect wallet to view balance"
                 )}
@@ -721,14 +532,8 @@ export default function Home() {
                     justifyContent: "center",
                     alignItems: "center",
                     position: "relative",
-                    opacity:
-                      !amount || !address || isProcessing || isNetworkMismatch
-                        ? 0.6
-                        : 1,
-                    cursor:
-                      !amount || !address || isProcessing || isNetworkMismatch
-                        ? "not-allowed"
-                        : "pointer",
+                    opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
+                    cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
                   }}
                 >
                   {isProcessing ? (
@@ -740,13 +545,11 @@ export default function Home() {
                         border: `3px solid ${isApproved ? "#fff" : "#000"}`,
                         borderTop: "3px solid transparent",
                         borderRadius: "50%",
-                        animation: "spin 1s linear infinite",
+                        animation: "spin 1s linear infinite"
                       }}
                     />
-                  ) : isApproved ? (
-                    "Migrate"
                   ) : (
-                    "Approve"
+                    isApproved ? "Migrate" : "Approve"
                   )}
                 </button>
               </div>
@@ -755,14 +558,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer
-        style={{
-          padding: "10px",
-          textAlign: "center",
-          color: "#666",
-          fontSize: "14px",
-        }}
-      >
+      <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
           <div style={{ marginBottom: "10px" }}>
             <Link
@@ -773,53 +569,27 @@ export default function Home() {
               →Dashboard
             </Link>
           </div>
-          <a href="https://www.kilt.io/imprintBVI" className={styles.footerLink}>
-            Imprint
-          </a>
+          <a href="https://www.kilt.io/imprintBVI" className={styles.footerLink}>Imprint</a>
           {" | "}
-          <a
-            href="https://www.kilt.io/privacy-policyBVI"
-            className={styles.footerLink}
-          >
-            Privacy Policy
-          </a>
+          <a href="https://www.kilt.io/privacy-policyBVI" className={styles.footerLink}>Privacy Policy</a>
           {" | "}
-          <a
-            href="https://www.kilt.io/disclaimerBVI"
-            className={styles.footerLink}
-          >
-            Disclaimer
-          </a>
+          <a href="https://www.kilt.io/disclaimerBVI" className={styles.footerLink}>Disclaimer</a>
           {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>
-            Homepage
-          </a>
+          <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
           {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>
-            Security Audit
-          </a>
+          <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
         </div>
       </footer>
 
       <style jsx>{`
         @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
         @keyframes bounce {
-          0% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(0.95);
-          }
-          100% {
-            transform: scale(1);
-          }
+          0% { transform: scale(1); }
+          50% { transform: scale(0.95); }
+          100% { transform: scale(1); }
         }
         .bounce {
           animation: bounce 0.2s ease-in-out;
@@ -828,4 +598,3 @@ export default function Home() {
     </div>
   );
 }
-```
