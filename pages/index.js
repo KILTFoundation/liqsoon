@@ -476,9 +476,9 @@ const fetchNewBalance = async () => {
       margin: "10px 0", 
       fontWeight: "bold", 
       color: "#fff" 
-    }}><p>
+    }}><p></p>
       Migration Ratio: 1 to 1.75
-        <p>
+        <p></p>
     </div>
 
     <div style={{
