@@ -1,4 +1,4 @@
-```jsx
+
 import { useState, useEffect, useRef } from "react";
 import { ConnectWallet, useAddress, useContract, useNetworkMismatch, useSwitchChain } from "@thirdweb-dev/react";
 import Link from "next/link";
@@ -221,7 +221,7 @@ export default function Home() {
     if (switchChain) {
       try {
         await switchChain(8453);
-        console.log("Switched to Base (8453));
+        console.log("Switched to Base (8453)");
       } catch (err) {
         console.error("Network switch error:", err.message);
         alert("Failed to switch network: " + err.message);
@@ -466,7 +466,7 @@ export default function Home() {
             </div>
 
             <div style={{
-              background: "rgba(255, 255, 255, 0.8)",
+              background: "#fff",
               margin: "20px 10px",
               padding: "8px",
               borderRadius: "8px",
@@ -598,4 +598,3 @@ export default function Home() {
     </div>
   );
 }
-```
