@@ -72,21 +72,21 @@ export default function Home() {
     }
   };
 
-  const fetchNewBalance = async () => {
-    if (!address || !newKiltContract) {
-      setNewBalance(null);
-      return;
-    }
-    try {
-      const bal = await newKiltContract.call("balanceOf", [address]);
-      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-      const normalized = Number(balanceValue) / 10 ** 15;
-      setNewBalance(normalized);
-    } catch (err) {
-      console.error("New balance fetch error:", err.message);
-      setNewBalance("Error");
-    }
-  };
+const fetchNewBalance = async () => {
+  if (!address || !newKiltContract) {
+    setNewBalance(null);
+    return;
+  }
+  try {
+    const bal = await newKiltContract.call("balanceOf", [address]);
+    const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
+    const normalized = Number(balanceValue) / 10 ** 18;
+    setNewBalance(normalized);
+  } catch (err) {
+    console.error("New balance fetch error:", err.message);
+    setNewBalance("Error");
+  }
+};
 
   useEffect(() => {
     fetchBalance();
@@ -335,10 +335,11 @@ export default function Home() {
           <p style={{ fontSize: "18px" }}><code>0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8</code></p>
         </div>
 
+
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
-            background: "rgba(19, 87, 187, 0.8)",
+            background: "rgba(19, 87, 187, 0.8)",,
             padding: "20px",
             borderRadius: "8px",
             textAlign: "center",
@@ -375,8 +376,7 @@ export default function Home() {
                     borderRadius: "4px",
                     cursor: "pointer",
                     fontSize: "16px"
-                  }}
-                >
+                  }}>
                   Switch to Base
                 </button>
               </div>
@@ -399,9 +399,10 @@ export default function Home() {
                 <span> (0x9E51...779c)</span>
               </div>
               <input
-                type="number"
+                type="text"
+                inputmode="decimal"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ''))}
                 placeholder="0"
                 style={{
                   position: "absolute",
@@ -557,6 +558,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
