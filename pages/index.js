@@ -365,14 +365,40 @@ export default function Home() {
               height: "72px",
               position: "relative",
               color: "#000",
-              textAlign: "left"
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center"
             }}>
-              <div style={{ position: "absolute", top: "10px", left: "10px" }}>
+              <div style={{ position: "absolute", left: "10px" }}>
                 <span>Input (0x9E51...779c)</span>
               </div>
-              <div style={{ position: "absolute", top: "10px", right: "10px", textAlign: "right" }}>
-                <span style={{ fontWeight: "bold" }}>Balance: </span>
-                <span style={{ fontWeight: "normal", fontSize: "16px" }}>
+              <input
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="0"
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  width: "200px",
+                  padding: "8px",
+                  border: "none",
+                  outline: "none",
+                  textAlign: "right",
+                  fontWeight: "normal",
+                  fontSize: "16px",
+                  background: "transparent",
+                  appearance: "textfield",
+                  MozAppearance: "textfield",
+                  WebkitAppearance: "none"
+                }}
+              />
+            </div>
+
+            {address && (
+              <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
+                <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+                <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
                   {contractLoading
                     ? "Loading..."
                     : balance === null
@@ -382,26 +408,7 @@ export default function Home() {
                     : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`}
                 </span>
               </div>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0"
-                style={{
-                  position: "absolute",
-                  bottom: "8px",
-                  right: "10px",
-                  width: "200px",
-                  padding: "8px",
-                  border: "none",
-                  outline: "none",
-                  textAlign: "right",
-                  fontWeight: "normal",
-                  fontSize: "16px",
-                  background: "transparent"
-                }}
-              />
-            </div>
+            )}
 
             <div style={{ margin: "20px 0" }}>
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -447,6 +454,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
