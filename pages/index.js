@@ -347,7 +347,9 @@ const fetchNewBalance = async () => {
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
 
-        {/* Right Column */}
+
+{/* Right Column */}
+<br /><br />
 <div style={{ flex: "1", paddingLeft: "20px" }}>
   <div style={{
     background: "rgba(19, 87, 187, 0.8)",
@@ -357,17 +359,16 @@ const fetchNewBalance = async () => {
     color: "#fff",
     position: "relative"
   }}>
-
-<div style={{
-  position: "absolute",
-  top: "20px",
-  left: "20px",
-  fontSize: "32px",
-  fontWeight: "bold",
-  color: "#fff"
-}}>
-  Migration Portal
-</div>
+    <div style={{
+      position: "absolute",
+      top: "20px",
+      left: "20px",
+      fontSize: "32px",
+      fontWeight: "bold",
+      color: "#fff"
+    }}>
+      Migration Portal
+    </div>
 
     <div style={{ position: "absolute", top: "20px", right: "20px" }}>
       <ConnectWallet />
@@ -405,7 +406,7 @@ const fetchNewBalance = async () => {
         </button>
       </div>
     )}
-<br />
+    <br />
     <div style={{
       background: "#fff",
       margin: "80px 10px 20px 10px",
@@ -494,18 +495,24 @@ const fetchNewBalance = async () => {
         )}
       </span>
     </div>
-<br /><br />
-<div style={{ 
-  textAlign: "center", 
-  margin: "10px 0", 
-  fontWeight: "bold", 
-  color: "#fff",
-  border: "1px solid #fff",
-  padding: "5px"
-}}>
-  Migration Ratio: 1 to 1.75
-</div>
-<br />
+    <br /><br />
+    <div style={{ 
+      textAlign: "center", 
+      margin: "10px 0", 
+      fontWeight: "bold", 
+      color: "#fff"
+    }}>
+      Migration Ratio: 1 to 1.75
+    </div>
+    <br />
+    <div style={{
+      textAlign: "left",
+      margin: "10px 0",
+      color: "#fff",
+      fontWeight: "normal"
+    }}>
+      You will receive:
+    </div>
     <div style={{
       background: "#fff",
       margin: "20px 10px",
@@ -540,7 +547,7 @@ const fetchNewBalance = async () => {
     <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
       <span style={{ fontWeight: "bold", color: "#fff" }}>
         Balance: </span>
-      <span style={{ color: "#fff", fontWeight: "16px" }}>
+      <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
         {address ? (
           contractLoading
             ? "Loading..."
@@ -560,7 +567,7 @@ const fetchNewBalance = async () => {
         <button
           onClick={handleButtonClick}
           disabled={!amount || !address || isProcessing || isNetworkMismatch}
-        className={styles.card}
+          className={styles.card}
           style={{
             margin: "10px",
             padding: "10px 20px",
@@ -575,7 +582,7 @@ const fetchNewBalance = async () => {
             alignItems: "center",
             position: "relative",
             opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
-            cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed-allowed" : "pointer"
+            cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
           }}
         >
           {isProcessing ? (
