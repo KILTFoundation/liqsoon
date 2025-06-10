@@ -380,7 +380,7 @@ const fetchNewBalance = async () => {
         </button>
       </div>
     )}
-
+<br />
     <div style={{
       background: "#fff",
       margin: "80px 10px 20px 10px",
@@ -394,7 +394,7 @@ const fetchNewBalance = async () => {
       alignItems: "center"
     }}>
       <div style={{ position: "absolute", left: "10px" }}>
-        <span style={{ fontWeight: "bold" }}>Input</span>
+        <span style={{ fontWeight: "bold" }}>Old KILT</span>
         <span> (0x9E51...779c)</span>
       </div>
       <input
@@ -493,7 +493,7 @@ const fetchNewBalance = async () => {
       alignItems: "center"
     }}>
       <div style={{ position: "absolute", left: "10px" }}>
-        <span style={{ fontWeight: "bold" }}>Output</span>
+        <span style={{ fontWeight: "bold" }}>New KILT</span>
         <span> (0x5d0d...d2d8)</span>
       </div>
       <div style={{
