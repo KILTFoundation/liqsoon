@@ -464,7 +464,7 @@ const fetchNewBalance = async () => {
             ? "0.0"
             : balance === "Error"
             ? "Failed"
-            : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}`
+            : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
         ) : (
           "Connect wallet to view balance"
         )}
@@ -476,8 +476,9 @@ const fetchNewBalance = async () => {
       margin: "10px 0", 
       fontWeight: "bold", 
       color: "#fff" 
-    }}>
+    }}><p>
       Migration Ratio: 1 to 1.75
+        <p>
     </div>
 
     <div style={{
@@ -506,7 +507,7 @@ const fetchNewBalance = async () => {
         fontSize: "16px"
       }}>
         {amount && Number(amount) > 0
-          ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })
+          ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
           : "0.0"}
       </div>
     </div>
