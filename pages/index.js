@@ -72,21 +72,21 @@ export default function Home() {
     }
   };
 
-  const fetchNewBalance = async () => {
-    if (!address || !newKiltContract) {
-      setNewBalance(null);
-      return;
-    }
-    try {
-      const bal = await newKiltContract.call("balanceOf", [address]);
-      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-      const normalized = Number(balanceValue) / 10 ** 15;
-      setNewBalance(normalized);
-    } catch (err) {
-      console.error("New balance fetch error:", err.message);
-      setNewBalance("Error");
-    }
-  };
+const fetchNewBalance = async () => {
+  if (!address || !newKiltContract) {
+    setNewBalance(null);
+    return;
+  }
+  try {
+    const bal = await newKiltContract.call("balanceOf", [address]);
+    const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
+    const normalized = Number(balanceValue) / 10 ** 18;
+    setNewBalance(normalized);
+  } catch (err) {
+    console.error("New balance fetch error:", err.message);
+    setNewBalance("Error");
+  }
+};
 
   useEffect(() => {
     fetchBalance();
