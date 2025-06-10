@@ -357,7 +357,6 @@ const fetchNewBalance = async () => {
     color: "#fff",
     position: "relative"
   }}>
-    
     <div style={{ position: "absolute", top: "20px", right: "20px" }}>
       <ConnectWallet />
     </div>
