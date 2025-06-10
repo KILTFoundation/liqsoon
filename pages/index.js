@@ -335,6 +335,7 @@ export default function Home() {
           <p style={{ fontSize: "18px" }}><code>0x5D0DD05bB095fdD6Af4865A1AdF97c39C85ad2d8</code></p>
         </div>
 
+ 
         {/* Right Column */}
         <div style={{ flex: "1", paddingLeft: "20px" }}>
           <div style={{
@@ -558,6 +559,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
