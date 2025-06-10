@@ -505,14 +505,9 @@ const fetchNewBalance = async () => {
     }}>
       Migration Ratio: 1 to 1.75
     </div>
-  <div style={{
-      textAlign: "center",
-      margin: "10px 0",
-      color: "#fff",
-      fontSize: "24px"
-    }}>
-      ↓
-    </div>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
+  <path d="M12 5v14M5 12l7 7 7-7"/>
+</svg>
   
     <div style={{
       background: "#fff",
