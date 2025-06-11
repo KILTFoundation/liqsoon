@@ -1,9 +1,7 @@
-
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { ConnectWallet, useAddress, useContract, useNetworkMismatch, useSwitchChain } from "@thirdweb-dev/react";
 import Link from "next/link";
 import Image from "next/image";
-import ReactMarkdown from "react-markdown";
 import styles from "../styles/Home.module.css";
 
 const OLD_KILT_ABI = [
@@ -33,11 +31,6 @@ export default function Home() {
   const [newBalance, setNewBalance] = useState(null);
   const [isApproved, setIsApproved] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(true);
-  const [isChecked, setIsChecked] = useState(false);
-  const [scrolledToBottom, setScrolledToBottom] = useState(false);
-  const [termsContent, setTermsContent] = useState("Loading terms...");
-  const scrollRef = useRef(null);
 
   const { contract: oldKiltContract, isLoading: contractLoading } = useContract(
     "0x9E5189a77f698305Ef76510AFF1C528cff48779c",
@@ -72,56 +65,26 @@ export default function Home() {
     }
   };
 
-const fetchNewBalance = async () => {
-  if (!address || !newKiltContract) {
-    setNewBalance(null);
-    return;
-  }
-  try {
-    const bal = await newKiltContract.call("balanceOf", [address]);
-    const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
-    const normalized = Number(balanceValue) / 10 ** 18;
-    setNewBalance(normalized);
-  } catch (err) {
-    console.error("New balance fetch error:", err.message);
-    setNewBalance("Error");
-  }
-};
+  const fetchNewBalance = async () => {
+    if (!address || !newKiltContract) {
+      setNewBalance(null);
+      return;
+    }
+    try {
+      const bal = await newKiltContract.call("balanceOf", [address]);
+      const balanceValue = bal?._hex ? BigInt(bal._hex) : BigInt(bal);
+      const normalized = Number(balanceValue) / 10 ** 18;
+      setNewBalance(normalized);
+    } catch (err) {
+      console.error("New balance fetch error:", err.message);
+      setNewBalance("Error");
+    }
+  };
 
   useEffect(() => {
     fetchBalance();
     fetchNewBalance();
   }, [address, oldKiltContract, newKiltContract]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const element = scrollRef.current;
-      if (element) {
-        const isBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 1;
-        setScrolledToBottom(isBottom);
-      }
-    };
-    const scrollElement = scrollRef.current;
-    if (scrollElement) {
-      scrollElement.addEventListener("scroll", handleScroll);
-      return () => scrollElement.removeEventListener("scroll", handleScroll);
-    }
-  }, []);
-
-  useEffect(() => {
-    const fetchTerms = async () => {
-      try {
-        const response = await fetch("/terms.md");
-        if (!response.ok) throw new Error("Failed to fetch terms");
-        const text = await response.text();
-        setTermsContent(text);
-      } catch (err) {
-        console.error("Failed to load terms:", err);
-        setTermsContent("Failed to load terms and conditions.");
-      }
-    };
-    fetchTerms();
-  }, []);
 
   useEffect(() => {
     if (!oldKiltContract || !address || !amount || Number(amount) <= 0) {
@@ -205,18 +168,6 @@ const fetchNewBalance = async () => {
     }
   };
 
-  const handleProceed = () => {
-    if (isChecked && scrolledToBottom) {
-      setShowOverlay(false);
-    }
-  };
-
-  const handleCheckboxChange = (e) => {
-    if (scrolledToBottom) {
-      setIsChecked(e.target.checked);
-    }
-  };
-
   const handleSwitchNetwork = async () => {
     if (switchChain) {
       try {
@@ -241,104 +192,66 @@ const fetchNewBalance = async () => {
       fontFamily: "Arial, sans-serif",
       position: "relative"
     }}>
-      {showOverlay && (
+      <div style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        zIndex: 1000,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      }}>
         <div style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.7)",
-          zIndex: 1000,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
+          backgroundColor: "#fff",
+          padding: "20px",
+          borderRadius: "8px",
+          width: "500px",
+          maxWidth: "90%",
+          textAlign: "center"
         }}>
-          <div style={{
-            backgroundColor: "#fff",
-            padding: "20px",
-            borderRadius: "8px",
-            width: "500px",
-            maxWidth: "90%",
-            textAlign: "center"
+          <h2 style={{ marginBottom: "20px", color: "#000" }}>
+            Terms and Conditions of Use
+          </h2>
+          <p style={{ 
+            fontFamily: "Arial, sans-serif", 
+            fontSize: "16px", 
+            color: "#000" 
           }}>
-            <h2 style={{ marginBottom: "20px", color: "#000" }}>
-              Terms and Conditions of Use
-            </h2>
-            <div
-              ref={scrollRef}
-              style={{
-                maxHeight: "200px",
-                overflowY: "auto",
-                border: "1px solid #ccc",
-                padding: "10px",
-                marginBottom: "20px",
-                textAlign: "left",
-                color: "#000"
-              }}
-            >
-              <ReactMarkdown>{termsContent}</ReactMarkdown>
-            </div>
-            <div style={{ 
-              marginBottom: "20px", 
-              textAlign: "left", 
-              display: "flex", 
-              alignItems: "center", 
-              justifyContent: "center" 
-            }}>
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-                disabled={!scrolledToBottom}
-                style={{ marginRight: "10px" }}
-              />
-              <label style={{ color: "#000" }}>I agree</label>
-            </div>
-            <button
-              onClick={handleProceed}
-              disabled={!isChecked || !scrolledToBottom}
-              style={{
-                padding: "10px 20px",
-                backgroundColor: isChecked && scrolledToBottom ? "#D73D80" : "#ccc",
-                color: "#fff",
-                border: "none",
-                borderRadius: "4px",
-                cursor: isChecked && scrolledToBottom ? "pointer" : "not-allowed",
-                fontSize: "16px",
-                opacity: isChecked && scrolledToBottom ? 1 : 0.6
-              }}
-            >
-              Proceed
-            </button>
-          </div>
+            Migration closed. Please refer to the{" "}
+            <Link href="/migration-guide" style={{ color: "#D73D80", textDecoration: "underline" }}>
+              migration guide
+            </Link>{" "}
+            for further information.
+          </p>
         </div>
-      )}
+      </div>
 
-<header style={{
-  padding: "20px 20px 20px 20px",
-  backgroundColor: "rgba(215, 61, 128, 0.5)",
-  color: "#fff"
-}}>
-  <div style={{
-    maxWidth: "1200px",
-    margin: "0 auto",
-    padding: "0 20px",
-    display: "flex",
-    justifyContent: "flex-start"
-  }}>
-    <Image
-      src="/KILT-Horizontal-white.png"
-      alt="KILT Logo"
-      width={200}
-      height={40}
-      style={{ height: "auto" }}
-    />
-  </div>
-</header>
+      <header style={{
+        padding: "20px 20px 20px 20px",
+        backgroundColor: "rgba(215, 61, 128, 0.5)",
+        color: "#fff"
+      }}>
+        <div style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "0 20px",
+          display: "flex",
+          justifyContent: "flex-start"
+        }}>
+          <Image
+            src="/KILT-Horizontal-white.png"
+            alt="KILT Logo"
+            width={200}
+            height={40}
+            style={{ height: "auto" }}
+          />
+        </div>
+      </header>
 
       <main style={{ display: "flex", maxWidth: "1200px", margin: "20px auto", padding: "0 20px" }}>
-{/* Left Column */}
         <div style={{ flex: "1", paddingRight: "20px", textAlign: "left", color: "#fff" }}>
           <p style={{ fontSize: "32px", fontWeight: "bold" }}>KILT Token Migration</p>
           <p>KILT is migrating to a new contract on Base.</p>
@@ -347,259 +260,256 @@ const fetchNewBalance = async () => {
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
 
-
-{/* Right Column */}
-<br /><br />
-<div style={{ flex: "1", paddingLeft: "20px" }}>
-  <div style={{
-    background: "rgba(19, 87, 187, 0.8)",
-    padding: "20px",
-    borderRadius: "8px",
-    textAlign: "center",
-    color: "#fff",
-    position: "relative",
-  marginTop: "20px"
-  }}>
-    <div style={{
-      position: "absolute",
-      top: "20px",
-      left: "20px",
-      fontSize: "32px",
-      fontWeight: "bold",
-      color: "#fff"
-    }}>
-      Migration Portal
-    </div>
-
-    <div style={{ position: "absolute", top: "20px", right: "20px" }}>
-      <ConnectWallet />
-    </div>
-
-    {address && isNetworkMismatch && (
-      <div style={{
-        background: "#D73D80",
-        padding: "15px",
-        borderRadius: "8px",
-        margin: "20px 0",
-        textAlign: "center",
-        color: "#fff"
-      }}>
-        <p style={{ fontWeight: "bold" }}>
-          Wrong Network Detected
-        </p>
-        <p>
-          Please switch to Base (Chain ID: 8453) to proceed with migration.
-        </p>
-        <button
-          onClick={handleSwitchNetwork}
-          style={{
-            margin: "10px",
-            padding: "10px 20px",
-            backgroundColor: "#DAF525",
-            color: "#000",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "16px"
-          }}
-        >
-          Switch to Base
-        </button>
-      </div>
-    )}
-    <br />
-      
-    <div style={{
-      background: "#fff",
-      margin: "80px 10px 20px 10px",
-      padding: "8px",
-      borderRadius: "8px",
-      height: "72px",
-      position: "relative",
-      color: "#000",
-      textAlign: "left",
-      display: "flex",
-      alignItems: "center"
-    }}>
-      <div style={{ position: "absolute", left: "10px" }}>
-        <span style={{ fontWeight: "bold" }}>Old KILT</span>
-        <span> (0x9E51...779c)</span>
-      </div>
-      <input
-        type="number"
-        min="0"
-        value={amount}
-        onChange={(e) => {
-          const value = e.target.value;
-          if (value === "" || Number(value) >= 0) {
-            setAmount(value);
-          }
-        }}
-        placeholder="0"
-        style={{
-          position: "absolute",
-          right: "10px",
-          width: "200px",
-          padding: "8px",
-          border: "none",
-          outline: "none",
-          textAlign: "right",
-          fontWeight: "bold",
-          fontSize: "16px",
-          background: "transparent",
-          appearance: "textfield",
-          MozAppearance: "textfield",
-          WebkitAppearance: "none"
-        }}
-      />
-    </div>
-
-    <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
-      {address && (
-        <button
-          onClick={(e) => {
-            if (balance && balance !== "Error") {
-              setAmount(balance.toString());
-              e.currentTarget.classList.remove("bounce");
-              void e.currentTarget.offsetWidth;
-              e.currentTarget.classList.add("bounce");
-            }
-          }}
-          className={styles.card}
-          style={{
-            display: "inline-block",
-            marginRight: "10px",
-            padding: "5px 10px",
-            backgroundColor: "#DAF525",
-            color: "#000",
-            border: "none",
-            borderRadius: "4px",
-            fontSize: "14px",
-            cursor: balance && balance !== "Error" ? "pointer" : "not-allowed",
-            opacity: balance && balance !== "Error" ? 1 : 0.6
-          }}
-        >
-          Max
-        </button>
-      )}
-      <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
-      <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
-        {address ? (
-          contractLoading
-            ? "Loading..."
-            : balance === null
-            ? "0.0"
-            : balance === "Error"
-            ? "Failed"
-            : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-        ) : (
-          "Connect wallet to view balance"
-        )}
-      </span>
-    </div>
-    <br />
-    <div style={{ 
-      textAlign: "center", 
-      margin: "10px 0", 
-      fontWeight: "bold", 
-      color: "#fff"
-    }}>
-      Migration Ratio: 1 to 1.75
-    </div>
-<svg width="24" height="24" viewBox="0 0 24 38" fill="none" stroke="#fff" strokeWidth="3">
-    <path d="M12 5v28M5 26l7 7 7-7"/>
-  </svg>
-  
-    <div style={{
-      background: "#fff",
-      margin: "20px 10px",
-      padding: "8px",
-      borderRadius: "8px",
-      height: "72px",
-      position: "relative",
-      color: "#000",
-      textAlign: "left",
-      display: "flex",
-      alignItems: "center"
-    }}>
-      <div style={{ position: "absolute", left: "10px" }}>
-        <span style={{ fontWeight: "bold" }}>New KILT</span>
-        <span> (0x5d0d...d2d8)</span>
-      </div>
-      <div style={{
-        position: "absolute",
-        right: "10px",
-        width: "200px",
-        padding: "8px",
-        textAlign: "right",
-        fontWeight: "bold",
-        fontSize: "16px"
-      }}>
-        {amount && Number(amount) > 0
-          ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })
-          : "0.0"}
-      </div>
-    </div>
-
-    <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
-      <span style={{ fontWeight: "bold", color: "#fff" }}>
-        Balance: </span>
-      <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
-        {address ? (
-          contractLoading
-            ? "Loading..."
-            : newBalance === null
-            ? "0.0"
-            : newBalance === "Error"
-              ? "Failed"
-              : `${newBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-          ) : (
-            "Connect wallet to view balance"
-          )}
-      </span>
-    </div>
-
-    <div style={{ margin: "20px 0" }}>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <button
-          onClick={handleButtonClick}
-          disabled={!amount || !address || isProcessing || isNetworkMismatch}
-          className={styles.card}
-          style={{
-            margin: "10px",
-            padding: "10px 20px",
-            width: "180px",
-            height: "40px",
-            backgroundColor: isApproved ? "#D73D80" : "#DAF525",
-            fontSize: "18px",
-            fontWeight: isApproved ? "bold" : "normal",
+        <div style={{ flex: "1", paddingLeft: "20px" }}>
+          <div style={{
+            background: "rgba(19, 87, 187, 0.8)",
+            padding: "20px",
+            borderRadius: "8px",
             textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            color: "#fff",
             position: "relative",
-            opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
-            cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
-          }}
-        >
-          {isProcessing ? (
-            <span style={{
-              display: "inline-block",
-              width: "20px",
-              height: "20px",
-              border: `3px solid ${isApproved ? "#fff" : "#000"}`,
-              borderTop: "3px solid transparent",
-              borderRadius: "50%",
-              animation: "spin 1s linear infinite"
-            }} />
-          ) : (
-            isApproved ? "Migrate" : "Approve"
-          )}
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+            marginTop: "20px"
+          }}>
+            <div style={{
+              position: "absolute",
+              top: "20px",
+              left: "20px",
+              fontSize: "32px",
+              fontWeight: "bold",
+              color: "#fff"
+            }}>
+              Migration Portal
+            </div>
+
+            <div style={{ position: "absolute", top: "20px", right: "20px" }}>
+              <ConnectWallet />
+            </div>
+
+            {address && isNetworkMismatch && (
+              <div style={{
+                background: "#D73D80",
+                padding: "15px",
+                borderRadius: "8px",
+                margin: "20px 0",
+                textAlign: "center",
+                color: "#fff"
+              }}>
+                <p style={{ fontWeight: "bold" }}>
+                  Wrong Network Detected
+                </p>
+                <p>
+                  Please switch to Base (Chain ID: 8453) to proceed with migration.
+                </p>
+                <button
+                  onClick={handleSwitchNetwork}
+                  style={{
+                    margin: "10px",
+                    padding: "10px 20px",
+                    backgroundColor: "#DAF525",
+                    color: "#000",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontSize: "16px"
+                  }}
+                >
+                  Switch to Base
+                </button>
+              </div>
+            )}
+            <br />
+            
+            <div style={{
+              background: "#fff",
+              margin: "80px 10px 20px 10px",
+              padding: "8px",
+              borderRadius: "8px",
+              height: "72px",
+              position: "relative",
+              color: "#000",
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center"
+            }}>
+              <div style={{ position: "absolute", left: "10px" }}>
+                <span style={{ fontWeight: "bold" }}>Old KILT</span>
+                <span> (0x9E51...779c)</span>
+              </div>
+              <input
+                type="number"
+                min="0"
+                value={amount}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === "" || Number(value) >= 0) {
+                    setAmount(value);
+                  }
+                }}
+                placeholder="0"
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  width: "200px",
+                  padding: "8px",
+                  border: "none",
+                  outline: "none",
+                  textAlign: "right",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  background: "transparent",
+                  appearance: "textfield",
+                  MozAppearance: "textfield",
+                  WebkitAppearance: "none"
+                }}
+              />
+            </div>
+
+            <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
+              {address && (
+                <button
+                  onClick={(e) => {
+                    if (balance && balance !== "Error") {
+                      setAmount(balance.toString());
+                      e.currentTarget.classList.remove("bounce");
+                      void e.currentTarget.offsetWidth;
+                      e.currentTarget.classList.add("bounce");
+                    }
+                  }}
+                  className={styles.card}
+                  style={{
+                    display: "inline-block",
+                    marginRight: "10px",
+                    padding: "5px 10px",
+                    backgroundColor: "#DAF525",
+                    color: "#000",
+                    border: "none",
+                    borderRadius: "4px",
+                    fontSize: "14px",
+                    cursor: balance && balance !== "Error" ? "pointer" : "not-allowed",
+                    opacity: balance && balance !== "Error" ? 1 : 0.6
+                  }}
+                >
+                  Max
+                </button>
+              )}
+              <span style={{ fontWeight: "bold", color: "#fff" }}>Balance: </span>
+              <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
+                {address ? (
+                  contractLoading
+                    ? "Loading..."
+                    : balance === null
+                    ? "0.0"
+                    : balance === "Error"
+                    ? "Failed"
+                    : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                ) : (
+                  "Connect wallet to view balance"
+                )}
+              </span>
+            </div>
+            <br />
+            <div style={{ 
+              textAlign: "center", 
+              margin: "10px 0", 
+              fontWeight: "bold", 
+              color: "#fff"
+            }}>
+              Migration Ratio: 1 to 1.75
+            </div>
+            <svg width="24" height="24" viewBox="0 0 24 38" fill="none" stroke="#fff" strokeWidth="3">
+              <path d="M12 5v28M5 26l7 7 7-7"/>
+            </svg>
+            
+            <div style={{
+              background: "#fff",
+              margin: "20px 10px",
+              padding: "8px",
+              borderRadius: "8px",
+              height: "72px",
+              position: "relative",
+              color: "#000",
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center"
+            }}>
+              <div style={{ position: "absolute", left: "10px" }}>
+                <span style={{ fontWeight: "bold" }}>New KILT</span>
+                <span> (0x5d0d...d2d8)</span>
+              </div>
+              <div style={{
+                position: "absolute",
+                right: "10px",
+                width: "200px",
+                padding: "8px",
+                textAlign: "right",
+                fontWeight: "bold",
+                fontSize: "16px"
+              }}>
+                {amount && Number(amount) > 0
+                  ? (Number(amount) * 1.75).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })
+                  : "0.0"}
+              </div>
+            </div>
+
+            <div style={{ textAlign: "right", marginTop: "5px", marginRight: "20px" }}>
+              <span style={{ fontWeight: "bold", color: "#fff" }}>
+                Balance: </span>
+              <span style={{ color: "#fff", fontWeight: "normal", fontSize: "16px" }}>
+                {address ? (
+                  contractLoading
+                    ? "Loading..."
+                    : newBalance === null
+                    ? "0.0"
+                    : newBalance === "Error"
+                      ? "Failed"
+                      : `${newBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  ) : (
+                    "Connect wallet to view balance"
+                  )}
+              </span>
+            </div>
+
+            <div style={{ margin: "20px 0" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <button
+                  onClick={handleButtonClick}
+                  disabled={!amount || !address || isProcessing || isNetworkMismatch}
+                  className={styles.card}
+                  style={{
+                    margin: "10px",
+                    padding: "10px 20px",
+                    width: "180px",
+                    height: "40px",
+                    backgroundColor: isApproved ? "#D73D80" : "#DAF525",
+                    fontSize: "18px",
+                    fontWeight: isApproved ? "bold" : "normal",
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative",
+                    opacity: !amount || !address || isProcessing || isNetworkMismatch ? 0.6 : 1,
+                    cursor: !amount || !address || isProcessing || isNetworkMismatch ? "not-allowed" : "pointer"
+                  }}
+                >
+                  {isProcessing ? (
+                    <span style={{
+                      display: "inline-block",
+                      width: "20px",
+                      height: "20px",
+                      border: `3px solid ${isApproved ? "#fff" : "#000"}`,
+                      borderTop: "3px solid transparent",
+                      borderRadius: "50%",
+                      animation: "spin 1s linear infinite"
+                    }} />
+                  ) : (
+                    isApproved ? "Migrate" : "Approve"
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
 
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
