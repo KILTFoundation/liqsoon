@@ -213,14 +213,14 @@ export default function Home() {
           textAlign: "center"
         }}>
           <h2 style={{ marginBottom: "20px", color: "#000" }}>
-            Terms and Conditions of Use
+            Migration closed
           </h2>
           <p style={{ 
             fontFamily: "Arial, sans-serif", 
             fontSize: "16px", 
             color: "#000" 
           }}>
-            Migration closed. Please refer to the{" "}
+             Please refer to the{" "}
             <Link href="/migration-guide" style={{ color: "#D73D80", textDecoration: "underline" }}>
               migration guide
             </Link>{" "}
