@@ -213,7 +213,7 @@ export default function Home() {
           textAlign: "center"
         }}>
           <h2 style={{ marginBottom: "20px", color: "#000" }}>
-            Migration closed
+            Migration Closed
           </h2>
           <p style={{ 
             fontFamily: "Arial, sans-serif", 
