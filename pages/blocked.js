@@ -16,12 +16,26 @@ export default function Blocked() {
       position: "relative"
     }}>
       {/* Header */}
-      <header style={{ padding: "20px", textAlign: "center", backgroundColor: "#D73D80", color: "#fff" }}>
-        <img
-          src="/KILT-Horizontal-black.png"
-          alt="KILT Logo"
-          style={{ width: "200px", height: "auto" }}
-        />
+     <header style={{
+        padding: "20px 20px 20px 20px",
+        backgroundColor: "rgba(215, 61, 128, 0.5)",
+        color: "#fff"
+      }}>
+        <div style={{
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "0 20px",
+          display: "flex",
+          justifyContent: "flex-start"
+        }}>
+          <Image
+            src="/KILT-Horizontal-white.png"
+            alt="KILT Logo"
+            width={200}
+            height={40}
+            style={{ height: "auto" }}
+          />
+        </div>
       </header>
 
       {/* Main Content */}
