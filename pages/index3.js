@@ -339,16 +339,14 @@ const fetchNewBalance = async () => {
 
       <main style={{ display: "flex", maxWidth: "1200px", margin: "20px auto", padding: "0 20px" }}>
 {/* Left Column */}
-    <div style={{
-      position: "absolute",
-      top: "20px",
-      left: "20px",
-      fontSize: "32px",
-      fontWeight: "bold",
-      color: "#fff"
-    }}>
-      Migration Portal
-    </div>
+        <div style={{ flex: "1", paddingRight: "20px", textAlign: "left", color: "#fff" }}>
+          <p style={{ fontSize: "32px", fontWeight: "bold" }}>KILT Token Migration</p>
+          <p>KILT is migrating to a new contract on Base.</p>
+          <p>The migration window will open at 1200 UTC on Wednesday June 18th and remain open for at least 10 weeks. All holders must migrate their tokens within this timeframe or their tokens will be lost.
+          This portal allows you to migrate your tokens from the old Base contract to the new Base contract.</p>
+          <p>Before using this portal, please carefully read the Migration Guide in full.</p>
+        </div>
+
 
 {/* Right Column */}
 <br /><br />
