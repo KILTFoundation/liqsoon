@@ -339,8 +339,16 @@ const fetchNewBalance = async () => {
 
       <main style={{ display: "flex", maxWidth: "1200px", margin: "20px auto", padding: "0 20px" }}>
 {/* Left Column */}
-
-
+    <div style={{
+      position: "absolute",
+      top: "20px",
+      left: "20px",
+      fontSize: "32px",
+      fontWeight: "bold",
+      color: "#fff"
+    }}>
+      Migration Portal
+    </div>
 
 {/* Right Column */}
 <br /><br />
