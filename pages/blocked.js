@@ -1,5 +1,5 @@
-// pages/blocked.js
 import Link from "next/link";
+import Image from "next/image"; // Added missing import
 import styles from "../styles/Home.module.css";
 
 export default function Blocked() {
@@ -16,7 +16,7 @@ export default function Blocked() {
       position: "relative"
     }}>
       {/* Header */}
-     <header style={{
+      <header style={{
         padding: "20px 20px 20px 20px",
         backgroundColor: "rgba(215, 61, 128, 0.5)",
         color: "#fff"
@@ -33,7 +33,6 @@ export default function Blocked() {
             alt="KILT Logo"
             width={200}
             height={40}
-            style={{ height: "auto" }}
           />
         </div>
       </header>
