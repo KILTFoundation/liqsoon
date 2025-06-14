@@ -213,7 +213,7 @@ export default function Home() {
           textAlign: "center"
         }}>
           <h2 style={{ marginBottom: "20px", color: "#000" }}>
-            Migration Closed
+            Migration will open on June 19th 2025 at 1200 UTC
           </h2>
           <p style={{ 
             fontFamily: "Arial, sans-serif", 
