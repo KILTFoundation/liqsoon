@@ -66,7 +66,7 @@ export default function Blocked() {
           {" | "}
           <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
           {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>Security Audit</a>
+          <a href="https://skynet.certik.com/projects/kilt-protocol" className={styles.footerLink}>Security Audit</a>
         </div>
       </footer>
     </div>
