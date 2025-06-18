@@ -58,11 +58,11 @@ export default function Blocked() {
       {/* Footer without Dashboard */}
       <footer style={{ padding: "10px", textAlign: "center", color: "#666", fontSize: "14px" }}>
         <div>
-          <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
+          <a href="https://www.kilt.io/imprintclaymore" className={styles.footerLink}>Imprint</a>
           {" | "}
-          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+          <a href="https://www.kilt.io/privacy-policyclaymore" className={styles.footerLink}>Privacy Policy</a>
           {" | "}
-          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+          <a href="https://www.kilt.io/disclaimerclaymore" className={styles.footerLink}>Disclaimer</a>
           {" | "}
           <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
           {" | "}
