@@ -364,11 +364,11 @@ export default function Dashboard() {
           <div style={{ marginBottom: "10px" }}>
             <Link href="/" className={styles.footerLink} style={{ color: "#fff", fontSize: "28px" }}>→Portal</Link> {/* Link back to Home page */}
           </div>
-          <a href="https://www.kilt.io/imprintClaymore" className={styles.footerLink}>Imprint</a>
+          <a href="https://www.kilt.io/imprintclaymore" className={styles.footerLink}>Imprint</a>
           {" | "}
-          <a href="https://www.kilt.io/privacy-policyClaymore" className={styles.footerLink}>Privacy Policy</a>
+          <a href="https://www.kilt.io/privacy-policyclaymore" className={styles.footerLink}>Privacy Policy</a>
           {" | "}
-          <a href="https://www.kilt.io/disclaimerClaymore" className={styles.footerLink}>Disclaimer</a>
+          <a href="https://www.kilt.io/disclaimerclaymore" className={styles.footerLink}>Disclaimer</a>
           {" | "}
           <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
           {" | "}
