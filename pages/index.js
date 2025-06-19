@@ -339,13 +339,13 @@ const fetchNewBalance = async () => {
 
       <main style={{ display: "flex", maxWidth: "1200px", margin: "20px auto", padding: "0 20px" }}>
 {/* Left Column */}
-        <div style={{ flex: "1", paddingRight: "20px", textAlign: "left", color: "#fff" }}>
-          <p style={{ fontSize: "32px", fontWeight: "bold" }}>KILT Token Migration</p>
-          <p>KILT is migrating to a new contract on Base.</p>
-          <p>The migration window will open at 1200 UTC on Thursday June 19th and remain open for at least 10 weeks. All holders must migrate their tokens within this timeframe or their tokens will be lost.
-          This portal allows you to migrate your tokens from the old Base contract to the new Base contract. Tokens on Polkadot or Ethereum must first be bridged to Base, as detailed in the <a href="https://medium.com/kilt-protocol/kilt-token-migration-guide-4ae8a5b686d6">Migration Guide</a>.</p>
-          <p>Before using this portal, please carefully read the Migration Guide in full.</p>
-        </div>
+<div style={{ flex: "1", paddingRight: "20px", textAlign: "left", color: "#fff" }}>
+  <p style={{ fontSize: "32px", fontWeight: "bold" }}>KILT Token Migration</p>
+  <p>KILT is migrating to a new contract on Base.</p>
+  <p>The migration window will open at 1200 UTC on Thursday June 19th and remain open for at least 10 weeks. All holders must migrate their tokens within this timeframe or their tokens will be lost.
+  This portal allows you to migrate your tokens from the old Base contract to the new Base contract. Tokens on Polkadot or Ethereum must first be bridged to Base, as detailed in the <Link href="https://medium.com/kilt-protocol/kilt-token-migration-guide-4ae8a5b686d6" style={{ color: "#fff", textDecoration: "underline" }}>Migration Guide</Link>.</p>
+  <p>Before using this portal, please carefully read the <Link href="https://medium.com/kilt-protocol/kilt-token-migration-guide-4ae8a5b686d6" style={{ color: "#fff", textDecoration: "underline" }}>Migration Guide</Link> in full.</p>
+</div>
 
 
 {/* Right Column */}
