@@ -342,8 +342,8 @@ const fetchNewBalance = async () => {
         <div style={{ flex: "1", paddingRight: "20px", textAlign: "left", color: "#fff" }}>
           <p style={{ fontSize: "32px", fontWeight: "bold" }}>KILT Token Migration</p>
           <p>KILT is migrating to a new contract on Base.</p>
-          <p>The migration window will open at 1200 UTC on Wednesday June 18th and remain open for at least 10 weeks. All holders must migrate their tokens within this timeframe or their tokens will be lost.
-          This portal allows you to migrate your tokens from the old Base contract to the new Base contract.</p>
+          <p>The migration window will open at 1200 UTC on Thursday June 19th and remain open for at least 10 weeks. All holders must migrate their tokens within this timeframe or their tokens will be lost.
+          This portal allows you to migrate your tokens from the old Base contract to the new Base contract. Tokens on Polkadot or Ethereum must first be bridged to Base, as detailed in the <a href="https://medium.com/kilt-protocol/kilt-token-migration-guide-4ae8a5b686d6">Migration Guide</a>.</p>
           <p>Before using this portal, please carefully read the Migration Guide in full.</p>
         </div>
 
@@ -613,11 +613,11 @@ const fetchNewBalance = async () => {
               →Dashboard
             </Link>
           </div>
-          <a href="https://www.kilt.io/imprintClaymore" className={styles.footerLink}>Imprint</a>
+          <a href="https://www.kilt.io/imprintclaymore" className={styles.footerLink}>Imprint</a>
           {" | "}
-          <a href="https://www.kilt.io/privacy-policyClaymore" className={styles.footerLink}>Privacy Policy</a>
+          <a href="https://www.kilt.io/privacy-policyclaymore" className={styles.footerLink}>Privacy Policy</a>
           {" | "}
-          <a href="https://www.kilt.io/disclaimerClaymore" className={styles.footerLink}>Disclaimer</a>
+          <a href="https://www.kilt.io/disclaimerclaymore" className={styles.footerLink}>Disclaimer</a>
           {" | "}
           <a href="https://www.kilt.io" className={styles.footerLink}>Homepage</a>
           {" | "}
