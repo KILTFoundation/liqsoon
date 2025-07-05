@@ -20,9 +20,9 @@ const nextConfig = {
             value:
               "default-src 'self'; " +
               "script-src 'self' 'unsafe-inline'; " +
-              "style-src 'self' 'unsafe-inline'; " +
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
               "img-src 'self' data:; " +
-              "connect-src 'self' https://*.thirdweb.com wss://*.thirdweb.com https://mainnet.base.org https://sepolia.base.org; " +
+              "connect-src 'self' https://*.thirdweb.com wss://*.thirdweb.com https://mainnet.base.org https://sepolia.base.org https://chain-proxy.wallet.coinbase.com wss://www.walletlink.org; " +
               "frame-src 'self' https://*.thirdweb.com;",
           },
         ],
