@@ -29,8 +29,8 @@ export default function Home() {
           <Image
             src="/KILT-Horizontal-white.png"
             alt="KILT Logo"
-            width={200} // Back to original size
-            height={40} // Back to original size
+            width={300} // Back to original size
+            height={60} // Back to original size
             style={{ height: "auto" }}
           />
         </div>
