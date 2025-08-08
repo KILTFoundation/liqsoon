@@ -41,7 +41,7 @@ import Image from "next/image";
              padding: "0 20px",
              textAlign: "center"
            }}>
-             <h1 className={styles.glitch} data-glitch="KILT Liquidity Portal">Liquidity Portal</h1>
+             <h1 className={styles.glitch} data-glitch="Liquidity Portal">Liquidity Portal</h1>
              <p style={{ fontSize: "24px", margin: "20px 0" }}>Beta Testing</p>
              <p style={{ maxWidth: "600px", margin: "0 auto" }}>
                The KILT Liquidity Portal is coming soon. Sign up for beta testing <a href="https://docs.google.com/forms/d/e/1FAIpQLSdSqL2YkEFt1ER6KkbTaFpjGsSydPMLVZ5j_zKkOFOVH7Po7w/viewform?usp=dialog" style={{ color: "#f0f", textDecoration: "underline" }}>here</a>.
