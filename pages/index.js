@@ -17,7 +17,7 @@ export default function Home() {
     }}>
       <header style={{
         padding: "40px 20px",
-        minHeight: "120px"
+        minHeight: "100px"
       }}>
         <div style={{
           maxWidth: "1200px",
