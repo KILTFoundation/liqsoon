@@ -11,8 +11,8 @@
        top: 0;
        left: 0;
        width: 100%;
-       color: #e0e0e0; /* Near-white instead of pink */
-       opacity: 0.6; /* Slightly fainter for subtlety */
+       color: #e0e0e0;
+       opacity: 0.6;
      }
      .glitch::before {
        animation: glitch-top 1s linear infinite;
@@ -48,15 +48,30 @@
        left: 0;
        width: 100%;
        height: 100%;
-       background: linear-gradient(135deg, rgba(215, 61, 128, 0.3), rgba(0, 0, 0, 0.3));
-       animation: background-glitch 3s linear infinite;
-       z-index: 0;
+       background: linear-gradient(135deg, rgba(215, 61, 128, 0.5), rgba(0, 0, 255, 0.5));
+       animation: background-glitch 2s linear infinite;
+       z-index: 1;
+       pointer-events: none;
      }
      @keyframes background-glitch {
-       0%, 20%, 60%, 100% { opacity: 0.8; transform: translate(0, 0); }
-       10% { opacity: 0.2; transform: translate(2px, -2px); }
-       30% { opacity: 0.5; transform: translate(-2px, 2px); }
-       50% { opacity: 0.3; transform: translate(0, 0) skew(2deg); }
+       0%, 20%, 60%, 100% { opacity: 0.9; transform: translate(0, 0); }
+       10% { opacity: 0.3; transform: translate(4px, -4px); }
+       30% { opacity: 0.6; transform: translate(-4px, 4px); }
+       50% { opacity: 0.4; transform: translate(0, 0) skew(3deg); }
+     }
+     .textBox {
+       background: rgba(50, 50, 50, 0.5); /* Translucent grey */
+       border-radius: 12px; /* Rounded edges */
+       padding: 20px;
+       border: 2px solid #f0f; /* Neon pink base for glow */
+       box-shadow: 0 0 10px #f0f, 0 0 20px #f0f; /* Glowing effect */
+       animation: border-glitch 1.5s linear infinite; /* Glitching outline */
+     }
+     @keyframes border-glitch {
+       0%, 20%, 60%, 100% { border-color: #f0f; box-shadow: 0 0 10px #f0f, 0 0 20px #f0f; }
+       10% { border-color: #e0e0e0; box-shadow: 0 0 5px #e0e0e0, 0 0 10px #e0e0e0; transform: translate(2px, -2px); }
+       30% { border-color: #f0f; box-shadow: 0 0 15px #f0f, 0 0 25px #f0f; transform: translate(-2px, 2px); }
+       50% { border-color: #e0e0e0; box-shadow: 0 0 5px #e0e0e0, 0 0 10px #e0e0e0; transform: translate(0, 0) skew(2deg); }
      }
      .footerLink {
        color: #999;
