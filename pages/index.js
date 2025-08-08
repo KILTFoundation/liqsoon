@@ -29,15 +29,15 @@ export default function Home() {
           <Image
             src="/KILT-Horizontal-white.png"
             alt="KILT Logo"
-            width={300} // Back to original size
-            height={60} // Back to original size
+            width={300}
+            height={60}
             style={{ height: "auto" }}
           />
         </div>
       </header>
       <main style={{
         maxWidth: "1200px",
-        margin: "0px auto", // Reduced from 40px to move text up
+        margin: "10px auto", // Set to 10px for ~50% of previous 20px gap
         padding: "0 20px",
         textAlign: "center",
         position: "relative",
