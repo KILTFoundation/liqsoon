@@ -5,7 +5,7 @@ import Image from "next/image";
      export default function Home() {
        return (
          <div className={styles.backgroundGlitch} style={{
-           backgroundImage: "url('/tartanbackground.png')",
+           backgroundImage: "url('/bg1.png')",
            backgroundColor: "#000",
            backgroundSize: "cover",
            backgroundPosition: "center",
