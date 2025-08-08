@@ -16,28 +16,28 @@ export default function Home() {
       color: "#fff"
     }}>
       <header style={{
-        padding: "40px 20px", // Increased padding for taller header
-        minHeight: "120px" // Ensures space below logo
+        padding: "40px 20px",
+        minHeight: "120px"
       }}>
         <div style={{
           maxWidth: "1200px",
           margin: "0 auto",
           padding: "10px 20px",
           display: "flex",
-          justifyContent: "center" // Centered logo
+          justifyContent: "center"
         }}>
           <Image
             src="/KILT-Horizontal-white.png"
             alt="KILT Logo"
-            width={400}
-            height={80}
+            width={200} // Back to original size
+            height={40} // Back to original size
             style={{ height: "auto" }}
           />
         </div>
       </header>
       <main style={{
         maxWidth: "1200px",
-        margin: "40px auto",
+        margin: "20px auto", // Reduced from 40px to move text up
         padding: "0 20px",
         textAlign: "center",
         position: "relative",
