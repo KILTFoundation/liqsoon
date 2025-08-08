@@ -47,7 +47,8 @@ import Image from "next/image";
                <h1 className={styles.glitch} data-glitch="Liquidity Portal">Liquidity Portal</h1>
                <p style={{ fontSize: "30px", margin: "20px 0", fontWeight: "bold" }}>Beta Testing</p>
                <p style={{ maxWidth: "600px", margin: "0 auto", fontSize: "20px", fontWeight: "bold" }}>
-                 The KILT Liquidity Portal is coming soon. Sign up for beta testing <a href="https://docs.google.com/forms/d/e/1FAIpQLSdSqL2YkEFt1ER6KkbTaFpjGsSydPMLVZ5j_zKkOFOVH7Po7w/viewform?usp=dialog" style={{ color: "#f0f", textDecoration: "underline", fontWeight: "bold" }}>here</a>.
+                 The KILT Liquidity Portal is coming soon. </p>
+<p><a href="https://docs.google.com/forms/d/e/1FAIpQLSdSqL2YkEFt1ER6KkbTaFpjGsSydPMLVZ5j_zKkOFOVH7Po7w/viewform?usp=dialog" style={{ color: "#f0f", textDecoration: "underline", fontWeight: "bold" }}>Sign up</a> for beta testing .
                </p>
              </div>
            </main>
