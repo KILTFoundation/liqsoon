@@ -37,7 +37,7 @@ export default function Home() {
       </header>
       <main style={{
         maxWidth: "1200px",
-        margin: "20px auto", // Reduced from 40px to move text up
+        margin: "0px auto", // Reduced from 40px to move text up
         padding: "0 20px",
         textAlign: "center",
         position: "relative",
