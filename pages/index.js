@@ -54,20 +54,14 @@ export default function Home() {
         fontSize: "14px"
       }}>
         <div>
-          <a href="https://uniswap.org" className={styles.footerLink}>Uniswap</a>
+          <a href="https://www.kilt.io" className={styles.footerLink}>Home</a>
           {" | "}
-          <a href="https://www.kilt.io" className={styles.footerLink}>KILT Protocol</a>
+         <a href="https://www.kilt.io/imprint" className={styles.footerLink}>Imprint</a>
           {" | "}
-          <a href="https://x.com" className={styles.footerLink}>Follow on X</a>
+          <a href="https://www.kilt.io/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
           {" | "}
-          <a href="https://www.kilt.io/imprintclaymore" className={styles.footerLink}>Imprint</a>
-          {" | "}
-          <a href="https://www.kilt.io/privacy-policyclaymore" className={styles.footerLink}>Privacy Policy</a>
-          {" | "}
-          <a href="https://www.kilt.io/disclaimerclaymore" className={styles.footerLink}>Disclaimer</a>
-          {" | "}
-          <a href="https://skynet.certik.com/projects/kilt-protocol" className={styles.footerLink}>Security Audit</a>
-        </div>
+          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink}>Disclaimer</a>
+           </div>
       </footer>
     </div>
   );
