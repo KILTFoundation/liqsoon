@@ -101,27 +101,19 @@ export default function Home() {
             Imprint
           </a>
           {" | "}
-          <a
-            href="/pp"
-            className={styles.footerLink}
-            style={{ color: "#fff" }}
-          >
-            Privacy Policy
-          </a>
+          <Link href="/pp" passHref>
+            <a className={styles.footerLink} style={{ color: "#fff" }}>
+              Privacy Policy
+            </a>
+          </Link>
           {" | "}
-          <a
-            href="/terms"
-            className={styles.footerLink}
-            style={{ color: "#fff" }}
-          >
-            Terms & Conditions
-          </a>
+          <Link href="/terms" passHref>
+            <a className={styles.footerLink} style={{ color: "#fff" }}>
+              Terms & Conditions
+            </a>
+          </Link>
           {" | "}
-          <a
-            href="https://www.kilt.io/disclaimer"
-            className={styles.footerLink}
-            style={{ color: "#fff" }}
-          >
+          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink} style={{ color: "#fff" }}>
             Disclaimer
           </a>
         </div>
