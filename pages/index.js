@@ -102,11 +102,19 @@ export default function Home() {
           </a>
           {" | "}
           <a
-            href="https://www.kilt.io/privacy-policy"
+            href="/pp"
             className={styles.footerLink}
             style={{ color: "#fff" }}
           >
             Privacy Policy
+          </a>
+          {" | "}
+          <a
+            href="/terms"
+            className={styles.footerLink}
+            style={{ color: "#fff" }}
+          >
+            Terms & Conditions
           </a>
           {" | "}
           <a
