@@ -231,19 +231,19 @@ export default function PrivacyPolicy() {
             Imprint
           </a>
           {" | "}
-          <a
-            href="https://www.kilt.io/privacy-policy"
-            className={styles.footerLink}
-            style={{ color: "#fff" }}
-          >
-            Privacy Policy
-          </a>
+          <Link href="/pp" passHref>
+            <a className={styles.footerLink} style={{ color: "#fff" }}>
+              Privacy Policy
+            </a>
+          </Link>
           {" | "}
-          <a
-            href="https://www.kilt.io/disclaimer"
-            className={styles.footerLink}
-            style={{ color: "#fff" }}
-          >
+          <Link href="/terms" passHref>
+            <a className={styles.footerLink} style={{ color: "#fff" }}>
+              Terms & Conditions
+            </a>
+          </Link>
+          {" | "}
+          <a href="https://www.kilt.io/disclaimer" className={styles.footerLink} style={{ color: "#fff" }}>
             Disclaimer
           </a>
         </div>
